@@ -210,13 +210,13 @@ js.brush.drawTextLinesS({
     y: 100,
     color: "black",
     size: 20,
-    lines: ["чтобы сыграть ещё раз нажми кнопу 'R'", "твой счёт: " + score.toString()]
+    lines: ["чтобы сыграть ещё раз нажми кнопу ENTER", "твой счёт: " + score.toString()]
 
 
 
 });
 
-    if (js.keyControl.isDown("R")) {
+    if (js.keyControl.isDown("ENTER")) {
         location.reload()
     }
 
@@ -226,13 +226,13 @@ js.brush.drawTextLinesS({
 });
 game.newLoop("3", function () {
     js.brush.drawText({
-        text: "чтобы начать игру нажми кнопку 'P'",
+        text: "чтобы начать игру нажми кнопку 'ENTER'",
         x:500,
         y: 100,
         color: "black",
         size: 20
     });
-    if (js.keyControl.isDown("P"))
+    if (js.keyControl.isDown("ENTER"))
         game.setLoop("1")
 });
 game.setLoop("3");
