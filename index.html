@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href = "favicon2.png" type="image/png">
+    <meta charset="UTF-8">
+    <title>GurHouse</title>
+    <style>
+        body{
+            background-color: #ffccab;
+            font-size: 30px;
+
+        }
+    </style>
+</head>
+<body>
+<h1 align="center">
+    GurHouse | Матвей Гуров
+</h1>
+<div align="center">
+<button type="button" onclick="return location.href ='http://localhost:63342/first_steps_js/games.html?_ijt=lf14i6qqegr9nam9v80q8fnrpp'">игры</button>
+<button type="button" onclick="return location.href ='https://vk.com/matveygurov'">feedback</button>
+
+</div>
+
+<br>
+
+
+
+
+<canvas id='example' width="1500" height="500">Обновите браузер</canvas>
+<script>
+    var example = document.getElementById("example"),
+        ctx       = example.getContext('2d'), // Контекст
+        pic       = new Image();              // "Создаём" изображение
+    pic.src    = 'house.png';  // Источник изображения, позаимствовано на хабре
+    pic.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение
+        ctx.drawImage(pic, 700, 0);  // Рисуем изображение от точки с координатами 0, 0
+    }
+</script>
+<div align="center">
+    Добро пожаловать!
+</div>
+
+<!--<canvas id='example3' width="1000" height="450">Обновите браузер2</canvas>-->
+<!--<script>-->
+    <!--var example3 = document.getElementById("example3"),-->
+        <!--ctx3       = example3.getContext('2d'), // Контекст-->
+        <!--pic3       = new Image();              // "Создаём" изображение-->
+    <!--pic3.src    = 'scr3.png';  // Источник изображения, позаимствовано на хабре-->
+    <!--pic3.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение-->
+        <!--ctx3.drawImage(pic3, 400, 0);  // Рисуем изображение от точки с координатами 0, 0-->
+    <!--}-->
+<!--</script>-->
+<!--<canvas id='example4' width="350" height="450">Обновите браузер2</canvas>-->
+<!--<script>-->
+    <!--var example4 = document.getElementById("example4"),-->
+        <!--ctx4       = example4.getContext('2d'), // Контекст-->
+        <!--pic4       = new Image();              // "Создаём" изображение-->
+    <!--pic4.src    = 'scr4.png';  // Источник изображения, позаимствовано на хабре-->
+    <!--pic4.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение-->
+        <!--ctx4.drawImage(pic4, 50, 0);  // Рисуем изображение от точки с координатами 0, 0-->
+    <!--}-->
+<!--</script>-->
+<!--<br>-->
+<!--<br>-->
+<!--<canvas id='example2' width="600" height="500">Обновите браузер2</canvas>-->
+<!--<script>-->
+    <!--var example2 = document.getElementById("example2"),-->
+        <!--ctx2       = example2.getContext('2d'), // Контекст-->
+        <!--pic2       = new Image();              // "Создаём" изображение-->
+    <!--pic2.src    = 'scr2.png';  // Источник изображения, позаимствовано на хабре-->
+    <!--pic2.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение-->
+        <!--ctx2.drawImage(pic2, 0, 0);  // Рисуем изображение от точки с координатами 0, 0-->
+    <!--}-->
+<!--</script>-->
+<!--<canvas id='example5' width="1200" height="475">Обновите браузер2</canvas>-->
+<!--<script>-->
+    <!--var example5 = document.getElementById("example5"),-->
+        <!--ctx5       = example5.getContext('2d'), // Контекст-->
+        <!--pic5       = new Image();              // "Создаём" изображение-->
+    <!--pic5.src    = 'scr5.png';  // Источник изображения, позаимствовано на хабре-->
+    <!--pic5.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение-->
+        <!--ctx5.drawImage(pic5, 400, 0);  // Рисуем изображение от точки с координатами 0, 0-->
+    <!--}-->
+<!--</script>-->
+
+
+
+</body>
+</html>
