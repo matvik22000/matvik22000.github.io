@@ -217,19 +217,23 @@ js.brush.drawTextLinesS({
 });
 
     if (js.keyControl.isDown("R")) {
-        score = 0;
-        rockets.splice(1, rockets.length - 1);
-        cells.splice(1, cells.length - 1);
-        plane.setPosition(point(1000, 1000));
-        audio1 = js.audio.newAudio("DLYa_IGRY_-Fonovaya_muzyka.mp3");
-        js.game.setLoopSound("1", [audio1]);
-        game.setLoop("1");
-        turbo = 0;
+        location.reload()
     }
 
 
     var time = 0;
 
 });
-game.setLoop("2");
+game.newLoop("3", function () {
+    js.brush.drawText({
+        text: "чтобы начать игру нажми кнопку 'P'",
+        x:500,
+        y: 100,
+        color: "black",
+        size: 20
+    });
+    if (js.keyControl.isDown("P"))
+        game.setLoop("1")
+});
+game.setLoop("3");
 
