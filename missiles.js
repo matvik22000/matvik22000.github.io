@@ -206,7 +206,7 @@ js.game.setLoopSound("1", [audio1]);
 game.start();
 game.newLoop("2", function () {
 js.brush.drawTextLinesS({
-    x:700,
+    x:400,
     y: 100,
     color: "black",
     size: 20,
@@ -227,7 +227,7 @@ js.brush.drawTextLinesS({
 game.newLoop("3", function () {
     js.brush.drawText({
         text: "чтобы начать игру нажми кнопку 'ENTER'",
-        x:500,
+        x:400,
         y: 100,
         color: "black",
         size: 20
