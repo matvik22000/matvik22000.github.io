@@ -167,7 +167,7 @@ game.newLoop("1", function () {
         }));
         time = 0
     }
-    new_map(15000);
+    new_map(15000, 15000, 'black');
     map.draw();
     cell.draw();
 

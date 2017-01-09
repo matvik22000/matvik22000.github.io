@@ -22,38 +22,38 @@ function min_map_point_2(obj, smallmap_size, map_size) {
 
 
 }
-function new_map(map_size) {
+function new_map(map_size_x,map_size_y, color ) {
     var left = game.newRectObject({
         x: 0,
         y: 0,
         w: 2,
-        h: map_size,
-        fillColor: "black"
+        h: map_size_y,
+        fillColor: color
 
 
     });
     var right = game.newRectObject({
-        x: map_size,
+        x: map_size_x,
         y: 0,
         w: 2,
-        h: map_size,
-        fillColor: "black"
+        h: map_size_y,
+        fillColor: color
 
     });
     var top_stop = game.newRectObject({
         x: 0,
         y: 0,
-        w: map_size,
+        w: map_size_x,
         h: 2,
-        fillColor: "black"
+        fillColor: color
 
     });
     var bot = js.game.newRectObject({
         x: 0,
-        y: map_size,
-        w: map_size,
+        y: map_size_y,
+        w: map_size_x,
         h: 2,
-        fillColor: "black"
+        fillColor: color
 
     });
 
