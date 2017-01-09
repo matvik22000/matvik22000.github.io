@@ -17,8 +17,8 @@ function new_small_map(map_size) {
     return map
 
 }
-function min_map_point_2(obj, smallmap_size, map_size) {
-    return point(obj.getPositionC().x * (smallmap_size / map_size) + js.game.getWH().w - 110, obj.getPositionC().y * (smallmap_size / map_size) + js.game.getWH().h - 110)
+function min_map_point_2(obj, smallmap_size, map_size, indent_x, indent_y) {
+    return point(obj.getPositionC().x * (smallmap_size / map_size) + js.game.getWH().w - indent_x, obj.getPositionC().y * (smallmap_size / map_size) + js.game.getWH().h - indent_y)
 
 
 }
