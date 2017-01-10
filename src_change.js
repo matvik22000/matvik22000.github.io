@@ -44,3 +44,13 @@ function scr_cn() {
     var img = document.getElementById("scr");
     img.src = "scr6.png";
 }
+function scr_c_p() {
+
+    var img = document.getElementById("but_p");
+    img.src = "button_p_fill.png";
+}
+function scr_cn_p() {
+
+    var img = document.getElementById("but_p");
+    img.src = "button_p.png";
+}
