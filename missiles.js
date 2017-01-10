@@ -14,11 +14,19 @@ var cell = game.newCircleObject({
     fillColor: "white"
 
 });
+var reload = 0;
+var lc_f = false;
+var randpos_x = js.math.random(0, 15000);
+var randpos_y = js.math.random(0, 15000);
 score = 0;
 music = [];
-for (var t = 0; t < 100; t++)
-    music.push("DLYa_IGRY_-Fonovaya_muzyka.mp3")
+
 audio1 = js.audio.newAudio("DLYa_IGRY_-Fonovaya_muzyka.mp3");
+var lc = game.newImageObject({
+    file: "lc.png",
+    scale: 1
+
+});
 
 turbo = 0;
 cells = [];
@@ -68,6 +76,10 @@ for (var i = 0; i < 1000; i++)
     }));
 game.newLoop("1", function () {
     game.clear();
+
+
+
+    lc.draw();
     if (plane.getPositionC().x <= 0 || plane.getPositionC().y <= 0 || plane.getPositionC().x >= 15000 || plane.getPositionC().y >= 15000)
         game.setLoop("2");
     for (var j = 0; j < bg.length; j++) {
@@ -85,6 +97,18 @@ game.newLoop("1", function () {
         plane.turn(2);
     if (js.keyControl.isDown("RIGHT"))
         plane.turn(-2);
+    if (js.keyControl.isDown("SPACE") && reload >= 1000){
+        lc_f = true;
+        reload = 0
+    }
+    if (lc_f) {
+        lc.rotateForAngle(js.vector.getAngle2Points(lc.getPositionC(), point(randpos_x, randpos_y)), 2);
+        lc.moveAngle(-8)
+    }
+    else {
+        lc.setPositionC(plane.getPositionC());
+        lc.setAngle(plane.getAngle());
+    }
     plane.moveAngle(-8);
     map.setPositionS(point(js.game.getWH().w - 110, js.game.getWH().h - 110));
     cell.setPositionS(point(js.game.getWH().w - 110, js.game.getWH().h - 110));
@@ -109,7 +133,7 @@ game.newLoop("1", function () {
     for (i = 0; i < rockets.length; i++) {
 
 
-        rockets[i].rotateForAngle(js.vector.getAngle2Points(plane.getPositionC(), rockets[i].getPositionC()), 1.5);
+        rockets[i].rotateForAngle(js.vector.getAngle2Points(lc.getPositionC(), rockets[i].getPositionC()), 1.5);
         rockets[i].moveAngle(-9);
         // cells.push(game.newCircleObject({
         //     radius: 2,
@@ -119,9 +143,17 @@ game.newLoop("1", function () {
             cells[l].draw()
         }
         rockets[i].draw();
-
+        if (lc_f != false){
+        if (rockets[i].isDynamicIntersect(lc.getDynamicBox())) {
+            lc.setPositionC(plane.getPositionC());
+            rockets.splice(i, 1);
+            lc_f = false
+        }
+        }
+        //
 
         if (rockets[i].isDynamicInside(plane.getDynamicBox())) {
+            game.setLoop("2");
             //if (intersect(plane.getPosition().x, rockets[i].getPositionC().x, plane.getPosition().y, rockets[i].getPositionC().y, 200, 200, 0, 0))
             // var blast = game.newImageObject({
             //     file: "blast.png",
@@ -130,7 +162,7 @@ game.newLoop("1", function () {
             //     scale: 1
             // });
             // blast.draw();
-            game.setLoop("2")
+            lc.setPositionC(plane.getPositionC());
 
 
         }
@@ -173,6 +205,7 @@ game.newLoop("1", function () {
 
     plane.draw();
     time++;
+    reload ++;
     if (turbo < 1000)
         turbo++;
     if (turbo < 1000)
@@ -192,6 +225,22 @@ game.newLoop("1", function () {
             size: 40
         });
     score ++;
+    if (reload < 1000)
+        js.brush.drawTextLinesS({
+            lines: ["ложная цель:" + reload.toString()],
+            x: 10,
+            y: 100,
+            color: "black",
+            size: 40
+        });
+    if (reload >= 1000)
+        js.brush.drawTextLinesS({
+            lines: ["ложная цель: готово"],
+            x: 10,
+            y: 100,
+            color: "black",
+            size: 40
+        });
     js.brush.drawTextLinesS({
         lines:["твой счёт: " + score.toString()],
         x: 10,
