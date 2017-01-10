@@ -70,36 +70,36 @@ for (var i = 0; i < 1000; i++)
 
     }));
 game.clear();
-js.GUI.newButton({
-    x: 10,
-    y: game.getWH().h - 40,
-    w: 100,
-    h: 30,
-    text: "влево",
-    fillColor: "#00accc",
-    events: {
-        mousePress: function () {
-            left = true
-        },
-        mouseUp:function(){
-            left = false}
-    }
-});
-js.GUI.newButton({
-    x: game.getWH().w - 110,
-    y: game.getWH().h - 40,
-    w: 100,
-    h: 30,
-    text: "вправо",
-    fillColor: "#00accc",
-    events: {
-        mousePress: function () {
-            right = true
-        },
-        mouseUp:function(){
-            right = false}
-    }
-});
+// js.GUI.newButton({
+//     x: 10,
+//     y: game.getWH().h - 40,
+//     w: 100,
+//     h: 30,
+//     text: "влево",
+//     fillColor: "#00accc",
+//     events: {
+//         mousePress: function () {
+//             left = true
+//         },
+//         mouseUp:function(){
+//             left = false}
+//     }
+// });
+// js.GUI.newButton({
+//     x: game.getWH().w - 110,
+//     y: game.getWH().h - 40,
+//     w: 100,
+//     h: 30,
+//     text: "вправо",
+//     fillColor: "#00accc",
+//     events: {
+//         mousePress: function () {
+//             right = true
+//         },
+//         mouseUp:function(){
+//             right = false}
+//     }
+// });
 game.newLoop("1", function () {
     game.clear();
 
@@ -119,7 +119,7 @@ game.newLoop("1", function () {
     map.setPositionS(point(js.game.getWH().w - 110, js.game.getWH().h - 145));
     cell.setPositionS(point(js.game.getWH().w - 110, js.game.getWH().h - 110));
     cell.setPositionS(min_map_point(plane));
-
+    plane.rotateForAngle(js.vector.getAngle2Points(js.mouseControl.getPosition(), plane.getPositionC()), 2);
 
     // if (angle_r2p_w > 0) {
     //     if (angle_r2p_w <= 5)
