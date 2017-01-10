@@ -78,7 +78,7 @@ js.GUI.newButton({
     text: "влево",
     fillColor: "#00accc",
     events: {
-        click: function () {
+        mousePress: function () {
             left = true
         },
         mouseUp:function(){
@@ -93,22 +93,20 @@ js.GUI.newButton({
     text: "вправо",
     fillColor: "#00accc",
     events: {
-        click: function () {
-            right = true;
-            plane.turn(2);
+        mousePress: function () {
+            right = true
         },
         mouseUp:function(){
-            right = false;
-            plane.turn(2);}
+            right = false}
     }
 });
 game.newLoop("1", function () {
     game.clear();
 
-    //if (right)
-        //plane.turn(2);
-    //if (left)
-      //  plane.turn(-2);
+    if (right)
+        plane.turn(2);
+    if (left)
+        plane.turn(-2);
     if (plane.getPositionC().x <= 0 || plane.getPositionC().y <= 0 || plane.getPositionC().x >= 15000 || plane.getPositionC().y >= 15000)
         game.setLoop("2");
     for (var j = 0; j < bg.length; j++) {
@@ -228,7 +226,7 @@ game.newLoop("2", function () {
         text: "играть",
         fillColor: "#00accc",
         events: {
-            click: function () {
+            mousePress: function () {
                 location.reload()}
         }
     });
