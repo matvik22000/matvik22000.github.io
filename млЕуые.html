@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://vk.com/js/api/openapi.js?136" type="text/javascript"></script>
+<div id="vk_auth"></div>
+<script type="text/javascript">
+    window.onload = function () {
+        VK.init({apiId: 111});
+        VK.Widgets.Auth('vk_auth', {});
+    }
+</script>
+</body>
+</html>
