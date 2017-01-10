@@ -51,6 +51,7 @@ function scr_c_p() {
 }
 function scr_cn_p() {
 
+
     var img = document.getElementById("but_p");
     img.src = "button_p.png";
 }
