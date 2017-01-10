@@ -60,7 +60,7 @@ function intersect(s1_x, s2_x, s1_y, s2_y, s1_size_x, s1_size_y, s2_size_x, s2_s
         s1_y < s2_y + s2_size_y);
 }
 var bg = [];
-for (var i = 0; i < 1000; i++)
+for (var i = 0; i < 300; i++)
     bg.push(game.newImageObject({
         file: "cloud.png",
         scale: 1,
@@ -119,7 +119,7 @@ game.newLoop("1", function () {
     map.setPositionS(point(js.game.getWH().w - 110, js.game.getWH().h - 145));
     cell.setPositionS(point(js.game.getWH().w - 110, js.game.getWH().h - 110));
     cell.setPositionS(min_map_point(plane));
-    plane.rotateForAngle(js.vector.getAngle2Points(js.mouseControl.getPosition(), plane.getPositionC()), 2);
+    plane.rotateForAngle(js.vector.getAngle2Points(js.mouseControl.getPosition(), plane.getPositionC()), 3);
 
     // if (angle_r2p_w > 0) {
     //     if (angle_r2p_w <= 5)
@@ -218,6 +218,13 @@ js.game.setLoopSound("1", [audio1]);
 
 game.start();
 game.newLoop("2", function () {
+    js.brush.drawText({
+        text: "твой счёт:" + score.toString(),
+        x: game.getWH().w / 2,
+        y: game.getWH().h / 2 - 100,
+        color: "black",
+        size: 20
+    });
     js.GUI.newButton({
         x: game.getWH().w / 2,
         y: game.getWH().h / 2,
