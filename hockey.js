@@ -103,7 +103,7 @@ game.newLoop("2", function () {
     js.brush.drawText({
         x:game.getWH().w / 2,
         y:100,
-        text: "goal!",
+        text: "missed!",
         color: "black",
         size: 60
     });
