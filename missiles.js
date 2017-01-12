@@ -14,6 +14,16 @@ var cell = game.newCircleObject({
     fillColor: "white"
 
 });
+var bon = game.newImageObject({
+    file: "bonus.png",
+    scale: 1
+});
+var bonus_pos = point(js.math.random(0, 15000, true), js.math.random(0, 15000, true));
+var bon_map = game.newCircleObject({
+    radius: 2,
+    fillColor: "#fffb00"
+});
+bon.setPositionC(bonus_pos);
 var reload = 0;
 var lc_f = false;
 var randpos_x = js.math.random(0, 15000);
@@ -60,10 +70,8 @@ var plane = game.newImageObject({
 
 
 var time = 0;
-function intersect(s1_x, s2_x, s1_y, s2_y, s1_size_x, s1_size_y, s2_size_x, s2_size_y) {
-    return (s1_x > s2_x - s1_size_x) && (s1_x < s2_x + s2_size_x) && (s1_y > s2_y - s1_size_y) && (
-        s1_y < s2_y + s2_size_y);
-}
+
+
 var bg = [];
 for (var i = 0; i < 1000; i++)
     bg.push(game.newImageObject({
@@ -76,8 +84,11 @@ for (var i = 0; i < 1000; i++)
     }));
 game.newLoop("1", function () {
     game.clear();
+//////////////////////////////////////
+    bon.draw();
+    console.log(bon_map.getPositionCS());
 
-
+    bon_map.setPositionCS(min_map_point(bon));
 
     lc.draw();
     if (plane.getPositionC().x <= 0 || plane.getPositionC().y <= 0 || plane.getPositionC().x >= 15000 || plane.getPositionC().y >= 15000)
@@ -97,7 +108,7 @@ game.newLoop("1", function () {
         plane.turn(2);
     if (js.keyControl.isDown("RIGHT"))
         plane.turn(-2);
-    if (js.keyControl.isDown("SPACE") && reload >= 1000){
+    if (js.keyControl.isDown("SPACE") && reload >= 1000) {
         lc_f = true;
         reload = 0
     }
@@ -143,12 +154,12 @@ game.newLoop("1", function () {
             cells[l].draw()
         }
         rockets[i].draw();
-        if (lc_f != false){
-        if (rockets[i].isDynamicIntersect(lc.getDynamicBox())) {
-            lc.setPositionC(plane.getPositionC());
-            rockets.splice(i, 1);
-            lc_f = false
-        }
+        if (lc_f != false) {
+            if (rockets[i].isDynamicIntersect(lc.getDynamicBox())) {
+                lc.setPositionC(plane.getPositionC());
+                rockets.splice(i, 1);
+                lc_f = false
+            }
         }
         //
 
@@ -202,10 +213,10 @@ game.newLoop("1", function () {
     new_map(15000, 15000, 'black');
     map.draw();
     cell.draw();
-
+    bon_map.draw();
     plane.draw();
     time++;
-    reload ++;
+    reload++;
     if (turbo < 1000)
         turbo++;
     if (turbo < 1000)
@@ -224,7 +235,7 @@ game.newLoop("1", function () {
             color: "black",
             size: 40
         });
-    score ++;
+    score++;
     if (reload < 1000)
         js.brush.drawTextLinesS({
             lines: ["ложная цель:" + reload.toString()],
@@ -242,7 +253,7 @@ game.newLoop("1", function () {
             size: 40
         });
     js.brush.drawTextLinesS({
-        lines:["твой счёт: " + score.toString()],
+        lines: ["твой счёт: " + score.toString()],
         x: 10,
         y: 60,
         color: "black",
@@ -254,16 +265,15 @@ js.game.setLoopSound("1", [audio1]);
 
 game.start();
 game.newLoop("2", function () {
-js.brush.drawTextLinesS({
-    x:400,
-    y: 100,
-    color: "black",
-    size: 20,
-    lines: ["чтобы сыграть ещё раз нажми кнопу ENTER", "твой счёт: " + score.toString()]
+    js.brush.drawTextLinesS({
+        x: 400,
+        y: 100,
+        color: "black",
+        size: 20,
+        lines: ["чтобы сыграть ещё раз нажми кнопу ENTER", "твой счёт: " + score.toString()]
 
 
-
-});
+    });
 
     if (js.keyControl.isDown("ENTER")) {
         location.reload()
@@ -276,7 +286,7 @@ js.brush.drawTextLinesS({
 game.newLoop("3", function () {
     js.brush.drawText({
         text: "чтобы начать игру нажми кнопку 'ENTER'",
-        x:400,
+        x: 400,
         y: 100,
         color: "black",
         size: 20
