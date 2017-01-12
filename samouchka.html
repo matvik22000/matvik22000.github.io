@@ -19,6 +19,7 @@
         x: 100,
         y: 100
     });
+    var bump = js.audio.newAudio("WavLibraryNet_Sound6123.mp3");
     js.vector.point = point;
     var su = game.newImageObject({
         file: "shpora.jpg",
@@ -89,11 +90,14 @@
         console.log(chushi.length);
         for (var l = 0; l < chushi.length; l++){
             chushi[l].draw();
-            if (chushi[l].isDynamicIntersect(su.getDynamicBox()))
+            if (chushi[l].isDynamicIntersect(su.getDynamicBox())) {
+                bump.replay();
                 game.setLoop("2")
+            }
         }
     });
     game.newLoop("2", function () {
+
         js.brush.drawText({
             text: "хряяяяяяяяяяяяяяяяяяяяяяяяясь",
             x: ch.getPosition().x,
