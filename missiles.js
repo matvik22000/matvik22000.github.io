@@ -85,10 +85,10 @@ for (var i = 0; i < 1000; i++)
 game.newLoop("1", function () {
     game.clear();
 //////////////////////////////////////
-    bon.draw();
-    console.log(bon_map.getPositionCS());
 
-    bon_map.setPositionCS(min_map_point(bon));
+
+
+
 
     lc.draw();
     if (plane.getPositionC().x <= 0 || plane.getPositionC().y <= 0 || plane.getPositionC().x >= 15000 || plane.getPositionC().y >= 15000)
@@ -213,7 +213,7 @@ game.newLoop("1", function () {
     new_map(15000, 15000, 'black');
     map.draw();
     cell.draw();
-    bon_map.draw();
+
     plane.draw();
     time++;
     reload++;
