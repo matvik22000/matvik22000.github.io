@@ -14,16 +14,6 @@ var cell = game.newCircleObject({
     fillColor: "white"
 
 });
-var bon = game.newImageObject({
-    file: "bonus.png",
-    scale: 1
-});
-var bonus_pos = point(js.math.random(0, 15000, true), js.math.random(0, 15000, true));
-var bon_map = game.newCircleObject({
-    radius: 2,
-    fillColor: "#fffb00"
-});
-bon.setPositionC(bonus_pos);
 var reload = 0;
 var lc_f = false;
 var randpos_x = js.math.random(0, 15000);
