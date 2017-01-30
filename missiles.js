@@ -1,7 +1,7 @@
 /**
  * Created by Matvey on 05.02.17.
  */
-var js = new PointJS('2d', 0, 0, {backgroundColor: "#31e1e2"});
+    var js = new PointJS('2d', 0, 0, {backgroundColor: "#31e1e2"});
 js.system.initFullPage();
 var game = js.game;
 var point = js.vector.point;
