@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>доставка еды</title>
+    <style>
+        body{
+            font-size: 50px;
+        }
+        input{
+            margin: 10px;
+            padding: 5px ;
+            font-size: 30px;
+        }
+        #title{
+            font-size: 60px;
+        }
+
+        #p1{
+            font-size: 40px;;
+        }
+        #i1{
+            margin-right: 50px;
+            float: left;
+        }
+        button{
+            padding:20px 100px;
+            font-size: 30px;
+        }
+        #in1{
+            padding:10px 1px;
+
+        }
+        #i3{
+            float: left;
+            margin-right: 50px;
+        }
+        #i4{
+            float: left;
+            margin-right: 50px;
+        }
+        #i2{
+            margin-right: 60px;
+
+            float: left;
+        }
+        #p1{
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<h1 id="title" align="center">
+    Доставка еды
+</h1>
+<br><br><br><br><br>
+<p id="p1" align="center">Меню</p>
+
+
+
+
+<img id="i1" src="free.png" >картофель фри:
+<br><br>
+<div align="left">
+    <input placeholder="количество" value="1" id="in1" onchange="cost_change(50, 'in1', 'c1')"/>
+    <input id="c1" placeholder="цена" value="50 руб"/>
+    <button type="submit" id="b1">в корзину</button>
+</div>
+<br><br><br><br>
+<img id="i2" src="chicken.png" >куриная ножка:
+<br><br>
+<div align="left">
+    <input placeholder="количество" value="1" id="in2" onchange="cost_change(55, 'in2', 'c2')"/>
+    <input id="c2" placeholder="цена" value="55 руб"/>
+    <button type="submit" onclick="" id="b2">в корзину</button>
+</div>
+<br><br><br><br>
+<img id="i3" src="ter.png" >ножка терияки:
+<br><br>
+<div align="left">
+    <input placeholder="количество" value="1" id="in3" onchange="cost_change(65, 'in3', 'c3')"/>
+    <input id="c3" placeholder="цена" value="65 руб"/>
+    <button type="submit" id="b3">в корзину</button>
+</div>
+<br><br><br><br>
+<img id="i4" src="product_941_1167019826.png" >крылья терияки:
+<br><br>
+<div align="left">
+    <input placeholder="количество" value="1" id="in4" onchange="cost_change(65, 'in4', 'c4')"/>
+    <input id="c4" placeholder="цена" value="105 руб"/>
+    <button type="submit" id="b4">в корзину</button>
+</div>
+<br><br><br><br>
+<script>
+    function toBox(cost, name) {
+
+    }
+    function cost_change(cost, id1, id2) {
+        var finC = cost * document.getElementById(id1).value;
+        document.getElementById(id2).value = finC.toString() + "руб"
+    }
+</script>
+</body>
+</html>
