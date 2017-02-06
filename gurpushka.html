@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <title>GurDonut</title>
     <script src="minajax.js"></script>
+    <link rel="icon"
+          type="image/png"
+          href="favicon_gd.png">
     <style>
         h1{
             font-size: 50px;
+            margin: 15px;
         }
         #header{
             margin-top: 50px;
@@ -49,7 +53,7 @@
 var order_var = "";
 var cost = 0;
 var uid ;
-var f_n ;
+var f_n;
 var l_n ;
 </script>
 <div id="basket2">
@@ -77,7 +81,6 @@ var l_n ;
 <div id="vk_auth"></div>
 <script type="text/javascript">
     VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: function(data) {
-
         console.log(data['first_name'] + data['last_name']);
          uid = data['uid'];
          f_n = data['first_name'];
@@ -85,7 +88,7 @@ var l_n ;
 //        alert('user '+data['uid'] + data['first_name']+ data['last_name'] +' authorized');
     } });
 </script>
-<h1 align="center">Снэки:</h1>
+<h1>Снэки:</h1>
 <table>
     <tr>
         <td>Картошка фри маленькая:</td>
@@ -103,7 +106,7 @@ var l_n ;
         <td><button id="0003" onclick="order('-Картошка-фри-большая', 99)">в корзину</button></td>
     </tr>
 </table>
-<h1 align="center">Курица:</h1>
+<h1>Курица:</h1>
 <table>
     <tr>
         <td>байтсы средние:</td>
@@ -125,7 +128,7 @@ var l_n ;
         <td>99 руб</td>
         <td><button id="0007" onclick="order('-пати-баскет', 99)">в корзину</button></td>
 </table>
-<h1 align="center">Бургеры</h1>
+<h1>Бургеры</h1>
 <table>
     <tr>
         <td>Сандерс:</td>
@@ -171,7 +174,8 @@ var l_n ;
                 cost: cost
             },
             success: function () {
-                alert("ваш заказ принят!");
+//                alert("ваш заказ принят!");
+                window.location = "order_new.html"
 
             }
         });
