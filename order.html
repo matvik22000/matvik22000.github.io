@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Оформление заказа</title>
+    <script src="minajax.js"></script>
+</head>
+<body>
+<h1 align="center">Заказы:</h1>
+<input id="password" type="password"/>
+<button onclick="order()">ok</button>
+<div id="orders"></div>
+<script>
+    function order() {
+    if (document.getElementById("password").value == "gurpushka"){
+        minAjax({
+        url:"https://fathomless-shelf-75612.herokuapp.com/get/",//request URL
+        type:"GET",
+        success:function (data) {
+            html = data;
+            var basket = document.getElementById("orders");
+            basket.innerHTML = html;
+
+        }
+
+    });
+    }
+    else {
+    alert("неверный пароль!")
+    }
+    }
+</script>
+</body>
+</html>

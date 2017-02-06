@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>clear</title>
+</head>
+<body>
+<script src="minajax.js"></script>
+<h1>очисть заказы</h1>
+<input id="password" type="password"/>
+<button onclick="order()">ok</button>
+
+<script>
+    function order() {
+        if (document.getElementById("password").value == "gurpushka"){
+            minAjax({
+                url:"https://fathomless-shelf-75612.herokuapp.com/clear/",//request URL
+                type:"GET",
+                success:function (data) {
+                    html = "заказы удалены";
+                    var basket = document.getElementById("orders");
+                    basket.innerHTML = html;
+
+                }
+
+            });
+        }
+        else {
+            alert("неверный пароль!")
+        }
+    }
+</script>
+</body>
+</html>

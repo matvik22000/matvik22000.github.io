@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    minAjax({
+        url:"https://fathomless-shelf-75612.herokuapp.com/"+ "на_сумму_" + cost +"/",//request URL
+        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+        type:"GET",//Request type GET/POST
+        success: function () {
+
+        }
+    });
+    minAjax({
+        url:"https://fathomless-shelf-75612.herokuapp.com/"+ "от_" + l_n + "_" + f_n + "_UID_" + uid + "/",//request URL
+        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+        type:"GET",//Request type GET/POST
+        success: function () {
+
+        }
+    });
+    }
+</script>
+</body>
+</html>

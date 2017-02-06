@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GurDonut</title>
+    <script src="minajax.js"></script>
+    <style>
+        h1{
+            font-size: 50px;
+        }
+        #header{
+            margin-top: 50px;
+            background-image:url(фон.png);
+            background-size: cover;
+        }
+        table{
+            font-size: 30px;
+        }
+        button{
+            margin: 15px;
+            padding-left:10px;
+            padding-right:10px;
+            padding-bottom: 5px;
+            padding-top: 5px;
+        }
+        #01{
+            font-size: 40px;
+        }
+        #basket2{
+            position: fixed;
+            top: 0;
+            right: 0;
+            border:solid black 1px;
+            background-color:wheat;
+            solid-opacity: 0;
+
+        }
+        /*body{
+            background-image: url("background.jpeg");
+            background-size: cover;
+        }*/
+        #vk_auth{
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<script>var buy = [];
+var order_var = "";
+var cost = 0;
+var uid = 123;
+var f_n = "Матвей";
+var l_n = "Гуров";
+</script>
+<div id="basket2">
+
+
+    <div id="basket">
+
+    </div>
+</div>
+<div id="header" style="text-align: center;"><h1>GurDonut</h1>
+    <br><br>
+    <h1>Доставка еды</h1>
+    <br><br><br><br><br><br><br>
+
+</div>
+<!-- Put this script tag to the <head> of your page -->
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?136"></script>
+
+<script type="text/javascript">
+
+    VK.init({apiId: 5815731});
+</script>
+
+<!-- Put this div tag to the place, where Auth block will be -->
+<div id="vk_auth"></div>
+<script type="text/javascript">
+    VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: function(data) {
+        console.log(data);
+        var uid = data['uid'];
+        var f_n = data['first_name'];
+        var l_n = data['last_name'];
+//        alert('user '+data['uid'] + data['first_name']+ data['last_name'] +' authorized');
+    } });
+</script>
+<h1 align="center">Снэки:</h1>
+<table>
+    <tr>
+        <td>Картошка фри маленькая:</td>
+        <td>43 руб</td>
+        <td><button id="0001" onclick="order('-Картошка-фри-маленькая', 43)">в корзину</button></td>
+    </tr>
+    <tr>
+        <td>Картошка фри стандарт:</td>
+        <td>58 руб</td>
+        <td><button id="0002" onclick="order('-Картошка-фри-стандарт', 58)">в корзину</button></td>
+    </tr>
+    <tr>
+        <td>Картошка фри большая:</td>
+        <td>99 руб</td>
+        <td><button id="0003" onclick="order('-Картошка-фри-большая', 99)">в корзину</button></td>
+    </tr>
+</table>
+<h1 align="center">Курица:</h1>
+<table>
+    <tr>
+        <td>байтсы средние:</td>
+        <td>111 руб</td>
+        <td><button id="0004" onclick="order('-байтсы-средние', 111)">в корзину</button></td>
+    </tr>
+    <tr>
+        <td>байтсы большие:</td>
+        <td>199 руб</td>
+        <td><button id="0005" onclick="order('-байтсы-большие', 199)">в корзину</button></td>
+    </tr>
+    <tr>
+        <td>байтсы малые</td>
+        <td>74 руб</td>
+        <td><button id="0006" onclick="order('-байтсы-малые', 74)">в корзину</button></td>
+    </tr>
+    <tr>
+        <td>Пати баскет с байтс:</td>
+        <td>99 руб</td>
+        <td><button id="0007" onclick="order('-пати-баскет', 99)">в корзину</button></td>
+</table>
+<h1 align="center">Бургеры</h1>
+<table>
+    <tr>
+        <td>Сандерс:</td>
+        <td>83 руб</td>
+        <td><button id="0008" onclick="order('-сандерс', 83)">в корзину</button></td>
+    </tr>
+    <tr>
+        <td>Ай-Твистер Чиз</td>
+        <td>49 руб</td>
+        <td><button id="0009" onclick="order('-Ай-Твистер-Чиз', 49)">в корзину</button></td>
+    </tr>
+    <tr>
+        <td>Ай-Твистер Терияки</td>
+        <td>49 руб</td>
+        <td><button id="0010" onclick="order('-Ай-Твистер-Терияки', 49)">в корзину</button></td>
+    </tr>
+    <tr>
+        <td>Лонгер Кентуки BBQ</td>
+        <td>49 руб</td>
+        <td><button id="0011" onclick="order('-Лонгер-Кентуки-BBQ', 49)">в корзину</button></td>
+    </tr>
+</table>
+<script>
+    function buy_f() {
+        if(uid != undefined && l_n != undefined && f_n != undefined){
+            orders()
+        }
+        else {
+            alert("вы не авторизаваны!")
+        }
+    }
+    function orders() {
+        for(var i = 0; i< buy.length; i++){
+            order_var += ("__" + buy[i][0])
+        }
+        minAjax({
+            url:"https://fathomless-shelf-75612.herokuapp.com/" + "order",
+            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+            type:"GET",//Request type GET/POST
+            data:{
+                name: order_var,
+                customer:f_n + "-" + l_n,
+                cost: cost
+            },
+            success: function () {
+                alert("ваш заказ принят!");
+
+            }
+        });
+    }
+
+    function drawBasket() {
+        var html = "корзина";
+        for (var i = 0; i <buy.length; i++){
+
+            html += "<div>" + buy[i][0] + "<button onclick=\'del(buy[" + i + "])\'>убрать из корзины</button></div>";
+        }
+        html += "<div>всего: " + cost +  "руб</div>";
+        html += "<button onclick='buy_f()'>оформить заказ</button>";
+        var basket = document.getElementById("basket");
+        basket.innerHTML = html;
+    }
+    function del(name) {
+
+        var index = buy.lastIndexOf(name);
+        buy.splice(index, 1);
+        cost -= name[1];
+        drawBasket()
+
+    }
+    function order(name, number) {
+        cost += number;
+        buy.push([name, number]);
+        drawBasket();
+
+    }
+</script>
+
+</body>
+</html>
