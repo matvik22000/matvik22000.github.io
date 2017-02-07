@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>test</title>
-        <script src="minajax.js"></script>
-</head>
+    <style>
+        #vk_contact_us{
+            float: right;
+        }
+    </style>
 <body>
-<script>
-    minAjax({
-    url:"https://fathomless-shelf-75612.herokuapp.com/parfen/",//request URL
-    type:"GET",//Request type GET/POST
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
 
-  success: function(data){
-        alert(data);
-    }
-
-});</script>
+<!-- VK Widget -->
+<center><div id="vk_contact_us"></div></center>
+<script type="text/javascript">
+    VK.Widgets.ContactUs("vk_contact_us", {text: "Напишите нам!"}, 354507744, style = "float: right;");
+</script>
 
 </body>
 </html>

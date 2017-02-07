@@ -46,6 +46,10 @@
         #vk_auth{
             float: right;
         }
+        #vk_like{
+            float: right;
+        }
+
     </style>
 </head>
 <body>
@@ -76,9 +80,26 @@ var l_n ;
 
     VK.init({apiId: 5815731});
 </script>
+<!-- Put this script tag to the <head> of your page -->
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+
+<script type="text/javascript">
+    VK.init({apiId: 5815731, onlyWidgets: true});
+</script>
+
+
+<script type="text/javascript">
+    VK.Widgets.Like("vk_like", {type: "button"});
+</script>
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+<script type="text/javascript">
+    VK.Widgets.ContactUs("vk_contact_us", {text:"напишите нам!", height: 30}, 354507744);
+</script>
 
 <!-- Put this div tag to the place, where Auth block will be -->
 <div id="vk_auth"></div>
+<div id="vk_like"></div>
+
 <script type="text/javascript">
     VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: function(data) {
         console.log(data['first_name'] + data['last_name']);
@@ -207,6 +228,8 @@ var l_n ;
 
     }
 </script>
-
+<br><br><br>
+<h2 id="vk_contact">Не нашли что искали? Что-то непонятно?</h2>
+<div id="vk_contact_us"></div>
 </body>
 </html>
