@@ -3,31 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>clear</title>
+    <style>
+        #password{
+            width: 400px;
+            padding: 10px;
+
+
+        }
+        #form1{
+            text-align: center;
+        }
+        #but1{
+            padding:10px 30px ;
+            font-size: 15px;
+
+        }
+    </style>
 </head>
 <body>
 <script src="minajax.js"></script>
-<h1>очисть заказы</h1>
-<input id="password" type="password"/>
-<button onclick="order()">ok</button>
+<h1 align="center">Очистить заказы</h1>
+<form id="form1">
+<div style="text-align: center;"><input id="password" type="password"/> <button id="but1" onclick="order()">ok</button></div>
 
+</form>
+<br>
+<h1 id="orders" align="center"></h1>
 <script>
     function order() {
-        if (document.getElementById("password").value == "gurpushka"){
+
             minAjax({
-                url:"https://fathomless-shelf-75612.herokuapp.com/clear/",//request URL
+                url:"https://fathomless-shelf-75612.herokuapp.com/clear",//request URL
                 type:"GET",
+                data:{
+                    password: document.getElementById("password").value
+                },
                 success:function (data) {
-                    html = "заказы удалены";
+                    html = data;
                     var basket = document.getElementById("orders");
                     basket.innerHTML = html;
 
                 }
 
             });
-        }
-        else {
-            alert("неверный пароль!")
-        }
     }
 </script>
 </body>

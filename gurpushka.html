@@ -37,6 +37,7 @@
             border:solid black 1px;
             background-color:wheat;
             solid-opacity: 0;
+            z-index: 100;
 
         }
         /*body{
@@ -102,6 +103,12 @@ var l_n ;
 <div id="vk_auth"></div>
 <br><br><br>
 <div id="vk_contact_us"></div>
+<br><br><br>
+<div id="vk_like"></div>
+<script type="text/javascript">
+    VK.Widgets.Like("vk_like", {type: "button"});
+</script>
+
 <script type="text/javascript">
     VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: function(data) {
         console.log(data['first_name'] + data['last_name']);
