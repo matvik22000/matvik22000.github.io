@@ -50,7 +50,12 @@
             margin:20px;
             float: right;
         }
-
+        #vk_contact_us{
+            margin-left: 87%;
+        }
+        #vk_contact{
+            float:right;
+        }
     </style>
 </head>
 <body>
@@ -94,14 +99,15 @@ var l_n ;
 </script>
 <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
 <script type="text/javascript">
-    VK.Widgets.ContactUs("vk_contact_us", {text:"напишите нам!", height: 30}, 354507744);
+    VK.Widgets.ContactUs("vk_contact_us", {text:"не нашли что искали? Напишите нам!", height: 30}, 354507744);
 </script>
 
 <!-- Put this div tag to the place, where Auth block will be -->
 <div id="vk_auth"></div>
 <br>
 <div id="vk_like"></div>
-
+<br>
+<div id="vk_contact_us"></div>
 <script type="text/javascript">
     VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: function(data) {
         console.log(data['first_name'] + data['last_name']);
@@ -230,8 +236,5 @@ var l_n ;
 
     }
 </script>
-<br><br><br>
-<h2 id="vk_contact">Не нашли что искали? Что-то непонятно?</h2>
-<div id="vk_contact_us"></div>
 </body>
 </html>
