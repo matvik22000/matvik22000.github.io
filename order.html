@@ -4,30 +4,46 @@
     <meta charset="UTF-8">
     <title>Оформление заказа</title>
     <script src="minajax.js"></script>
+    <style>
+        #form1{
+            text-align: center;
+        }
+        /*#password{*/
+            /*padding: 5px 100px;*/
+            /*font-size: 20px;*/
+/**/
+        /*}*/
+        /*#ok{*/
+            /*font-size: 20px;*/
+            /*padding: 5px 10px;*/
+/**/
+        /*}*/
+    </style>
 </head>
 <body>
 <h1 align="center">Заказы:</h1>
-<input id="password" type="password"/>
-<button onclick="order()">ok</button>
-<div id="orders"></div>
+<form id="form1">
+    <input id="password" type="password"/>
+    <button id="ok" onclick="order()">ok</button>
+</form>
+<br><br><br><br>
+<div id="orders" align="center"></div>
 <script>
     function order() {
-    if (document.getElementById("password").value == "gurpushka"){
+
         minAjax({
-        url:"https://fathomless-shelf-75612.herokuapp.com/get/",//request URL
-        type:"GET",
-        success:function (data) {
-            html = data;
-            var basket = document.getElementById("orders");
-            basket.innerHTML = html;
+            url:"https://fathomless-shelf-75612.herokuapp.com/get",//request URL
+            type:"GET",
+            data:{
+                password: document.getElementById("password").value
+                },
+            success:function (data) {
+                html = data;
+                var basket = document.getElementById("orders");
+                basket.innerHTML = html;
 
-        }
-
-    });
-    }
-    else {
-    alert("неверный пароль!")
-    }
+            }
+        });
     }
 </script>
 </body>
