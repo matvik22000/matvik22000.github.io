@@ -40,25 +40,28 @@
             z-index: 100;
 
         }
-        /*body{
-            background-image: url("background.jpeg");
-            background-size: cover;
-        }*/
+
         #vk_auth{
             float: right;
+            margin: 10px;
         }
         #vk_like{
-            margin:20px;
+            margin:40px;
             float: right;
         }
         #vk_contact_us{
-            margin-left: 90%;
+            margin-left: 89%;
+            margin-right: 20px;
         }
 
     </style>
+
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
 </head>
 <body>
-<script>var buy = [];
+
+<script>
+    var buy = [];
 var order_var = "";
 var cost = 0;
 var uid ;
@@ -78,38 +81,14 @@ var l_n ;
     <br><br><br><br><br><br><br>
 
 </div>
-<!-- Put this script tag to the <head> of your page -->
-<script type="text/javascript" src="//vk.com/js/api/openapi.js?136"></script>
 
-<script type="text/javascript">
-
-    VK.init({apiId: 5815731});
-</script>
-<!-- Put this script tag to the <head> of your page -->
-<script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
-
-<script type="text/javascript">
-    VK.init({apiId: 5815731, onlyWidgets: true});
-</script>
-
-
-
-<script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
-<script type="text/javascript">
-    VK.Widgets.ContactUs("vk_contact_us", {text:"Напишите нам!", height: 30}, 354507744);
-</script>
-
-<!-- Put this div tag to the place, where Auth block will be -->
 <div id="vk_auth"></div>
-<br><br><br>
 <div id="vk_contact_us"></div>
-<br><br><br>
 <div id="vk_like"></div>
 <script type="text/javascript">
+    VK.init({apiId: 5815731, onlyWidgets: true});
+    VK.Widgets.ContactUs("vk_contact_us", {text:"Напишите нам!", height: 30}, 354507744);
     VK.Widgets.Like("vk_like", {type: "button"});
-</script>
-
-<script type="text/javascript">
     VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: function(data) {
         console.log(data['first_name'] + data['last_name']);
          uid = data['uid'];
@@ -118,6 +97,7 @@ var l_n ;
 //        alert('user '+data['uid'] + data['first_name']+ data['last_name'] +' authorized');
     } });
 </script>
+
 <h1>Снэки:</h1>
 <table>
     <tr>
