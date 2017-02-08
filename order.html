@@ -5,40 +5,42 @@
     <title>Оформление заказа</title>
     <script src="minajax.js"></script>
     <style>
-        #form1{
+        #form1 {
             text-align: center;
         }
+
         /*#password{*/
-            /*padding: 5px 100px;*/
-            /*font-size: 20px;*/
-/**/
+        /*padding: 5px 100px;*/
+        /*font-size: 20px;*/
+        /**/
         /*}*/
         /*#ok{*/
-            /*font-size: 20px;*/
-            /*padding: 5px 10px;*/
-/**/
+        /*font-size: 20px;*/
+        /*padding: 5px 10px;*/
+        /**/
         /*}*/
     </style>
 </head>
 <body>
 <h1 align="center">Заказы:</h1>
-<form id="form1">
-    <input id="password" type="password"/>
-    <button id="ok" onclick="order()">ok</button>
-</form>
+
+<div id="form1"><input id="password" type="password"/>
+<button id="ok" onclick="order()">ok</button>
+</div>
+
 <br><br><br><br>
 <div id="orders" align="center"></div>
 <script>
     function order() {
 
         minAjax({
-            url:"https://fathomless-shelf-75612.herokuapp.com/get",//request URL
+            url: "https://fathomless-shelf-75612.herokuapp.com/get",//request URL
 
-            type:"GET",
-            data:{
+            type: "GET",
+            data: {
                 password: document.getElementById("password").value
-                },
-            success:function (data) {
+            },
+            success: function (data) {
                 html = data;
                 var basket = document.getElementById("orders");
                 basket.innerHTML = html;
