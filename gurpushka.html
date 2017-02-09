@@ -11,67 +11,88 @@
     <link href="https://fonts.googleapis.com/css?family=Verdana" rel="stylesheet">
 
     <style>
+        /*#parent_popup {*/
+        /*background: #000;*/
+        /*height: 100%;*/
+        /*opacity: 0.9;*/
+        /*position: fixed;*/
+        /*width: 100%;*/
+        /*z-index: 100;*/
+        /*top: 0;*/
+        /*left: 0;*/
+        /*}*/
+        #auth {
+            position: fixed;
+            top: 50px;
+            float: left;
+            opacity: 0;
+            z-index: 100;
+        }
 
         #vk_auth {
             margin: 10px;
         }
-        #inProgress{
+
+        #inProgress {
             opacity: 0;
         }
-        h1{
+
+        h1 {
             font-family: 'Consolas', cursive;
             font-size: 50px;
             margin: 15px;
         }
-        td, th{
+
+        td, th {
             font-weight: normal;
             font-size: 30px;
             font-family: 'Consolas', cursive;
         }
-        #header1{
+
+        #header1 {
             top: 110px;
-            background-image:url(hamburger.jpg);
+            background-image: url(hamburger.jpg);
             background-size: cover;
         }
-        table{
+
+        table {
             font-size: 30px;
         }
-        button{
+
+        button {
             margin: 15px;
-            padding-left:10px;
-            padding-right:10px;
+            padding-left: 10px;
+            padding-right: 10px;
             padding-bottom: 5px;
             padding-top: 5px;
         }
-        #basket2{
+
+        #basket2 {
             position: fixed;
             top: 50px;
             right: 0;
-            border:solid black 1px;
+            border: solid black 1px;
             background-image: url("pattern3.png");
             solid-opacity: 0;
             z-index: 100;
 
         }
-        button{
 
-            padding: 0 0 ;
+        button {
+
+            padding: 0 0;
             background-size: 30px 100px;
             font-size: 20px;
 
         }
-        #auth{
-            z-index: -1;
-        }
-
 
         /*#vk_like{*/
-            /*margin:40px;*/
-            /*float: right;*/
+        /*margin:40px;*/
+        /*float: right;*/
         /*}*/
         /*#vk_contact_us{*/
-            /*margin-left: 89%;*/
-            /*margin-right: 20px;*/
+        /*margin-left: 89%;*/
+        /*margin-right: 20px;*/
         /*}*/
 
     </style>
@@ -79,7 +100,7 @@
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
 </head>
 <body>
-<div class="w3-top">
+<div id="toolbar" class="w3-top">
     <ul class="w3-navbar w3-white w3-wide w3-padding-8 w3-card-2">
         <li>
             <a href="#home" class="w3-margin-left">домой</a>
@@ -100,17 +121,18 @@
 </div>
 <script>
     var buy = [];
-var order_var = "";
-var cost = 0;
-var uid ;
-var f_n = localStorage.getItem("first_name");
-var l_n  = localStorage.getItem("last_name");
+    var order_var = "";
+    var cost = 0;
+    var uid;
+    var f_n = localStorage.getItem("first_name");
+    var l_n = localStorage.getItem("last_name");
 </script>
 <br><br><br>
 <header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:500px" id="home">
     <img class="w3-image" src="hamburger.jpg" alt="Hamburger Catering" width="1600" height="800">
-    <div class="w3-display-topleft w3-container"><div  id="vk_auth"></div>
-        </div>
+    <div class="w3-display-topleft w3-container">
+        <div id="vk_auth"></div>
+    </div>
     <div class="w3-display-bottomleft w3-padding-xlarge w3-opacity">
         <h1 class="w3-xxlarge">GurDonut</h1>
     </div>
@@ -120,22 +142,41 @@ var l_n  = localStorage.getItem("last_name");
 
     </div>
 </div>
-<div id="auth"></div>
+<div id="parent_popup">
+    <div id="auth">
+        <p>вы не авторизованы! Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
+        <div style="text-align: center" id="vk_auth2"></div>
+    </div>
+</div>
 
 
 <script type="text/javascript">
     VK.init({apiId: 5815731, onlyWidgets: true});
-    VK.Widgets.ContactUs("vk_contact_us", {text:"что-то непонятно? Напишите нам!", height: 30}, 354507744);
+    VK.Widgets.ContactUs("vk_contact_us", {text: "что-то непонятно? Напишите нам!", height: 30}, 354507744);
     VK.Widgets.Like("vk_like", {type: "button"});
-    VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: function(data) {
-        console.log(data['first_name'] + data['last_name']);
-         uid = data['uid'];
-         f_n = data['first_name'];
-         l_n = data['last_name'];
-         localStorage.setItem("last_name", l_n);
-        localStorage.setItem("first_name", f_n);
+    VK.Widgets.Auth("vk_auth", {
+        width: "200px", onAuth: function (data) {
+            console.log(data['first_name'] + data['last_name']);
+            uid = data['uid'];
+            f_n = data['first_name'];
+            l_n = data['last_name'];
+            localStorage.setItem("last_name", l_n);
+            localStorage.setItem("first_name", f_n);
 //        alert('user '+data['uid'] + data['first_name']+ data['last_name'] +' authorized');
-    } });
+        }
+    });
+    VK.Widgets.Auth("vk_auth2", {
+        width: "200px", onAuth: function (data) {
+            console.log(data['first_name'] + data['last_name']);
+            uid = data['uid'];
+            f_n = data['first_name'];
+            l_n = data['last_name'];
+            localStorage.setItem("last_name", l_n);
+            localStorage.setItem("first_name", f_n);
+            document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
+            document.getElementById("auth").style = "opacity: 0; z-index:-1;"
+        }
+    });
 </script>
 
 
@@ -144,17 +185,29 @@ var l_n  = localStorage.getItem("last_name");
     <tr>
         <td>Картошка фри маленькая:</td>
         <td>43 руб</td>
-        <td><button id="0001" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Картошка-фри-маленькая', 43)">в корзину</button></td>
+        <td>
+            <button id="0001" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)"
+                    onclick="order('-Картошка-фри-маленькая', 43)">в корзину
+            </button>
+        </td>
     </tr>
     <tr>
         <td>Картошка фри стандарт:</td>
         <td>58 руб</td>
-        <td><button id="0002" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Картошка-фри-стандарт', 58)">в корзину</button></td>
+        <td>
+            <button id="0002" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)"
+                    onclick="order('-Картошка-фри-стандарт', 58)">в корзину
+            </button>
+        </td>
     </tr>
     <tr>
         <td>Картошка фри большая:</td>
         <td>99 руб</td>
-        <td><button id="0003" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Картошка-фри-большая', 99)">в корзину</button></td>
+        <td>
+            <button id="0003" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)"
+                    onclick="order('-Картошка-фри-большая', 99)">в корзину
+            </button>
+        </td>
     </tr>
 </table>
 <h1 id="курица">Курица:</h1>
@@ -162,69 +215,105 @@ var l_n  = localStorage.getItem("last_name");
     <tr>
         <td>байтсы средние:</td>
         <td>111 руб</td>
-        <td><button id="0004" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-байтсы-средние', 111)">в корзину</button></td>
+        <td>
+            <button id="0004" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)"
+                    onclick="order('-байтсы-средние', 111)">в корзину
+            </button>
+        </td>
     </tr>
     <tr>
         <td>байтсы большие:</td>
         <td>199 руб</td>
-        <td><button id="0005" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-байтсы-большие', 199)">в корзину</button></td>
+        <td>
+            <button id="0005" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)"
+                    onclick="order('-байтсы-большие', 199)">в корзину
+            </button>
+        </td>
     </tr>
     <tr>
         <td>байтсы малые</td>
         <td>74 руб</td>
-        <td><button id="0006" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-байтсы-малые', 74)">в корзину</button></td>
+        <td>
+            <button id="0006" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)"
+                    onclick="order('-байтсы-малые', 74)">в корзину
+            </button>
+        </td>
     </tr>
     <tr>
         <td>Пати баскет с байтс:</td>
         <td>99 руб</td>
-        <td><button id="0007" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-пати-баскет', 99)">в корзину</button></td>
+        <td>
+            <button id="0007" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)"
+                    onclick="order('-пати-баскет', 99)">в корзину
+            </button>
+        </td>
 </table>
 <h1 id="бургеры">Бургеры</h1>
 <table>
     <tr>
         <td>Сандерс:</td>
         <td>83 руб</td>
-        <td><button id="0008" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-сандерс', 83)">в корзину</button></td>
+        <td>
+            <button id="0008" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-сандерс', 83)">
+                в корзину
+            </button>
+        </td>
     </tr>
     <tr>
         <td>Ай-Твистер Чиз</td>
         <td>49 руб</td>
-        <td><button id="0009" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Ай-Твистер-Чиз', 49)">в корзину</button></td>
+        <td>
+            <button id="0009" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)"
+                    onclick="order('-Ай-Твистер-Чиз', 49)">в корзину
+            </button>
+        </td>
     </tr>
     <tr>
         <td>Ай-Твистер Терияки</td>
         <td>49 руб</td>
-        <td><button id="0010" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Ай-Твистер-Терияки', 49)">в корзину</button></td>
+        <td>
+            <button id="0010" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)"
+                    onclick="order('-Ай-Твистер-Терияки', 49)">в корзину
+            </button>
+        </td>
     </tr>
     <tr>
         <td>Лонгер Кентуки BBQ</td>
         <td>49 руб</td>
-        <td><button id="0011" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Лонгер-Кентуки-BBQ', 49)">в корзину</button></td>
+        <td>
+            <button id="0011" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)"
+                    onclick="order('-Лонгер-Кентуки-BBQ', 49)">в корзину
+            </button>
+        </td>
     </tr>
 </table>
 <script>
     function buy_f() {
-        if(l_n != undefined && f_n != undefined){
+        if (l_n != undefined && f_n != undefined) {
             orders()
         }
         else {
             window.location = "#home";
-            alert("вы не авторизованы! Нажмите на кнопку \"Войти через ВКонтакте\", чтобы авторизоваться");
+            document.getElementById("auth").style = "position: fixed; left:35%; opacity: 1; z-index: 100; background-color: white; padding: 30px;";
+            document.getElementById("parent_popup").style = "background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 1000;top: 0;left: 0;";
+
+//            alert("вы не авторизованы! Нажмите на кнопку \"Войти через ВКонтакте\", чтобы авторизоваться");
         }
     }
     function orders() {
-        for(var i = 0; i< buy.length; i++){
+        for (var i = 0; i < buy.length; i++) {
             order_var += ("__" + buy[i][0])
         }
         document.getElementById("1").disabled = true;
         document.getElementById("inProgress").style = "opacity: 1; height: auto; width: auto; max-width: 50px; max-height: 66px;";
+
         minAjax({
-            url:"https://fathomless-shelf-75612.herokuapp.com/" + "order",
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "order",
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
-            type:"GET",//Request type GET/POST
-            data:{
+            type: "GET",//Request type GET/POST
+            data: {
                 name: order_var,
-                customer:f_n + "-" + l_n,
+                customer: f_n + "-" + l_n,
                 cost: cost
             },
             success: function () {
@@ -236,11 +325,11 @@ var l_n  = localStorage.getItem("last_name");
 
     function drawBasket() {
         var html = "корзина";
-        for (var i = 0; i <buy.length; i++){
+        for (var i = 0; i < buy.length; i++) {
 
             html += "<div>" + buy[i][0] + "<button id = " + i + "  onmouseover = \"mouseover(id)\" onmouseleave=\"mouseleave(id)\" onclick=\'del(buy[" + i + "])\'>убрать из корзины</button></div>";
         }
-        html += "<div>всего: " + cost +  "руб</div>";
+        html += "<div>всего: " + cost + "руб</div>";
         html += "<button id=" + i + " onmouseover=\"mouseover(id)\" onmouseleave=\"mouseleave(id)\" onclick='buy_f()'>оформить заказ</button>";
         html += "<img id='inProgress' src='inProgress.gif' style='height: auto;width: auto; max-width: 50px; max-height: 66px;'>";
         var basket = document.getElementById("basket");
