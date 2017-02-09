@@ -8,7 +8,7 @@
     <link rel="icon"
           type="image/png"
           href="favicon_gd.png">
-    <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Verdana" rel="stylesheet">
 
     <style>
 
@@ -19,13 +19,14 @@
             opacity: 0;
         }
         h1{
-            font-family: 'Lobster', cursive;
+            font-family: 'Consolas', cursive;
             font-size: 50px;
             margin: 15px;
         }
         td, th{
-
-            font-family: 'Pangolin', cursive;
+            font-weight: normal;
+            font-size: 30px;
+            font-family: 'Consolas', cursive;
         }
         #header1{
             top: 110px;
@@ -58,6 +59,9 @@
             background-size: 30px 100px;
             font-size: 20px;
 
+        }
+        #auth{
+            z-index: -1;
         }
 
 
@@ -116,7 +120,7 @@ var l_n  = localStorage.getItem("last_name");
 
     </div>
 </div>
-
+<div id="auth"></div>
 
 
 <script type="text/javascript">
@@ -204,14 +208,15 @@ var l_n  = localStorage.getItem("last_name");
             orders()
         }
         else {
-            alert("вы не авторизаваны!")
+            window.location = "#home";
+            alert("вы не авторизованы! Нажмите на кнопку \"Войти через ВКонтакте\", чтобы авторизоваться");
         }
     }
     function orders() {
         for(var i = 0; i< buy.length; i++){
             order_var += ("__" + buy[i][0])
         }
-        document.getElementById("1").Disabled = true;
+        document.getElementById("1").disabled = true;
         document.getElementById("inProgress").style = "opacity: 1; height: auto; width: auto; max-width: 50px; max-height: 66px;";
         minAjax({
             url:"https://fathomless-shelf-75612.herokuapp.com/" + "order",
@@ -223,7 +228,6 @@ var l_n  = localStorage.getItem("last_name");
                 cost: cost
             },
             success: function () {
-//                alert("ваш заказ принят!");
                 window.location = "order_new.html"
 
             }
