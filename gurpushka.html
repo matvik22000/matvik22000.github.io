@@ -4,17 +4,25 @@
     <meta charset="UTF-8">
     <title>GurDonut</title>
     <script src="minajax.js"></script>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <link rel="icon"
           type="image/png"
           href="favicon_gd.png">
+    <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
+
     <style>
+
         h1{
+            font-family: 'Lobster', cursive;
             font-size: 50px;
             margin: 15px;
         }
-        #header{
-
-            background-image:url(фон.png);
+        td, th{
+            font-family: 'Pangolin', cursive;
+        }
+        #header1{
+            top: 110px;
+            background-image:url(hamburger.jpg);
             background-size: cover;
         }
         table{
@@ -27,138 +35,162 @@
             padding-bottom: 5px;
             padding-top: 5px;
         }
-        #01{
-            font-size: 40px;
-        }
         #basket2{
             position: fixed;
-            top: 0;
+            top: 50px;
             right: 0;
             border:solid black 1px;
-            background-color:wheat;
+            background-image: url("pattern3.png");
             solid-opacity: 0;
             z-index: 100;
 
         }
+        button{
+
+            padding: 0 0 ;
+            background-size: 30px 100px;
+            font-size: 20px;
+
+        }
 
         #vk_auth{
-            float: right;
+
             margin: 10px;
         }
-        #vk_like{
-            margin:40px;
-            float: right;
-        }
-        #vk_contact_us{
-            margin-left: 89%;
-            margin-right: 20px;
-        }
+        /*#vk_like{*/
+            /*margin:40px;*/
+            /*float: right;*/
+        /*}*/
+        /*#vk_contact_us{*/
+            /*margin-left: 89%;*/
+            /*margin-right: 20px;*/
+        /*}*/
 
     </style>
 
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
 </head>
 <body>
-
+<div class="w3-top">
+    <ul class="w3-navbar w3-white w3-wide w3-padding-8 w3-card-2">
+        <li>
+            <a href="#home" class="w3-margin-left">домой</a>
+        </li>
+        <!-- Right-sided navbar links. Hide them on small screens -->
+        <li class="w3-right w3-hide-small">
+            <a href="#снеки" class="w3-left">закуски</a>
+            <a href="#курица" class="w3-left">курица</a>
+            <a href="#бургеры" class="w3-left">бургеры</a>
+        </li>
+        <li class="w3-right w3-hide-small">
+            <div id="vk_contact_us"></div>
+        </li>
+        <li class="w3-right w3-hide-small">
+            <div id="vk_like"></div>
+        </li>
+    </ul>
+</div>
 <script>
     var buy = [];
 var order_var = "";
 var cost = 0;
 var uid ;
-var f_n;
-var l_n ;
+var f_n = localStorage.getItem("first_name");
+var l_n  = localStorage.getItem("last_name");
 </script>
+<br><br><br>
+<header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:500px" id="home">
+    <img class="w3-image" src="hamburger.jpg" alt="Hamburger Catering" width="1600" height="800">
+    <div class="w3-display-right w3-container"><div id="vk_auth"></div>
+        </div>
+    <div class="w3-display-bottomleft w3-padding-xlarge w3-opacity">
+        <h1 class="w3-xxlarge">GurDonat</h1>
+    </div>
+</header>
 <div id="basket2">
-
-
     <div id="basket">
 
     </div>
 </div>
-<div id="header" style="text-align: center;"><h1>GurDonut</h1>
-    <br><br>
-    <h1>Доставка еды</h1>
-    <br><br><br><br><br><br><br>
 
-</div>
 
-<div id="vk_auth"></div>
-<div id="vk_contact_us"></div>
-<div id="vk_like"></div>
+
 <script type="text/javascript">
     VK.init({apiId: 5815731, onlyWidgets: true});
-    VK.Widgets.ContactUs("vk_contact_us", {text:"Напишите нам!", height: 30}, 354507744);
+    VK.Widgets.ContactUs("vk_contact_us", {text:"что-то непонятно? Напишите нам!", height: 30}, 354507744);
     VK.Widgets.Like("vk_like", {type: "button"});
     VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: function(data) {
         console.log(data['first_name'] + data['last_name']);
          uid = data['uid'];
          f_n = data['first_name'];
          l_n = data['last_name'];
+         localStorage.setItem("last_name", l_n);
+        localStorage.setItem("first_name", f_n);
 //        alert('user '+data['uid'] + data['first_name']+ data['last_name'] +' authorized');
     } });
 </script>
 
-<h1>Снэки:</h1>
+<h1 id="снеки">Снэки:</h1>
 <table>
     <tr>
         <td>Картошка фри маленькая:</td>
         <td>43 руб</td>
-        <td><button id="0001" onclick="order('-Картошка-фри-маленькая', 43)">в корзину</button></td>
+        <td><button id="0001" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Картошка-фри-маленькая', 43)">в корзину</button></td>
     </tr>
     <tr>
         <td>Картошка фри стандарт:</td>
         <td>58 руб</td>
-        <td><button id="0002" onclick="order('-Картошка-фри-стандарт', 58)">в корзину</button></td>
+        <td><button id="0002" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Картошка-фри-стандарт', 58)">в корзину</button></td>
     </tr>
     <tr>
         <td>Картошка фри большая:</td>
         <td>99 руб</td>
-        <td><button id="0003" onclick="order('-Картошка-фри-большая', 99)">в корзину</button></td>
+        <td><button id="0003" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Картошка-фри-большая', 99)">в корзину</button></td>
     </tr>
 </table>
-<h1>Курица:</h1>
+<h1 id="курица">Курица:</h1>
 <table>
     <tr>
         <td>байтсы средние:</td>
         <td>111 руб</td>
-        <td><button id="0004" onclick="order('-байтсы-средние', 111)">в корзину</button></td>
+        <td><button id="0004" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-байтсы-средние', 111)">в корзину</button></td>
     </tr>
     <tr>
         <td>байтсы большие:</td>
         <td>199 руб</td>
-        <td><button id="0005" onclick="order('-байтсы-большие', 199)">в корзину</button></td>
+        <td><button id="0005" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-байтсы-большие', 199)">в корзину</button></td>
     </tr>
     <tr>
         <td>байтсы малые</td>
         <td>74 руб</td>
-        <td><button id="0006" onclick="order('-байтсы-малые', 74)">в корзину</button></td>
+        <td><button id="0006" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-байтсы-малые', 74)">в корзину</button></td>
     </tr>
     <tr>
         <td>Пати баскет с байтс:</td>
         <td>99 руб</td>
-        <td><button id="0007" onclick="order('-пати-баскет', 99)">в корзину</button></td>
+        <td><button id="0007" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-пати-баскет', 99)">в корзину</button></td>
 </table>
-<h1>Бургеры</h1>
+<h1 id="бургеры">Бургеры</h1>
 <table>
     <tr>
         <td>Сандерс:</td>
         <td>83 руб</td>
-        <td><button id="0008" onclick="order('-сандерс', 83)">в корзину</button></td>
+        <td><button id="0008" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-сандерс', 83)">в корзину</button></td>
     </tr>
     <tr>
         <td>Ай-Твистер Чиз</td>
         <td>49 руб</td>
-        <td><button id="0009" onclick="order('-Ай-Твистер-Чиз', 49)">в корзину</button></td>
+        <td><button id="0009" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Ай-Твистер-Чиз', 49)">в корзину</button></td>
     </tr>
     <tr>
         <td>Ай-Твистер Терияки</td>
         <td>49 руб</td>
-        <td><button id="0010" onclick="order('-Ай-Твистер-Терияки', 49)">в корзину</button></td>
+        <td><button id="0010" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Ай-Твистер-Терияки', 49)">в корзину</button></td>
     </tr>
     <tr>
         <td>Лонгер Кентуки BBQ</td>
         <td>49 руб</td>
-        <td><button id="0011" onclick="order('-Лонгер-Кентуки-BBQ', 49)">в корзину</button></td>
+        <td><button id="0011" onmouseover="mouseover(id)" onmouseleave="mouseleave(id)" onclick="order('-Лонгер-Кентуки-BBQ', 49)">в корзину</button></td>
     </tr>
 </table>
 <script>
@@ -195,10 +227,10 @@ var l_n ;
         var html = "корзина";
         for (var i = 0; i <buy.length; i++){
 
-            html += "<div>" + buy[i][0] + "<button onclick=\'del(buy[" + i + "])\'>убрать из корзины</button></div>";
+            html += "<div>" + buy[i][0] + "<button id = " + i + "  onmouseover = \"mouseover(id)\" onmouseleave=\"mouseleave(id)\" onclick=\'del(buy[" + i + "])\'>убрать из корзины</button></div>";
         }
         html += "<div>всего: " + cost +  "руб</div>";
-        html += "<button onclick='buy_f()'>оформить заказ</button>";
+        html += "<button id=" + i + " onmouseover=\"mouseover(id)\" onmouseleave=\"mouseleave(id)\" onclick='buy_f()'>оформить заказ</button>";
         var basket = document.getElementById("basket");
         basket.innerHTML = html;
     }
@@ -215,6 +247,12 @@ var l_n ;
         buy.push([name, number]);
         drawBasket();
 
+    }
+    function mouseover(id) {
+        document.getElementById(id).style = "box-shadow: 0 10px 20px rgba(0,0,0,0.50);"
+    }
+    function mouseleave(id) {
+        document.getElementById(id).style = "box-shadow: 0 0px 0px rgba(0,0,0,0.50);"
     }
 </script>
 </body>
