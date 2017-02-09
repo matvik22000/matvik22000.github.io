@@ -1,28 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <style>
+        #parent_popup {
+            background: #000;
+            height: 100%;
+            opacity: 0.9;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            top: 0;
+            left: 0;
+        }
+        #popup {
+            background-color: #00f;
+            height: 200px;
+            position: fixed;
+            top: 100px;
+            left: 40%;
+            color: #f00;
+            width: 300px;
+        }
+    </style>
 </head>
 <body>
-<script>
-    minAjax({
-        url:"https://fathomless-shelf-75612.herokuapp.com/"+ "на_сумму_" + cost +"/",//request URL
-        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
-        type:"GET",//Request type GET/POST
-        success: function () {
-
-        }
-    });
-    minAjax({
-        url:"https://fathomless-shelf-75612.herokuapp.com/"+ "от_" + l_n + "_" + f_n + "_UID_" + uid + "/",//request URL
-        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
-        type:"GET",//Request type GET/POST
-        success: function () {
-
-        }
-    });
-    }
-</script>
+<h1>Сайт</h1>
+<h1>Сайт</h1>
+<h1>Сайт</h1>
+<h1>Сайт</h1>
+<h1>Сайт</h1>
+<h1>Сайт</h1>
+<h1>Сайт</h1>
+<h1>Сайт</h1>
+<h1>Сайт</h1>
+<div id="parent_popup">
+    <div id="popup">
+        <p style="cursor: pointer;" onclick="document.getElementById('parent_popup').style.display='none';">Закрыть</p>
+        <p>Текст в окне</p>
+    </div>
+</div>
 </body>
 </html>
