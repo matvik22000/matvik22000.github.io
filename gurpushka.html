@@ -11,13 +11,27 @@
     <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
 
     <style>
-
+        #vk_auth {
+            -webkit-animation: blink 2s linear infinite;
+            animation: blink 2s linear infinite;
+        }
+        @-webkit-keyframes blink {
+            50% { color: rgb(34, 34, 34); }
+            51% { color: rgba(34, 34, 34, 0); }
+            100% { color: rgba(34, 34, 34, 1); }
+        }
+        @keyframes blink {
+            50% { color: rgb(34, 34, 34); }
+            51% { color: rgba(34, 34, 34, 0); }
+            100% { color: rgba(34, 34, 34, 1); }
+        }
         h1{
             font-family: 'Lobster', cursive;
             font-size: 50px;
             margin: 15px;
         }
         td, th{
+
             font-family: 'Pangolin', cursive;
         }
         #header1{
@@ -54,7 +68,6 @@
         }
 
         #vk_auth{
-
             margin: 10px;
         }
         /*#vk_like{*/
@@ -129,6 +142,7 @@ var l_n  = localStorage.getItem("last_name");
 //        alert('user '+data['uid'] + data['first_name']+ data['last_name'] +' authorized');
     } });
 </script>
+<p id="blink1">мигающий текст</p>
 
 <h1 id="снеки">Снэки:</h1>
 <table>
