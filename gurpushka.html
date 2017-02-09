@@ -11,18 +11,12 @@
     <link href="https://fonts.googleapis.com/css?family=Pangolin" rel="stylesheet">
 
     <style>
+
         #vk_auth {
             margin: 10px;
-            -webkit-animation: blink 1s linear infinite;
-            animation: blink 1s linear infinite;
         }
-        @-webkit-keyframes blink {
-            51% { color: rgba(34, 34, 34, 0); }
-            100% { color: rgba(34, 34, 34, 1); }
-        }
-        @keyframes blink {
-            51% { color: rgba(34, 34, 34, 0); }
-            100% { color: rgba(34, 34, 34, 1); }
+        #inProgress{
+            opacity: 0;
         }
         h1{
             font-family: 'Lobster', cursive;
@@ -111,7 +105,7 @@ var l_n  = localStorage.getItem("last_name");
 <br><br><br>
 <header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:500px" id="home">
     <img class="w3-image" src="hamburger.jpg" alt="Hamburger Catering" width="1600" height="800">
-    <div class="w3-display-topleft w3-container"><div style="text-decoration: blink" id="vk_auth"></div>
+    <div class="w3-display-topleft w3-container"><div  id="vk_auth"></div>
         </div>
     <div class="w3-display-bottomleft w3-padding-xlarge w3-opacity">
         <h1 class="w3-xxlarge">GurDonut</h1>
@@ -217,6 +211,8 @@ var l_n  = localStorage.getItem("last_name");
         for(var i = 0; i< buy.length; i++){
             order_var += ("__" + buy[i][0])
         }
+        document.getElementById("1").Disabled = true;
+        document.getElementById("inProgress").style = "opacity: 1; height: auto; width: auto; max-width: 50px; max-height: 66px;";
         minAjax({
             url:"https://fathomless-shelf-75612.herokuapp.com/" + "order",
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
@@ -242,11 +238,11 @@ var l_n  = localStorage.getItem("last_name");
         }
         html += "<div>всего: " + cost +  "руб</div>";
         html += "<button id=" + i + " onmouseover=\"mouseover(id)\" onmouseleave=\"mouseleave(id)\" onclick='buy_f()'>оформить заказ</button>";
+        html += "<img id='inProgress' src='inProgress.gif' style='height: auto;width: auto; max-width: 50px; max-height: 66px;'>";
         var basket = document.getElementById("basket");
         basket.innerHTML = html;
     }
     function del(name) {
-
         var index = buy.lastIndexOf(name);
         buy.splice(index, 1);
         cost -= name[1];
