@@ -8,8 +8,8 @@
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
     <style>
         body{
-            -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none;
-        }
+             -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none;
+         }
         td{
             margin: 30px;
 
@@ -85,6 +85,7 @@
 
 
     function create() {
+        console.log(localStorage.getItem("status"));
         if (localStorage.getItem("status") != false){
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "new_client",
