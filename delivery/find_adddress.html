@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Заказать</title>
+
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <script src="../minajax.js"></script>
     <style>
@@ -43,6 +44,13 @@
 
         }
     });
+    var data_g;
+
+    function end(id2) {
+        window.location = data_g[id2].shop + ".html";
+        localStorage.setItem("data_name", data_g[id2].name)
+
+    }
     function find() {
 
         minAjax({
@@ -56,8 +64,10 @@
                 var html_2 = "";
 
                 data = JSON.parse(data);
+                data_g = data;
                 for (var i = 0; i <data.length; i++){
-                    html_2 += "<div style='border: black 1px solid; width: 20%' onclick='return location.href = \"gurpushka.html\"'>";
+
+                    html_2 += "<div id= '" + i + "' style='border: black 1px solid; width: 20%' onclick='end(id)'>";
                     html_2 += "<h3>" + data[i].name + "</h3>";
                     html_2 += "<p>" + data[i].shop +"</p>";
                     html_2 += "</div>"
@@ -65,8 +75,6 @@
                 }
                 var basket = document.getElementById("answer");
                 basket.innerHTML = html_2;
-
-
 
             }
         });

@@ -39,7 +39,7 @@
         l_n = data["last_name"];
         f_n = data["first_name"];
         uid = data["uid"];
-        localStorage.setItem("status", false)
+        localStorage.setItem("status", "false")
     } });
 </script>
 
@@ -56,7 +56,7 @@
             <select id="select">
                 <option value="kfc">kfc</option>
                 <option value="Макдоналдс">Макдоналдс</option>
-                <option value="burger king">burger king</option>
+                <option value="burger_king">burger_king</option>
             </select>
         </label>
         </td>
@@ -94,7 +94,7 @@
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
             type: "GET",//Request type GET/POST
             data: {
-                name: f_n + "-" + l_n,
+                name: f_n + "-" + l_n + "-" + uid,
                 address: document.getElementById("address").value,
                 shop: document.getElementById("select").value
             },

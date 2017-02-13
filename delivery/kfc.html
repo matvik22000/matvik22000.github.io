@@ -5,9 +5,6 @@
     <title>GurDonut</title>
     <script src="minajax.js"></script>
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-    <link rel="icon"
-          type="image/png"
-          href="favicon_gd.png">
     <link href="https://fonts.googleapis.com/css?family=Verdana" rel="stylesheet">
 
     <style>
@@ -49,11 +46,11 @@
             font-family: 'Consolas', cursive;
         }
 
-        #header1 {
-            top: 110px;
-            background-image: url(hamburger.jpg);
-            background-size: cover;
-        }
+
+
+
+
+
 
         table {
             font-size: 30px;
@@ -120,12 +117,15 @@
     </ul>
 </div>
 <script>
+    console.log(localStorage.getItem("data_name"));
     var buy = [];
     var order_var = "";
     var cost = 0;
-    var uid;
-    var f_n = localStorage.getItem("first_name");
-    var l_n = localStorage.getItem("last_name");
+    var uid = 123;
+    var l_n = "матвей";
+    var f_n = "gurov";
+//    var f_n = localStorage.getItem("first_name");
+//    var l_n = localStorage.getItem("last_name");
 </script>
 <br><br><br>
 <header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:500px" id="home">
@@ -300,6 +300,8 @@
 //            alert("вы не авторизованы! Нажмите на кнопку \"Войти через ВКонтакте\", чтобы авторизоваться");
         }
     }
+
+
     function orders() {
         for (var i = 0; i < buy.length; i++) {
             order_var += ("__" + buy[i][0])
@@ -308,13 +310,15 @@
         document.getElementById("inProgress").style = "opacity: 1; height: auto; width: auto; max-width: 50px; max-height: 66px;";
 
         minAjax({
-            url: "https://fathomless-shelf-75612.herokuapp.com/" + "order",
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "n_o",
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
             type: "GET",//Request type GET/POST
             data: {
                 name: order_var,
                 customer: f_n + "-" + l_n,
-                cost: cost
+                cost: cost,
+                deliveryman: localStorage.getItem("data_name")
+
             },
             success: function () {
                 window.location = "order_new.html"
