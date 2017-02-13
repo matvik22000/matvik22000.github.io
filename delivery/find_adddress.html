@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Заказать</title>
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-    <script src="minajax.js"></script>
+    <script src="../minajax.js"></script>
     <style>
         #address{
             width: 50%;
@@ -57,7 +57,7 @@
 
                 data = JSON.parse(data);
                 for (var i = 0; i <data.length; i++){
-                    html_2 += "<div style='border: black 1px solid; width: 20%'>";
+                    html_2 += "<div style='border: black 1px solid; width: 20%' onclick='return location.href = \"gurpushka.html\"'>";
                     html_2 += "<h3>" + data[i].name + "</h3>";
                     html_2 += "<p>" + data[i].shop +"</p>";
                     html_2 += "</div>"
