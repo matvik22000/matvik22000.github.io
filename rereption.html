@@ -85,7 +85,7 @@
 
 
     function create() {
-        console.log(localStorage.getItem("status"));
+        console.log(localStorage.getItem("status", typeof status));
         if (localStorage.getItem("status") != false){
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "new_client",
