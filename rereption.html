@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регестрация</title>
+    <script src="minajax.js"></script>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+    <style>
+        body{
+            -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none;
+        }
+        td{
+            margin: 30px;
+
+        }
+        th{
+            margin: 30px;
+
+        }
+        #send{
+            position: absolute;
+            left: 40%;
+
+        }
+    </style>
+</head>
+<body>
+<script>
+    var f_n = "test1";
+    var l_n = "test2";
+//    var f_n = localStorage.getItem("first_name");
+//    var l_n = localStorage.getItem("last_name");
+</script>
+<script type="text/javascript">
+    VK.init({apiId: 5815731});
+    VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: function(data) {
+        l_n = data["last_name"];
+        f_n = data["first_name"];
+        localStorage.setItem("status", false)
+    } });
+</script>
+
+<h1 align="center">Регестрация</h1>
+<table class="w3-table">
+    <tr>
+        <th>шаг 1: Выберете ресторан, из которого вы можете доставить еду</th>
+        <th>шаг 2:выберете адрес, куда вы сможете дотавить еду</th>
+        <th>шаг 3: авторизуйтесь</th>
+    </tr>
+    <tr>
+        <td>
+            <label>
+            <select id="select">
+                <option value="kfc">kfc</option>
+                <option value="Макдоналдс">Макдоналдс</option>
+                <option value="burger king">burger king</option>
+            </select>
+        </label>
+        </td>
+        <td><label id="address2">
+            <select id="address"></select>
+        </label></td>
+        <td><div id="vk_auth"></div></td>
+    </tr>
+</table>
+<button id="send" type="submit" class="w3-btn w3-padding w3-section" onclick="create()">зарегестрироваться</button>
+<br><br><br>
+<h1 align="center" id="answer"></h1>
+<script>
+    console.log(document.getElementById("address").value);
+        minAjax({
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "place",
+            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+            type: "GET",//Request type GET/POST
+            success: function (data) {
+                html = data;
+                var basket = document.getElementById("address");
+                basket.innerHTML = html;
+
+            }
+        });
+
+
+
+
+    function create() {
+        if (localStorage.getItem("status") != false){
+        minAjax({
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "new_client",
+            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+            type: "GET",//Request type GET/POST
+            data: {
+                name: f_n + "-" + l_n,
+                address: document.getElementById("address").value,
+                shop: document.getElementById("select").value
+            },
+            success: function (data) {
+                html = data;
+                var basket = document.getElementById("answer");
+                basket.innerHTML = html;
+
+            }
+        });
+
+    }
+        else{
+            html = "вы уже зарегестрированы как доставщик!";
+            var basket = document.getElementById("answer");
+            basket.innerHTML = html;
+        }
+    }
+
+</script>
+</body>
+</html>

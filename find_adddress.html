@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказать</title>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <script src="minajax.js"></script>
+    <style>
+        #address{
+            width: 50%;
+            margin-left: 25%;
+            margin-right: 25%;
+            border: blue solid 1px;
+        }
+        #btn{
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+        body{
+            -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none;
+        }
+    </style>
+</head>
+<body>
+<label style="text-align: center">
+    <div>
+    <select class="w3-select" id="address">
+    </select>
+    <button class="w3-btn w3-padding w3-margin" onclick="find()">найти курьера</button>
+    </div>
+</label>
+<div id="answer" align="center"></div>
+
+<script>
+    minAjax({
+        url: "https://fathomless-shelf-75612.herokuapp.com/" + "place",
+        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+        type: "GET",//Request type GET/POST
+        success: function (data) {
+            html = data;
+            var basket = document.getElementById("address");
+            basket.innerHTML = html;
+
+        }
+    });
+    function find() {
+
+        minAjax({
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "find_clients",
+            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+            type: "GET",//Request type GET/POST
+            data: {
+                address:document.getElementById("address").value
+            },
+            success: function (data) {
+                var html_2 = "";
+
+                data = JSON.parse(data);
+                for (var i = 0; i <data.length; i++){
+                    html_2 += "<div style='border: black 1px solid; width: 20%'>";
+                    html_2 += "<h3>" + data[i].name + "</h3>";
+                    html_2 += "<p>" + data[i].shop +"</p>";
+                    html_2 += "</div>"
+
+                }
+                var basket = document.getElementById("answer");
+                basket.innerHTML = html_2;
+
+
+
+            }
+        });
+    }
+</script>
+</body>
+</html>
