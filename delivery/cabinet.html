@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>личный кабинет</title>
+    <script src="minajax.js"></script>
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Verdana" rel="stylesheet">
+    <style>
+        h1, h2, h3, h4, h5, h6, p{
+            font-family: Verdana,cursive;
+        }
+        #auth {
+            position: fixed; left:35%; opacity: 1; z-index: 100; background-color: white; padding: 30px;
+        }
+        #parent_popup{
+            background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 1000;top: 0;left: 0;
+        }
+        #orders{
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div id="parent_popup">
+    <div id="auth">
+
+        <p>Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
+        <div style="text-align: center" id="vk_auth"></div>
+        <label>
+            <input id = password type="password" placeholder="введите пароль" class="w3-input">
+        </label>
+        <button class="w3-btn w3-padding w3-margin" onclick="enter()">войти</button>
+    </div>
+</div>
+
+<script>
+    VK.init({apiId: 5815731, onlyWidgets: true});
+    VK.Widgets.Auth("vk_auth", {
+        width: "200px", onAuth: function (data) {
+            console.log(data['first_name'] + data['last_name']);
+            uid = data['uid'];
+            f_n = data['first_name'];
+            l_n = data['last_name'];
+        }});
+</script>
+<h1 align="center">личный кабинет</h1>
+<div id="name"></div>
+<h2 style="float: right; margin: 50px;">ваши заказы:</h2>
+<div id="orders"></div>
+<label>
+    <p>процент за доставку:</p>
+    <input id="percent">
+    <button class="w3-btn" onclick="change('percent', document.getElementById('percent').value)">изменить</button>
+</label>
+<label>
+    <p>пароль:</p>
+    <input id="ch_password" type="text">
+    <button class="w3-btn" onclick="change('password', document.getElementById('ch_password').value)">изменить</button>
+</label>
+
+<label>
+    <p>магазин:</p>
+    <select id="shop">
+        <option value="kfc">kfc</option>
+        <option value="Макдоналдс">Макдоналдс</option>
+        <option value="burger_king">burger_king</option>
+    </select>
+    <button class="w3-btn" onclick="change('shop', document.getElementById('shop').value)">изменить</button>
+</label>
+<label id="address2">
+    <p>адрес:</p>
+    <select id="address"></select>
+    <button class="w3-btn" onclick="change('address', document.getElementById('address').value)">изменить</button>
+</label>
+<script>
+    minAjax({
+        url: "https://fathomless-shelf-75612.herokuapp.com/" + "place",
+        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+        type: "GET",//Request type GET/POST
+        success: function (data) {
+            html = data;
+            var basket = document.getElementById("address");
+            basket.innerHTML = html;
+
+        }
+    });
+    minAjax({
+        url: "https://fathomless-shelf-75612.herokuapp.com/" + "",
+        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+        type: "GET",//Request type GET/POST
+        data: {
+            thing: thing,
+            value: value_2
+        },
+        success: function () {
+            alert(thing + "успешно изменён!")
+
+        }
+    });
+    ]minAjax({
+        url: "https://fathomless-shelf-75612.herokuapp.com/" + "",
+        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+        type: "GET",//Request type GET/POST
+        data: {
+            type:"uid",
+            uid: uid
+        },
+        success: function (data) {
+            var html_2 = "";
+
+            data = JSON.parse(data);
+            data_g = data;
+            for (var i = 0; i <data.length; i++){
+
+                html_2 += "<div id= '" + i + "' style='border: black 1px solid; width: 20%' onclick='end(id)'>";
+                html_2 += "<h3>" + data[i].name + "</h3>";
+                html_2 += "<p>" + data[i].shop +"</p>";
+                html_2 += "</div>"
+
+            }
+            var basket = document.getElementById("orders");
+            basket.innerHTML = html_2;
+
+        }
+    });
+    function change(thing, value_2) {
+        if (value_2 != ""){
+        minAjax({
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "change",
+            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+            type: "GET",//Request type GET/POST
+            data: {
+                thing: thing,
+                value: value_2
+            },
+            success: function () {
+                alert(thing + "успешно изменён!")
+
+            }
+        });
+        }
+        else {
+            alert("введите значение")
+        }
+    }
+    var password = "test";
+    function enter() {
+        if (document.getElementById("password").value == password){
+            document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
+            document.getElementById("auth").style = "opacity: 0; z-index:-1;"
+        }
+    }
+</script>
+</body>
+</html>

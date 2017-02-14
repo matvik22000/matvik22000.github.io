@@ -124,6 +124,7 @@
     var uid = 123;
     var l_n = "матвей";
     var f_n = "gurov";
+//    var uid  = localStorage.getItem("first_name");
 //    var f_n = localStorage.getItem("first_name");
 //    var l_n = localStorage.getItem("last_name");
 </script>
@@ -315,7 +316,7 @@
             type: "GET",//Request type GET/POST
             data: {
                 name: order_var,
-                customer: f_n + "-" + l_n,
+                customer: f_n + "-" + l_n + "-" + uid,
                 cost: cost,
                 deliveryman: localStorage.getItem("data_name")
 
