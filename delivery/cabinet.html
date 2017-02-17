@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,6 +20,14 @@
         }
         #orders{
             float: right;
+            margin: 30px;
+        }
+        label{
+            margin: 30px;
+        }
+        select{
+            width: 10%;
+            height: 25px;
         }
     </style>
 </head>
@@ -32,10 +41,14 @@
             <input id = password type="password" placeholder="введите пароль" class="w3-input">
         </label>
         <button class="w3-btn w3-padding w3-margin" onclick="enter()">войти</button>
+        <div id = "w_p"></div>
     </div>
 </div>
 
 <script>
+    var uid;
+    var l_n;
+    var f_n;
     VK.init({apiId: 5815731, onlyWidgets: true});
     VK.Widgets.Auth("vk_auth", {
         width: "200px", onAuth: function (data) {
@@ -48,6 +61,7 @@
 <h1 align="center">личный кабинет</h1>
 <div id="name"></div>
 <h2 style="float: right; margin: 50px;">ваши заказы:</h2>
+<br><br><br><br><br><br><br><br>
 <div id="orders"></div>
 <label>
     <p>процент за доставку:</p>
@@ -86,72 +100,110 @@
 
         }
     });
-    minAjax({
-        url: "https://fathomless-shelf-75612.herokuapp.com/" + "",
-        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
-        type: "GET",//Request type GET/POST
-        data: {
-            thing: thing,
-            value: value_2
-        },
-        success: function () {
-            alert(thing + "успешно изменён!")
-
-        }
-    });
-    ]minAjax({
-        url: "https://fathomless-shelf-75612.herokuapp.com/" + "",
-        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
-        type: "GET",//Request type GET/POST
-        data: {
-            type:"uid",
-            uid: uid
-        },
-        success: function (data) {
-            var html_2 = "";
-
-            data = JSON.parse(data);
-            data_g = data;
-            for (var i = 0; i <data.length; i++){
-
-                html_2 += "<div id= '" + i + "' style='border: black 1px solid; width: 20%' onclick='end(id)'>";
-                html_2 += "<h3>" + data[i].name + "</h3>";
-                html_2 += "<p>" + data[i].shop +"</p>";
-                html_2 += "</div>"
-
-            }
-            var basket = document.getElementById("orders");
-            basket.innerHTML = html_2;
-
-        }
-    });
     function change(thing, value_2) {
-        if (value_2 != ""){
-        minAjax({
-            url: "https://fathomless-shelf-75612.herokuapp.com/" + "change",
-            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
-            type: "GET",//Request type GET/POST
-            data: {
-                thing: thing,
-                value: value_2
-            },
-            success: function () {
-                alert(thing + "успешно изменён!")
 
-            }
-        });
-        }
-        else {
+        if (value_2 != ""){
+            minAjax({
+                url: "https://fathomless-shelf-75612.herokuapp.com/" + "change",
+                // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+                type: "GET",//Request type GET/POST
+                data: {
+                    uid: uid,
+                    value: value_2,
+                    col: thing
+                },
+                success: function () {
+                    alert(thing + " успешно изменён!")
+
+                }
+            });
+    }
+    else {
             alert("введите значение")
         }
     }
-    var password = "test";
+
+
+
     function enter() {
-        if (document.getElementById("password").value == password){
+        minAjax({
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_i",
+            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+            type: "GET",//Request type GET/POST
+            data: {
+                value: uid
+            },
+            success: function (data) {
+                data = JSON.parse(data)
+        if (document.getElementById("password").value == data[0].password){
+            document.getElementById("percent").value = data[0].percent``
             document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
             document.getElementById("auth").style = "opacity: 0; z-index:-1;"
+            minAjax({
+                url: "https://fathomless-shelf-75612.herokuapp.com/" + "return",
+                // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+                type: "GET",//Request type GET/POST
+                data: {
+                    deliveryman: uid
+                },
+                success: function (data) {
+                    var html_2 = data
+                    var basket = document.getElementById("orders");
+                    basket.innerHTML = html_2;
+
+                }
+            });
         }
+        else{
+            alert("неверный пароль!")
+        }
+            }
+        });
     }
+    document.getElementsByTagName('input')[1].onkeypress = function(e) {
+
+        e = e || event;
+
+        if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+        var chr = getChar(e);
+
+        // с null надо осторожно в неравенствах, т.к. например null >= '0' => true!
+        // на всякий случай лучше вынести проверку chr == null отдельно
+        if (chr == null) return;
+
+        if (chr < '0' || chr > '9') {
+            return false;
+        }
+
+    };
+
+    function getChar(event) {
+        if (event.which == null) {
+            if (event.keyCode < 32) return null;
+            return String.fromCharCode(event.keyCode);// IE
+        }
+
+        if (event.which != 0 && event.charCode != 0) {
+            if (event.which < 32) return null;
+            return String.fromCharCode(event.which); // остальные
+        }
+
+        return null; // специальная клавиша
+    }
+    console.log(document.getElementById("address").value);
+    minAjax({
+        url: "https://fathomless-shelf-75612.herokuapp.com/" + "place",
+        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+        type: "GET",//Request type GET/POST
+        success: function (data) {
+            html = data;
+            var basket = document.getElementById("address");
+            basket.innerHTML = html;
+
+        }
+    });
+
 </script>
 </body>
 </html>

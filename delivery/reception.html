@@ -34,9 +34,13 @@
 </head>
 <body>
 <script>
-    var uid = localStorage.getItem("uid");
-    var f_n = localStorage.getItem("first_name");
-    var l_n = localStorage.getItem("last_name");
+    var status;
+    var l_n;
+    var f_n;
+    var uid;
+//    var uid = localStorage.getItem("uid");
+//    var f_n = localStorage.getItem("first_name");
+//    var l_n = localStorage.getItem("last_name");
 </script>
 <script type="text/javascript">
     VK.init({apiId: 5815731, onlyWidgets: true});
@@ -65,12 +69,7 @@
         }
     });
 </script>
-<div id="parent_popup">
-    <div id="auth">
-        <p>вы не авторизованы! Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
-        <div style="text-align: center" id="vk_auth2"></div>
-    </div>
-</div>
+
 
 <h1 align="center">Регестрация</h1>
 <table class="w3-table">
@@ -84,10 +83,10 @@
             <label>
             <select id="select">
                 <option value="kfc">kfc</option>
-                <option value="Макдоналдс">Макдоналдс</option>
-                <option value="burger_king">burger_king</option>
+                <!--<option value="Макдоналдс">Макдоналдс</option>-->
+                <!--<option value="burger_king">burger_king</option>-->
             </select>
-        </label>
+            </label>
         </td>
         <td><label id="address2">
             <select id="address"></select>
@@ -109,8 +108,16 @@
 
         <td>
             <label>
-                <input type="" id="percent" placeholder="введите пароль">
+                <input type="text" id="percent">
             </label>
+        </td>
+        <td>
+            <div id="parent_popup">
+            <div id="auth">
+                <p>вы не авторизованы! Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
+                <div style="text-align: center; z-index: -100" id="vk_auth2"></div>
+            </div>
+        </div>
         </td>
     </tr>
 </table>
@@ -118,37 +125,7 @@
 <br><br><br>
 <h1 align="center" id="answer"></h1>
 <script>
-    document.getElementsByTagName('input')[1].onkeypress = function(e) {
 
-        e = e || event;
-
-        if (e.ctrlKey || e.altKey || e.metaKey) return;
-
-        var chr = getChar(e);
-
-        // с null надо осторожно в неравенствах, т.к. например null >= '0' => true!
-        // на всякий случай лучше вынести проверку chr == null отдельно
-        if (chr == null) return;
-
-        if (chr < '0' || chr > '9') {
-            return false;
-        }
-
-    };
-
-    function getChar(event) {
-        if (event.which == null) {
-            if (event.keyCode < 32) return null;
-            return String.fromCharCode(event.keyCode);// IE
-        }
-
-        if (event.which != 0 && event.charCode != 0) {
-            if (event.which < 32) return null;
-            return String.fromCharCode(event.which); // остальные
-        }
-
-        return null; // специальная клавиша
-    }
     console.log(document.getElementById("address").value);
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "place",
@@ -165,20 +142,47 @@
 
 
 
+
     function create() {
+//            if (document.getElementById("password") || document.getElementById("percent"))
         if (l_n != undefined || f_n != undefined || uid != undefined){
-            if (document.getElementById("password") || document.getElementById("password"))
-        var status;
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_i",
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
             type: "GET",//Request type GET/POST
             data: {
-                type: "uid",
                 value: uid
             },
             success: function (data) {
-                status = data
+                if (data == "no_matches"){
+                    minAjax({
+                        url: "https://fathomless-shelf-75612.herokuapp.com/" + "new_client",
+                        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+                        type: "GET",//Request type GET/POST
+                        data: {
+                            uid: uid,
+                            name: f_n + "-" + l_n,
+                            address: document.getElementById("address").value,
+                            shop: document.getElementById("select").value,
+                            password: document.getElementById("password").value,
+                            percent: document.getElementById("percent").value
+                        },
+                        success: function (data2) {
+                            html = data2;
+                            var basket = document.getElementById("answer");
+                            basket.innerHTML = html;
+
+
+                        }
+                    });
+                }
+                else{
+                    html = "вы уже зарегестрированы как курьер!";
+                    var basket = document.getElementById("answer");
+                    basket.innerHTML = html;
+                }
+
+
             }
         });
         }
@@ -186,34 +190,6 @@
                 document.getElementById("auth").style = "position: fixed; left:35%; opacity: 1; z-index: 100; background-color: white; padding: 30px;";
                 document.getElementById("parent_popup").style = "background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 1000;top: 0;left: 0;";
             }
-        if (status == "no_matches"){
-
-                minAjax({
-                    url: "https://fathomless-shelf-75612.herokuapp.com/" + "new_client",
-                    // + buy + "цена:" +cost + "от:"+ l_n + f_n +
-                    type: "GET",//Request type GET/POST
-                    data: {
-                        uid: uid,
-                        name: f_n + "-" + l_n,
-                        address: document.getElementById("address").value,
-                        shop: document.getElementById("select").value
-                    },
-                    success: function (data) {
-                        html = data;
-                        var basket = document.getElementById("answer");
-                        basket.innerHTML = html;
-                        localStorage.setItem("status", "false")
-
-                    }
-                });
-            }
-
-        else{
-            html = "вы уже зарегестрированы как курьер!";
-            var basket = document.getElementById("answer");
-
-            basket.innerHTML = html;
-        }
 
     }
 
