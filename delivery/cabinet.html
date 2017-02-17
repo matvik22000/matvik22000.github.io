@@ -136,7 +136,7 @@
             success: function (data) {
                 data = JSON.parse(data)
         if (document.getElementById("password").value == data[0].password){
-            document.getElementById("percent").value = data[0].percent``
+            document.getElementById("percent").value = data[0].percent
             document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
             document.getElementById("auth").style = "opacity: 0; z-index:-1;"
             minAjax({
