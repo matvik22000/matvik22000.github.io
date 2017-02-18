@@ -136,6 +136,7 @@
             },
             success: function (data) {
                 data = JSON.parse(data)
+                if (data != ["no_matches"]){
         if (document.getElementById("password").value == data[0].password){
             document.getElementById("percent").value = data[0].percent
             document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
@@ -158,6 +159,10 @@
         else{
             alert("неверный пароль!")
         }
+            }
+            else {
+                    window.location = "reception.html"
+                }
             }
         });
     }
