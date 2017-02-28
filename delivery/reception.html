@@ -35,12 +35,12 @@
 <body>
 <script>
     var status;
-    var l_n;
-    var f_n;
-    var uid;
-//    var uid = localStorage.getItem("uid");
-//    var f_n = localStorage.getItem("first_name");
-//    var l_n = localStorage.getItem("last_name");
+//    var l_n;
+//    var f_n;
+//    var uid;
+    var uid  = 1234321 ;
+    var f_n = "matvey";
+    var l_n = "testov"
 </script>
 <script type="text/javascript">
     VK.init({apiId: 5815731, onlyWidgets: true});
@@ -154,7 +154,10 @@
                 value: uid
             },
             success: function (data) {
-                if (data == "[no_matches]"){
+                if (data == "[no_matches]" ){
+                    if(document.getElementById("address").value != "" && document.getElementById("select").value != "" && document.getElementById("password").value != "" && document.getElementById("percent").value != ""){
+
+
                     minAjax({
                         url: "https://fathomless-shelf-75612.herokuapp.com/" + "new_client",
                         // + buy + "цена:" +cost + "от:"+ l_n + f_n +
@@ -175,6 +178,12 @@
 
                         }
                     });
+                }
+                else {
+                        html = "одно из полей заполнено не верно!";
+                        var basket2 = document.getElementById("answer");
+                        basket2.innerHTML = html;
+                    }
                 }
                 else{
                     html = "вы уже зарегестрированы как курьер!";
