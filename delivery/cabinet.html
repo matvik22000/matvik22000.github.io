@@ -140,6 +140,7 @@
         if (document.getElementById("password").value == data[0].password){
             document.getElementById("percent").value = data[0].percent
             document.getElementById("shop").value = data[0].shop
+            document.getElementById("address").value = data[0].address
             document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
             document.getElementById("auth").style = "opacity: 0; z-index:-1;"
             minAjax({

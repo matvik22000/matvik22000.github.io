@@ -5,11 +5,16 @@
     <title>Title</title>
 </head>
 <body>
+<label>
+    <input id="test2">
+    <select id="test">
+        <option value = "test1">test1</option>
+        <option value = "test2">test2</option>
+    </select>
+</label>
 <script>
-    var test = "no_matches";
-    if (test == "no_matches"){
-        alert(test)
-    }
+    document.getElementById("test").option = "test2";
+    document.getElementById("test").value = "test2"
 </script>
 </body>
 </html>
