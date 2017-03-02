@@ -46,9 +46,9 @@
 </div>
 
 <script>
-    var uid;
-    var l_n;
-    var f_n;
+    var uid = 123432;
+    var l_n ="matvey";
+    var f_n ="testov";
     VK.init({apiId: 5815731, onlyWidgets: true});
     VK.Widgets.Auth("vk_auth", {
         width: "200px", onAuth: function (data) {
@@ -136,7 +136,8 @@
             },
             success: function (data) {
                 data = JSON.parse(data)
-                if (data != []){
+
+                if (data != ""){
         if (document.getElementById("password").value == data[0].password){
             document.getElementById("percent").value = data[0].percent
             document.getElementById("shop").value = data[0].shop
