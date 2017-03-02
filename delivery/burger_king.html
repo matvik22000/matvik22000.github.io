@@ -121,9 +121,9 @@
     var buy = [];
     var order_var = "";
     var cost = 0;
-    var uid = 123;
-    var l_n = "матвей";
-    var f_n = "gurov";
+    var uid = localStorage.getItem("uid-b");
+    var l_n = localStorage.getItem("last_name-b");
+    var f_n = localStorage.getItem("first_name-b");
     //    var uid  = localStorage.getItem("first_name");
     //    var f_n = localStorage.getItem("first_name");
     //    var l_n = localStorage.getItem("last_name");
@@ -161,8 +161,9 @@
             uid = data['uid'];
             f_n = data['first_name'];
             l_n = data['last_name'];
-            localStorage.setItem("last_name", l_n);
-            localStorage.setItem("first_name", f_n);
+            localStorage.setItem("last_name-b", l_n);
+            localStorage.setItem("uid-b", uid);
+            localStorage.setItem("first_name-b", f_n);
 //        alert('user '+data['uid'] + data['first_name']+ data['last_name'] +' authorized');
         }
     });
@@ -172,8 +173,9 @@
             uid = data['uid'];
             f_n = data['first_name'];
             l_n = data['last_name'];
-            localStorage.setItem("last_name", l_n);
-            localStorage.setItem("first_name", f_n);
+            localStorage.setItem("last_name-b", l_n);
+            localStorage.setItem("uid-b", uid);
+            localStorage.setItem("first_name-b", f_n);
             document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
             document.getElementById("auth").style = "opacity: 0; z-index:-1;"
         }

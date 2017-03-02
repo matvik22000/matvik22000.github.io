@@ -46,9 +46,9 @@
 </div>
 
 <script>
-    var uid;
-    var l_n;
-    var f_n;
+    var uid = localStorage.getItem("uid-d");
+    var l_n = localStorage.getItem("l_n-d");
+    var f_n = localStorage.getItem("f_n-d");
     VK.init({apiId: 5815731, onlyWidgets: true});
     VK.Widgets.Auth("vk_auth", {
         width: "200px", onAuth: function (data) {
@@ -56,6 +56,9 @@
             uid = data['uid'];
             f_n = data['first_name'];
             l_n = data['last_name'];
+            localStorage.setItem("f_n-d", f_n);
+            localStorage.setItem("l_n-d", l_n);
+            localStorage.setItem("uid-d", uid);
         }});
 </script>
 <h1 align="center">личный кабинет</h1>
