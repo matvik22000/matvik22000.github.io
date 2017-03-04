@@ -24,7 +24,7 @@
             background-color: #f4edda;
         }
         .address_btn{
-                color: #632e02;
+            color: #632e02;
             text-align: center;
             padding: 35px 50px;
             font-size: 25px;
@@ -81,7 +81,8 @@
 
     function end(id2) {
         window.location = data_g[id2].shop + ".html";
-        localStorage.setItem("data_name", data_g[id2].uid)
+        localStorage.setItem("data_name", data_g[id2].uid);
+        localStorage.setItem("percent", data_g[id2].percent)
 
     }
     function main_page() {

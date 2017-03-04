@@ -344,12 +344,12 @@
     function del(name) {
         var index = buy.lastIndexOf(name);
         buy.splice(index, 1);
-        cost -= name[1];
+        cost -= (name[1] + Math.ceil(name[1] * (percent / 100)));
         drawBasket()
 
     }
     function order(name, number) {
-        cost += number;
+        cost += number + Math.ceil(number * (percent / 100));
         buy.push([name, number]);
         drawBasket();
 
