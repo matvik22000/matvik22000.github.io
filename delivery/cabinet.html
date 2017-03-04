@@ -9,11 +9,19 @@
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <link href="https://fonts.googleapis.com/css?family=Verdana" rel="stylesheet">
     <style>
+        input{
+            background-color: #f4edda;
+            border: #632e02 solid 1px;
+        }
+        select{
+            background-color: #f4edda;
+        }
         h1, h2, h3, h4, h5, h6, p{
             font-family: Verdana,cursive;
         }
         #auth {
             position: fixed; left:35%; opacity: 1; z-index: 100; background-color: white; padding: 30px;
+            background-color: #f4edda;
         }
         #parent_popup{
             background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 1000;top: 0;left: 0;
@@ -29,14 +37,30 @@
             width: 10%;
             height: 25px;
         }
+        body{
+            color:#632e02;
+            background-color: #f4edda;
+        }
     </style>
 </head>
 <body>
 <div id="parent_popup">
     <div id="auth">
-
         <p>Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
-        <div style="text-align: center" id="vk_auth"></div>
+        <table>
+            <tr>
+                <td>
+                    <div style="text-align: center" id="vk_auth"></div>
+                </td>
+                <td>
+                    <div class="w3-display-container">
+                        <img src="доставка2.png" onclick="main_page()" style="cursor: pointer;" class="w3-hover-opacity" />
+                        <div class="w3-display-topmiddle w3-container">сервис по доставке еды</div>
+                        <div class="w3-display-bottommiddle w3-container">GurDelService</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
         <label>
             <input id = password type="password" placeholder="введите пароль" class="w3-input">
         </label>
@@ -125,7 +149,9 @@
             alert("введите значение")
         }
     }
-
+    function main_page() {
+        window.location = "index.html"
+    }
 
 
     function enter() {

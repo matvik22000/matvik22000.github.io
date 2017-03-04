@@ -8,10 +8,12 @@
     <script src="../minajax.js"></script>
     <style>
         #address{
-            width: 50%;
-            margin-left: 25%;
-            margin-right: 25%;
-            border: blue solid 1px;
+            /*width: 50%;*/
+            /*margin-left: 25%;*/
+            /*margin-right: 25%;*/
+            text-align: center;
+            margin-top: 50px;
+
         }
         #btn{
             padding-right: 10px;
@@ -19,17 +21,40 @@
         }
         body{
             -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none;
+            background-color: #f4edda;
+        }
+        .address_btn{
+                color: #632e02;
+            text-align: center;
+            padding: 35px 50px;
+            font-size: 25px;
+            cursor: pointer;
+            border: solid 1px ;
+            margin: 30px;
+            background-color: #f8eab3;
+        }
+        .address_btn:hover{
+            background-color: #c7d3a3;
+        }
+        .div_client:hover{
+            background-color: #c7d3a3;
+
+        }
+        .img_main:hover{
+            opacity: 0.5;
         }
     </style>
 </head>
 <body>
-<label style="text-align: center">
-    <div>
-    <select class="w3-select" id="address">
-    </select>
-        <button class="w3-btn w3-padding w3-margin" onclick="find()">найти курьера</button>
+<center>
+    <div class="w3-display-container">
+        <img src="доставка2.png" onclick="main_page()" style="cursor: pointer;" class="w3-hover-opacity" />
+        <div class="w3-display-topmiddle w3-container">сервис по доставке еды</div>
+        <div class="w3-display-bottommiddle w3-container">GurDelService</div>
     </div>
-</label>
+</center>
+<div id="address"></div>
+<!--<button class="w3-btn w3-padding w3-margin" onclick="find()">найти курьера</button>-->
 <div id="answer" align="center"></div>
 
 <script>
@@ -38,10 +63,18 @@
         // + buy + "цена:" +cost + "от:"+ l_n + f_n +
         type: "GET",//Request type GET/POST
         success: function (data) {
-            html = data;
-            var basket = document.getElementById("address");
-            basket.innerHTML = html;
+            console.log(data);
+            var addresses = JSON.parse(data);
+            var div = document.getElementById("address");
+            var divs = "";
+            for (var i = 0; i < addresses.length; i++){
+                console.log(i);
+                divs += "<span class='address_btn' onclick='find(\"" + addresses[i].name + "\")'>";
+                divs += addresses[i].name;
+                divs += "</span>"
 
+            }
+        div.innerHTML = divs
         }
     });
     var data_g;
@@ -51,14 +84,17 @@
         localStorage.setItem("data_name", data_g[id2].uid)
 
     }
-    function find() {
+    function main_page() {
+        window.location = "index.html"
+    }
+    function find(address) {
 
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "find_clients",
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
             type: "GET",//Request type GET/POST
             data: {
-                address: document.getElementById("address").value
+                address: address
             },
             success: function (data) {
                 var html_2 = "";
@@ -67,7 +103,7 @@
                 data_g = data;
                 for (var i = 0; i <data.length; i++){
 
-                    html_2 += "<div id= '" + i + "' style='border: black 1px solid; width: 20%' onclick='end(id)'>";
+                    html_2 += "<div id= '" + i + "' style='border: black 1px solid; width: 20%; margin:50px; cursor: pointer;' class='div_client' onclick='end(id)'>";
                     html_2 += "<h3>" + data[i].name + "</h3>";
                     html_2 += "<p>" + data[i].shop +"</p>";
                     html_2 += "</div>"

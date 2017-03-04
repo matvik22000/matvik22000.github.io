@@ -100,7 +100,7 @@
 <div id="toolbar" class="w3-top">
     <ul class="w3-navbar w3-white w3-wide w3-padding-8 w3-card-2">
         <li>
-            <a href="#home" class="w3-margin-left">домой</a>
+            <a href="index.html" class="w3-margin-left">домой</a>
         </li>
         <!-- Right-sided navbar links. Hide them on small screens -->
         <li class="w3-right w3-hide-small">
@@ -161,9 +161,8 @@
             uid = data['uid'];
             f_n = data['first_name'];
             l_n = data['last_name'];
-            localStorage.setItem("last_name-b", l_n);
-            localStorage.setItem("uid-b", uid);
-            localStorage.setItem("first_name-b", f_n);
+            localStorage.setItem("last_name", l_n);
+            localStorage.setItem("first_name", f_n);
 //        alert('user '+data['uid'] + data['first_name']+ data['last_name'] +' authorized');
         }
     });

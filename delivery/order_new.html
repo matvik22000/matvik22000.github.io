@@ -4,19 +4,28 @@
     <meta charset="UTF-8">
     <title>Заказ принят!</title>
     <style>
-        #b1{
-            margin: 20px;
-            border: black solid 2.3px;
-            padding:15px 50px;
-            background-color: #7db3b4;
-
-
+        .address_btn{
+            color: #632e02;
+            text-align: center;
+            padding: 35px 50px;
+            font-size: 25px;
+            cursor: pointer;
+            border: solid 1px ;
+            margin: 30px;
+            background-color: #f8eab3;
+        }
+        .address_btn:hover{
+            background-color: #c7d3a3;
+        }
+        body{
+            color: #632e02;
+            background-color: #f4edda;
         }
     </style>
 </head>
 <body>
 <h1 align="center">Ваш заказ принят!</h1>
-<center><button id="b1" onclick="return location.href = 'gurpushka.html'">Заказать ещё!</button></center>
+<center><button class="address_btn" onclick="return location.href = 'gurpushka.html'">Заказать ещё!</button></center>
 <!-- Put this script tag to the <head> of your page -->
 <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
 
