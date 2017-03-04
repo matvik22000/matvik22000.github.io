@@ -239,7 +239,11 @@
         // + buy + "цена:" +cost + "от:"+ l_n + f_n +
         type: "GET",//Request type GET/POST
         success: function (data) {
-            html = data;
+            html = "";
+            var addresses = JSON.parse(data);
+            for (var i = 0; i < addresses.length; i++){
+                html += "<option value='" + addresses[i].name + "'>" + addresses[i].name + "</option>"
+            }
             var basket = document.getElementById("address");
             basket.innerHTML = html;
 
