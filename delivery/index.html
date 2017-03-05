@@ -12,9 +12,9 @@
         .address_btn{
             color: #632e02;
             text-align: center;
-            width: 25%;
-            padding-bottom: 1.8%;
-            padding-top: 1.8%;
+            width: 50%;
+            padding-bottom: 3.6%;
+            padding-top: 3.6%;
             font-size: 200%;
             cursor: pointer;
             border: solid 1px ;
@@ -26,11 +26,24 @@
         .address_btn:hover{
             background-color: #c7d3a3;
         }
-        .div_client:hover{
-            background-color: #c7d3a3;
+
+        .address_btn_l{
+            color: #632e02;
+            text-align: center;
+            width: 50%;
+            padding-bottom: 3.6%;
+            padding-top: 3.6%;
+            font-size: 200%;
+            cursor: pointer;
+            border: solid 1px ;
+            margin: 30px;
+            float: left;
+            background-color: #f8eab3;
 
         }
-
+        .address_btn_l:hover{
+            background-color: #c7d3a3;
+        }
     </style>
 </head>
 <body>
@@ -39,11 +52,12 @@
         <img src="доставка.png" style="max-width: 100%"/>
         <div class="w3-display-topmiddle w3-container w3-padding-xlarge" ><h1 style="font-size: 270%;; font-weight: 500">Сервис по доставке еды</h1></div>
         <div class="w3-display-bottomleft w3-container w3-padding-xlarge"><h1 style="font-size: 470%;">GurDelService</h1></div>
-        <div class="w3-display-topright w3-container w3-padding-xlarge" style="width: 100%"><div class="address_btn" onclick="return location.href = 'find_address.html'">Заказ</div>
+        <div class="w3-display-topright w3-container w3-padding-xlarge" style="width: 100%"><h1 style="float: right; font-size: 270%; margin: 5%">Для курьеров</h1></div>
+        <div class="w3-display-topleft w3-container w3-padding-xlarge" style="width: 100%"><h1 style="float: left; font-size: 270%; margin: 5%">Для заказчиков</h1></div>
+        <div class="w3-display-left w3-container w3-padding-xlarge" style="width: 50%"><div class="address_btn_l">заказ</div></div>
+        <div class="w3-display-right w3-container w3-padding-xlarge" style="width: 50%"><div class="address_btn" onclick="return location.href = 'reception.html'">Регистрация</div>
             </div>
-        <div class="w3-display-right w3-container w3-padding-xlarge" style="width: 100%"><div class="address_btn" onclick="return location.href = 'reception.html'">Регистрация</div>
-            </div>
-        <div class="w3-display-bottomright w3-container w3-padding-xlarge" style="width: 100%"  ><div class="address_btn" onclick="return location.href = 'cabinet.html'">Вход</div>
+        <div class="w3-display-bottomright w3-container w3-padding-xlarge" style="width: 50%"  ><div class="address_btn" onclick="return location.href = 'cabinet.html'">Вход</div>
             </div>
     </div>
 <!--</center>-->
