@@ -20,7 +20,7 @@
             padding-left: 10px;
         }
         body{
-            -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none;
+            -moz-user-select:none; -webkit-user-select: none; -ms-user-select: none; user-select: none;
             background-color: #f4edda;
         }
         .address_btn{
@@ -70,7 +70,7 @@
             for (var i = 0; i < addresses.length; i++){
                 console.log(i);
                 divs += "<span class='address_btn' onclick='find(\"" + addresses[i].name + "\")'>";
-                divs += "школа №" + addresses[i].name;
+                divs += "школа №" + addresses[i].name + " " + addresses[i].city;
                 divs += "</span>"
 
             }

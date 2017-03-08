@@ -38,7 +38,7 @@
         }
         #auth {
             position: fixed;
-            top: 50px;
+            top: 500px;
             float: left;
             opacity: 0;
             z-index: 100;
@@ -89,7 +89,7 @@
 <table class="w3-table">
     <tr>
         <th>шаг 1: Выберете ресторан, из которого вы можете доставить еду</th>
-        <th>шаг 2:выберете адрес, куда вы сможете дотавить еду</th>
+        <th>шаг 2: Введите номер школы, куда вы сможете дотавлять еду</th>
         <th>шаг 3: авторизуйтесь</th>
     </tr>
     <tr>
@@ -126,12 +126,15 @@
 
         <td>
             <label>
-                <input type="text" id="percent">
+                <input type="text" id="percent" placeholder="введите процент за доставку">
             </label>
         </td>
         <td>
             <label>
-                <input type="text" id="city">
+                <input type="text" id="city" list="cities">
+                <datalist id="cities">
+
+                </datalist>
             </label>
         </td>
     </tr>
@@ -140,7 +143,7 @@
             <div id="parent_popup">
             <div id="auth">
                 <p>вы не авторизованы! Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
-                <div style="text-align: center; z-index: -100" id="vk_auth2"></div>
+                <div style=" z-index: 100" id="vk_auth2"></div>
             </div>
         </div>
         </td>
@@ -164,6 +167,11 @@
                 }
                 var basket = document.getElementById("addresses");
                 basket.innerHTML = html;
+                for (var u = 0; u < addresses.length; u++){
+                    html += "<option value='" + addresses[u].city + "'>"
+                }
+                var basket2 = document.getElementById("cities");
+                basket2.innerHTML = html;
 
             }
         });
@@ -181,11 +189,12 @@
         }
         if (coincidence == true){
             minAjax({
-                url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_i",
+                url: "https://fathomless-shelf-75612.herokuapp.com/" + "n_place",
                 // + buy + "цена:" +cost + "от:"+ l_n + f_n +
                 type: "GET",//Request type GET/POST
                 data: {
-                    value: document.getElementById("address").value
+                    value: document.getElementById("address").value,
+                    city: document.getElementById("city").value
                 }
 
 
@@ -211,10 +220,11 @@
                         data: {
                             uid: uid,
                             name: f_n + "-" + l_n,
-                            address: document.getElementById("address").value + " " + document.getElementById("city").value,
+                            address: document.getElementById("address").value,
                             shop: document.getElementById("select").value,
                             password: document.getElementById("password").value,
-                            percent: document.getElementById("percent").value
+                            percent: document.getElementById("percent").value,
+                            city: document.getElementById("city").value
                         },
                         success: function (data2) {
                             html = data2;
@@ -245,7 +255,7 @@
         });
         }
         else{
-                document.getElementById("auth").style = "position: fixed; left:35%; opacity: 1; z-index: 100; background-color: white; padding: 30px;";
+                document.getElementById("auth").style = "position: fixed; left:35%; opacity: 1; z-index: 100; background-color: white; padding: 30px; top: 50px;";
                 document.getElementById("parent_popup").style = "background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 1000;top: 0;left: 0;";
             }
 
