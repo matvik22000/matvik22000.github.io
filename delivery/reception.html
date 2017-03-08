@@ -48,12 +48,12 @@
 <body>
 <script>
     var status;
-    var l_n;
-    var f_n;
-    var uid;
-//    var uid  = 1234321 ;
-//    var f_n = "matvey";
-//    var l_n = "testov"
+//    var l_n;
+//    var f_n;
+//    var uid;
+    var uid  = 12343212 ;
+    var f_n = "matvey2";
+    var l_n = "testov2"
 </script>
 <script type="text/javascript">
     VK.init({apiId: 5815731, onlyWidgets: true});
@@ -182,12 +182,27 @@
 
     function create() {
         var coincidence = false;
+        if(addresses.length == 0){
+            minAjax({
+                url: "https://fathomless-shelf-75612.herokuapp.com/" + "n_place",
+                // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+                type: "GET",//Request type GET/POST
+                data: {
+                    value: document.getElementById("address").value,
+                    city: document.getElementById("city").value
+                }
+
+
+            })
+        }
         for (var j = 0; j < addresses.length; j++){
+            console.log(addresses[j].city, + "  " + document.getElementById("city").value + "   " + addresses[j].city == document.getElementById("address").value);
             if(addresses[j].name == document.getElementById("address").value){
                 coincidence = true;
             }
         }
         for (var o = 0; o < addresses.length; o++){
+            console.log(addresses[o].city, + "  " + document.getElementById("city").value + "   " + addresses[o].city == document.getElementById("city").value);
             if(addresses[o].city == document.getElementById("city").value){
                 coincidence = true;
             }
