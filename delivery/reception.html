@@ -183,7 +183,12 @@
     function create() {
         var coincidence = false;
         for (var j = 0; j < addresses.length; j++){
-            if(addresses[j] == document.getElementById("address").value){
+            if(addresses[j].name == document.getElementById("address").value){
+                coincidence = true;
+            }
+        }
+        for (var o = 0; o < addresses.length; o++){
+            if(addresses[o].city == document.getElementById("city").value){
                 coincidence = true;
             }
         }
