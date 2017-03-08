@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>игра</title>
+    <script src="minajax.js"></script>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+</head>
+<body>
+<button onclick="change_status()">поиск</button>
+<div id="vk_auth"></div>
+<script>
+    VK.init({apiId: 5815731, onlyWidgets: true});
+    VK.Widgets.Auth("vk_auth", {
+        width: "200px", onAuth: function (data) {
+            uid = data['uid'];
+            f_n = data['first_name'];
+            l_n = data['last_name'];
+            localStorage.setItem("last_name", l_n);
+            localStorage.setItem("first_name", f_n);
+            localStorage.setItem("uid", uid);
+        }
+    });
+    function change_status() {
+        minAjax({
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "p",
+            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+            type: "GET",//Request type GET/POST
+            data: {
+                key: uid,
+                value: "waiting"
+            },
+            success: function (data2) {
+
+
+
+            }
+        });
+    }
+</script>
+</body>
+</html>

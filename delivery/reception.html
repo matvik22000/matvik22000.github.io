@@ -103,7 +103,10 @@
             </label>
         </td>
         <td><label id="address2">
-            <select id="address"></select>
+            <input id="address" list="addresses"/>
+            <datalist id="addresses">
+                <option value="test">
+            </datalist>
         </label></td>
         <td><div id="vk_auth"></div></td>
     </tr>
@@ -112,6 +115,7 @@
     <tr>
         <th>шаг 4: придумайте пароль</th>
         <th>шаг 5: введите процент за доставку</th>
+        <th>шаг 6: укажите свой город</th>
     </tr>
     <tr>
         <td>
@@ -126,6 +130,13 @@
             </label>
         </td>
         <td>
+            <label>
+                <input type="text" id="city">
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>
             <div id="parent_popup">
             <div id="auth">
                 <p>вы не авторизованы! Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
@@ -139,7 +150,7 @@
 <br><br><br>
 <h1 align="center" id="answer"></h1>
 <script>
-
+    var addresses;
     console.log(document.getElementById("address").value);
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "place",
@@ -147,11 +158,11 @@
             type: "GET",//Request type GET/POST
             success: function (data) {
                 html = "";
-                var addresses = JSON.parse(data);
+                addresses = JSON.parse(data);
                 for (var i = 0; i < addresses.length; i++){
                     html += "<option value='" + addresses[i].name + "'>" + addresses[i].name + "</option>"
                 }
-                var basket = document.getElementById("address");
+                var basket = document.getElementById("addresses");
                 basket.innerHTML = html;
 
             }
@@ -162,7 +173,27 @@
 
 
     function create() {
-//            if (document.getElementById("password") || document.getElementById("percent"))
+        var coincidence = false;
+        for (var j = 0; j < addresses.length; j++){
+            if(addresses[j] == document.getElementById("address").value){
+                coincidence = true;
+            }
+        }
+        if (coincidence == false){
+            minAjax({
+                url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_i",
+                // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+                type: "GET",//Request type GET/POST
+                data: {
+                    value: document.getElementById("address").value
+                },
+                success: function (data){
+                    if (data != document.getElementById("address").value + " added"){
+                        alert("error")
+                    }
+                }
+            })
+        }
         if (l_n != undefined || f_n != undefined || uid != undefined){
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_i",
@@ -183,7 +214,7 @@
                         data: {
                             uid: uid,
                             name: f_n + "-" + l_n,
-                            address: document.getElementById("address").value,
+                            address: document.getElementById("address").value + " " + document.getElementById("city").value,
                             shop: document.getElementById("select").value,
                             password: document.getElementById("password").value,
                             percent: document.getElementById("percent").value
@@ -222,7 +253,24 @@
             }
 
     }
-    document.getElementsByTagName('input')[1].onkeypress = function(e) {
+    document.getElementsByTagName('input')[2].onkeypress = function(e) {
+
+        e = e || event;
+
+        if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+        var chr = getChar(e);
+
+        // с null надо осторожно в неравенствах, т.к. например null >= '0' => true!
+        // на всякий случай лучше вынести проверку chr == null отдельно
+        if (chr == null) return;
+
+        if (chr < '0' || chr > '9') {
+            return false;
+        }
+
+    };
+    document.getElementById('address').onkeypress = function(e) {
 
         e = e || event;
 
