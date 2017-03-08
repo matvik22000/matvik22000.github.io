@@ -179,19 +179,16 @@
                 coincidence = true;
             }
         }
-        if (coincidence == false){
+        if (coincidence == true){
             minAjax({
                 url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_i",
                 // + buy + "цена:" +cost + "от:"+ l_n + f_n +
                 type: "GET",//Request type GET/POST
                 data: {
                     value: document.getElementById("address").value
-                },
-                success: function (data){
-                    if (data != document.getElementById("address").value + " added"){
-                        alert("error")
-                    }
                 }
+
+
             })
         }
         if (l_n != undefined || f_n != undefined || uid != undefined){
