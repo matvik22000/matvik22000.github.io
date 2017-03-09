@@ -86,6 +86,7 @@
 
 
 <h1 align="center">Регистрация</h1>
+<form>
 <table class="w3-table">
     <tr>
         <th>шаг 1: Выберете ресторан, из которого вы можете доставить еду</th>
@@ -131,7 +132,7 @@
         </td>
         <td>
             <label>
-                <input type="text" id="city" list="cities" pattern="^[a-zA-Z]+$+&#046+&#150">
+                <input type="text" id="city" list="cities" pattern="^[a-zA-Z&#046&#150]+$">
                 <datalist id="cities">
 
                 </datalist>
@@ -321,5 +322,6 @@
     }
 
 </script>
+</form>
 </body>
 </html>
