@@ -50,8 +50,8 @@
     var status;
     var l_n;
     var f_n;
-    var uid;
 //    var uid  = 12343212 ;
+    var uid;
 //    var f_n = "matvey2";
 //    var l_n = "testov2"
 </script>
@@ -183,33 +183,7 @@
 
 
     function create() {
-        var coincidence = false;
 
-        for (var j = 0; j < addresses.length; j++){
-
-            if(addresses[j].name == document.getElementById("address").value){
-                coincidence = true;
-            }
-        }
-        for (var o = 0; o < addresses.length; o++){
-
-            if(addresses[o].city == document.getElementById("city").value){
-                coincidence = true;
-            }
-        }
-        if (coincidence == false){
-            minAjax({
-                url: "https://fathomless-shelf-75612.herokuapp.com/" + "n_place",
-                // + buy + "цена:" +cost + "от:"+ l_n + f_n +
-                type: "GET",//Request type GET/POST
-                data: {
-                    name: document.getElementById("address").value,
-                    city: document.getElementById("city").value
-                }
-
-
-            })
-        }
         if (l_n != undefined || f_n != undefined || uid != undefined){
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_i",
@@ -219,9 +193,36 @@
                 value: uid
             },
             success: function (data) {
+
                 if (data == "[]" ){
                     if(document.getElementById("password").value != "" && document.getElementById("percent").value != ""){
+                        var coincidence = false;
 
+                        for (var j = 0; j < addresses.length; j++){
+
+                            if(addresses[j].name == document.getElementById("address").value){
+                                coincidence = true;
+                            }
+                        }
+                        for (var o = 0; o < addresses.length; o++){
+
+                            if(addresses[o].city == document.getElementById("city").value){
+                                coincidence = true;
+                            }
+                        }
+                        if (coincidence == false){
+                            minAjax({
+                                url: "https://fathomless-shelf-75612.herokuapp.com/" + "n_place",
+                                // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+                                type: "GET",//Request type GET/POST
+                                data: {
+                                    name: document.getElementById("address").value,
+                                    city: document.getElementById("city").value
+                                }
+
+
+                            })
+                        }
 
                     minAjax({
                         url: "https://fathomless-shelf-75612.herokuapp.com/" + "new_client",
