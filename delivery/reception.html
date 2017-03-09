@@ -115,7 +115,7 @@
     <tr>
         <th>шаг 4: придумайте пароль</th>
         <th>шаг 5: введите процент за доставку</th>
-        <th>шаг 6: укажите свой город</th>
+        <th>шаг 6: укажите свой город (Английскими буквами без пробелов)</th>
     </tr>
     <tr>
         <td>
@@ -131,7 +131,7 @@
         </td>
         <td>
             <label>
-                <input type="text" id="city" list="cities">
+                <input type="text" id="city" list="cities" pattern="^[a-zA-Z]+$+&#046+&#150">
                 <datalist id="cities">
 
                 </datalist>

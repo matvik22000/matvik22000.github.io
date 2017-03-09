@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>Ввод IP-адреса</title>
 </head>
 <body>
-<input type="text" name="example" list="exampleList">
-<datalist id="exampleList">
-    <option value="Abc"></option>
-    <option value="Bcd">
-</datalist>
+<form>
+    <p>Введите IP-адрес:</p>
+    <p><label>
+        <input PATTERN="^[a-zA-Z]+$+&#046+&#150">
+    </label></p>
+    <p><input type="submit" value="Отправить"></p>
+</form>
 </body>
 </html>
