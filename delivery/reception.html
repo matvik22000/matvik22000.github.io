@@ -105,7 +105,7 @@
         <td><label id="address2">
             <input id="address" list="addresses"/>
             <datalist id="addresses">
-                <option value="test">
+
             </datalist>
         </label></td>
         <td><div id="vk_auth"></div></td>
@@ -154,7 +154,6 @@
 <h1 align="center" id="answer"></h1>
 <script>
     var addresses;
-    console.log(document.getElementById("address").value);
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "place",
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
@@ -162,16 +161,19 @@
             success: function (data) {
                 html = "";
                 addresses = JSON.parse(data);
-                for (var i = 0; i < addresses.length; i++){
-                    html += "<option value='" + addresses[i].name + "'>" + addresses[i].name + "</option>"
+                for (var i = 0; i < addresses.length; i+= 2){
+                    console.log("1");
+                    html += "<option value='" + addresses[i].name + "'>"
                 }
                 var basket = document.getElementById("addresses");
                 basket.innerHTML = html;
-                for (var u = 0; u < addresses.length; u++){
+                html = "";
+                for (var u = 1; u < addresses.length ; u+=2){
+                    console.log("2");
                     html += "<option value='" + addresses[u].city + "'>"
                 }
-                var basket2 = document.getElementById("cities");
-                basket2.innerHTML = html;
+                var basket10 = document.getElementById("cities");
+                basket10.innerHTML = html;
 
             }
         });
@@ -183,32 +185,19 @@
     function create() {
         var coincidence = false;
 
-        if(addresses.length == 0){
-            minAjax({
-                url: "https://fathomless-shelf-75612.herokuapp.com/" + "n_place",
-                // + buy + "цена:" +cost + "от:"+ l_n + f_n +
-                type: "GET",//Request type GET/POST
-                data: {
-                    value: document.getElementById("address").value,
-                    city: document.getElementById("city").value
-                }
-
-
-            })
-        }
         for (var j = 0; j < addresses.length; j++){
-            console.log(addresses[j].city, + "  " + document.getElementById("city").value + "   " + addresses[j].city == document.getElementById("address").value);
+
             if(addresses[j].name == document.getElementById("address").value){
                 coincidence = true;
             }
         }
         for (var o = 0; o < addresses.length; o++){
-            console.log(addresses[o].city, + "  " + document.getElementById("city").value + "   " + addresses[o].city == document.getElementById("city").value);
+
             if(addresses[o].city == document.getElementById("city").value){
                 coincidence = true;
             }
         }
-        if (coincidence == true){
+        if (coincidence == false){
             minAjax({
                 url: "https://fathomless-shelf-75612.herokuapp.com/" + "n_place",
                 // + buy + "цена:" +cost + "от:"+ l_n + f_n +
