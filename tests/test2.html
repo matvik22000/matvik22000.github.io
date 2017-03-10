@@ -5,12 +5,12 @@
     <title>Ввод IP-адреса</title>
 </head>
 <body>
-
+<form>
     <p>Введите IP-адрес:</p>
     <p><label>
-        <input PATTERN="^[a-zA-Z&#046&#150]+$">
+        <input pattern="[^а-яА-ЯЁё\s]+$">
     </label></p>
     <p><input type="submit" value="Отправить"></p>
-
+</form>
 </body>
 </html>
