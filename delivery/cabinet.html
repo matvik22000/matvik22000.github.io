@@ -100,12 +100,12 @@
 <label>
     <p>процент за доставку:</p>
     <input id="percent">
-    <button class="w3-btn" onclick="change('percent', document.getElementById('percent').value)">изменить</button>
+    <button class="w3-btn" onclick="change('процент', document.getElementById('percent').value)">изменить</button>
 </label>
 <label>
     <p>пароль:</p>
     <input id="ch_password" type="text">
-    <button class="w3-btn" onclick="change('password', document.getElementById('ch_password').value)">изменить</button>
+    <button class="w3-btn" onclick="change('пароль', document.getElementById('ch_password').value)">изменить</button>
 </label>
 
 <label>
@@ -115,12 +115,21 @@
         <option value="Макдоналдс">Макдоналдс</option>
         <option value="burger_king">burger_king</option>
     </select>
-    <button class="w3-btn" onclick="change('shop', document.getElementById('shop').value)">изменить</button>
+    <button class="w3-btn" onclick="change('магазин', document.getElementById('shop').value)">изменить</button>
 </label>
 <label id="address2">
     <p>адрес:</p>
-    <select id="address"></select>
-    <button class="w3-btn" onclick="change('address', document.getElementById('address').value)">изменить</button>
+    <input id="address" list="addresses"></input>
+    <datalist id="addresses"></datalist>
+    <button class="w3-btn" onclick="change('адрес', document.getElementById('address').value)">изменить</button>
+</label>
+<label id="city">
+    <p>город (английскими буквами):</p>
+    <input id="город" list='cities' pattern="[^а-яА-ЯЁё\s]+$"></input>
+    <datalist id="cities">
+
+    </datalist>
+    <button class="w3-btn" onclick="change('город', document.getElementById('город').value)">изменить</button>
 </label>
 <script>
     minAjax({
@@ -131,6 +140,30 @@
             html = data;
             var basket = document.getElementById("address");
             basket.innerHTML = html;
+
+        }
+    });
+    var addresses;
+    minAjax({
+        url: "https://fathomless-shelf-75612.herokuapp.com/" + "place",
+        // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+        type: "GET",//Request type GET/POST
+        success: function (data) {
+            html = "";
+            addresses = JSON.parse(data);
+            for (var i = 0; i < addresses.length; i+= 2){
+                console.log("1");
+                html += "<option value='" + addresses[i].name + "'>"
+            }
+            var basket = document.getElementById("addresses");
+            basket.innerHTML = html;
+            html = "";
+            for (var u = 1; u < addresses.length ; u+=2){
+                console.log("2");
+                html += "<option value='" + addresses[u].city + "'>"
+            }
+            var basket10 = document.getElementById("cities");
+            basket10.innerHTML = html;
 
         }
     });
@@ -179,6 +212,7 @@
             document.getElementById("percent").value = data[0].percent
             document.getElementById("shop").value = data[0].shop
             document.getElementById("address").value = data[0].address
+            document.getElementById("город").value = data[0].citys
             document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
             document.getElementById("auth").style = "opacity: 0; z-index:-1;"
             minAjax({

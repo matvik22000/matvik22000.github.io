@@ -55,7 +55,7 @@
 </center>
 <div id="address"></div>
 <!--<button class="w3-btn w3-padding w3-margin" onclick="find()">найти курьера</button>-->
-<div id="answer" align="center"></div>
+
 
 <script>
     minAjax({
@@ -67,16 +67,17 @@
             var addresses = JSON.parse(data);
             var div = document.getElementById("address");
             var divs = "";
-            for (var i = 0; i < addresses.length; i++){
+            for (var i = 0; i < addresses.length; i+=2){
                 console.log(i);
-                divs += "<span class='address_btn' onclick='find(\"" + addresses[i].name + "\")'>";
-                divs += "школа №" + addresses[i].name + " " + addresses[i].city;
-                divs += "</span>"
+                divs += "<div style='float: left' class='address_btn' onclick='find(\"" + addresses[i].name + ", " + addresses[i].city + "\")'>";
+                divs += "школа №" + addresses[i].name + " " + addresses[i+1].city;
+                divs += "</div>"
 
             }
         div.innerHTML = divs
         }
     });
+
     var data_g;
 
     function end(id2) {
@@ -88,14 +89,15 @@
     function main_page() {
         window.location = "index.html"
     }
-    function find(address) {
+    function find(address, city) {
 
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "find_clients",
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
             type: "GET",//Request type GET/POST
             data: {
-                address: address
+                address: address,
+                city: city
             },
             success: function (data) {
                 var html_2 = "";
@@ -104,7 +106,7 @@
                 data_g = data;
                 for (var i = 0; i <data.length; i++){
 
-                    html_2 += "<div id= '" + i + "' style='border: black 1px solid; width: 20%; margin:50px; cursor: pointer;' class='div_client' onclick='end(id)'>";
+                    html_2 += "<div id= '" + i + "' style='border: black 1px solid; width: 20%; height: 15%; margin:50px; cursor: pointer;' class='div_client' onclick='end(id)'>";
                     html_2 += "<h3>" + data[i].name + "</h3>";
                     html_2 += "<p>" + data[i].shop +"</p>";
                     html_2 += "</div>"
@@ -117,5 +119,11 @@
         });
     }
 </script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div id="answer" align="center" style="width: 100%; height: 100%"></div>
 </body>
 </html>
