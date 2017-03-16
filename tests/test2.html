@@ -5,12 +5,38 @@
     <title>Ввод IP-адреса</title>
 </head>
 <body>
-<form>
-    <p>Введите IP-адрес:</p>
-    <p><label>
-        <input pattern="[^а-яА-ЯЁё\s]+$">
-    </label></p>
-    <p><input type="submit" value="Отправить"></p>
-</form>
+<p>
+    <label>
+        <input pattern="[^а-яА-ЯЁё\s]+$" id="input1">
+        <button onclick="submit()">отправить</button>
+    </label>
+</p>
+<script>
+    var socket = new WebSocket("ws://shielded-beyond-57033.herokuapp.com/echo");
+    socket.onopen = function() {
+        alert("Соединение установлено.");
+    };
+
+    socket.onclose = function(event) {
+        if (event.wasClean) {
+            alert('Соединение закрыто чисто');
+        } else {
+            alert('Обрыв соединения'); // например, "убит" процесс сервера
+        }
+        alert('Код: ' + event.code + ' причина: ' + event.reason);
+    };
+
+    socket.onmessage = function(event) {
+        alert("Получены данные " + event.data);
+    };
+
+    socket.onerror = function(error) {
+        alert("Ошибка " + error.message);
+    };
+    function submit() {
+        var text = document.getElementById("input1").value;
+        socket.send(text)
+    }
+</script>
 </body>
 </html>
