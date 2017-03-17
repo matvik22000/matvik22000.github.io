@@ -154,7 +154,7 @@
 
 <script type="text/javascript">
     VK.init({apiId: 5815731, onlyWidgets: true});
-    VK.Widgets.ContactUs("vk_contact_us", {text: "что-то непонятно? Напишите нам!", height: 30}, 354507744);
+    VK.Widgets.ContactUs("vk_contact_us", {text: "feedback", height: 30}, 354507744);
     VK.Widgets.Like("vk_like", {type: "button"});
     VK.Widgets.Auth("vk_auth", {
         width: "200px", onAuth: function (data) {
@@ -337,6 +337,7 @@
 
             html += "<div>" + buy[i][0] + "<button id = " + i + "  onmouseover = \"mouseover(id)\" onmouseleave=\"mouseleave(id)\" onclick=\'del(buy[" + i + "])\'>убрать из корзины</button></div>";
         }
+        html += "<div>Процент за доставку: " + percent + "%</div>";
         html += "<div>всего: " + cost + "руб</div>";
         html += "<button id='ok' onmouseover=\"mouseover(id)\" onmouseleave=\"mouseleave(id)\" onclick='buy_f()'>оформить заказ</button>";
         html += "<img id='inProgress' src='inProgress.gif' style='height: auto;width: auto; max-width: 50px; max-height: 66px;'>";

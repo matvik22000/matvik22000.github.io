@@ -100,12 +100,12 @@
 <label>
     <p>процент за доставку:</p>
     <input id="percent">
-    <button class="w3-btn" onclick="change('процент', document.getElementById('percent').value)">изменить</button>
+    <button class="w3-btn" onclick="change('percent', document.getElementById('percent').value)">изменить</button>
 </label>
 <label>
     <p>пароль:</p>
     <input id="ch_password" type="text">
-    <button class="w3-btn" onclick="change('пароль', document.getElementById('ch_password').value)">изменить</button>
+    <button class="w3-btn" onclick="change('passsword', document.getElementById('ch_password').value)">изменить</button>
 </label>
 
 <label>
@@ -115,13 +115,13 @@
         <option value="Макдоналдс">Макдоналдс</option>
         <option value="burger_king">burger_king</option>
     </select>
-    <button class="w3-btn" onclick="change('магазин', document.getElementById('shop').value)">изменить</button>
+    <button class="w3-btn" onclick="change('shop', document.getElementById('shop').value)">изменить</button>
 </label>
 <label id="address2">
     <p>адрес:</p>
     <input id="address" list="addresses"></input>
     <datalist id="addresses"></datalist>
-    <button class="w3-btn" onclick="change('адрес', document.getElementById('address').value)">изменить</button>
+    <button class="w3-btn" onclick="change('address', document.getElementById('address').value)">изменить</button>
 </label>
 <label id="city">
     <p>город (английскими буквами):</p>
@@ -129,7 +129,7 @@
     <datalist id="cities">
 
     </datalist>
-    <button class="w3-btn" onclick="change('город', document.getElementById('город').value)">изменить</button>
+    <button class="w3-btn" onclick="change('city', document.getElementById('город').value)">изменить</button>
 </label>
 <script>
     minAjax({

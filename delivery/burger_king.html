@@ -337,6 +337,7 @@
 
             html += "<div>" + buy[i][0] + "<button id = " + i + "  onmouseover = \"mouseover(id)\" onmouseleave=\"mouseleave(id)\" onclick=\'del(buy[" + i + "])\'>убрать из корзины</button></div>";
         }
+        html += "<div>Процент за доставку: " + percent + "%</div>";
         html += "<div>всего: " + cost + "руб</div>";
         html += "<button id='ok' onmouseover=\"mouseover(id)\" onmouseleave=\"mouseleave(id)\" onclick='buy_f()'>оформить заказ</button>";
         html += "<img id='inProgress' src='inProgress.gif' style='height: auto;width: auto; max-width: 50px; max-height: 66px;'>";
