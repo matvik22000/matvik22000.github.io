@@ -4,40 +4,56 @@
     <meta charset="UTF-8">
     <title>игра</title>
     <script src="minajax.js"></script>
-    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-    <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.js"></script>
+
 </head>
 <body>
-<button onclick="change_status()">поиск</button>
-<div id="vk_auth"></div>
 <script>
-    VK.init({apiId: 5815731, onlyWidgets: true});
-    VK.Widgets.Auth("vk_auth", {
-        width: "200px", onAuth: function (data) {
-            uid = data['uid'];
-            f_n = data['first_name'];
-            l_n = data['last_name'];
-            localStorage.setItem("last_name", l_n);
-            localStorage.setItem("first_name", f_n);
-            localStorage.setItem("uid", uid);
+   var game = new Phaser.Game(1960, 1080, Phaser.AUTO, "phaser-example", {preload:preload, create:create, update:update, render:render});
+   var goToM = false;
+   var playerBet;
+
+   function createBet() {
+       var bet = game.add.sprite(0, 0, 'test');
+       bet.anchor.setTo(0.5, 0.5);
+       return bet;
+   }
+
+    function preload() {
+        game.load.image("test", "favicon_m.png");
+
+    }
+
+    function create() {
+        game.stage.backgroundColor = "#ffffff";
+        game.input.onDown.add(mouseDown);
+        playerBet = createBet();
+        goHome();
+    }
+
+    function mouseDown(e) {
+       goToM = !goToM;
+       console.debug(e)
+    }
+
+   function goHome() {
+        playerBet.position.x = game.world.centerX;
+        playerBet.position.y = 600
+    }
+
+    function update() {
+        if (goToM) {
+            playerBet.position = game.input.position;
+        } else {
+            goHome()
         }
-    });
-    function change_status() {
-        minAjax({
-            url: "https://fathomless-shelf-75612.herokuapp.com/" + "p",
-            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
-            type: "GET",//Request type GET/POST
-            data: {
-                key: uid,
-                value: "waiting"
-            },
-            success: function (data2) {
+    }
 
+    function render() {
 
-
-            }
-        });
     }
 </script>
+
 </body>
 </html>

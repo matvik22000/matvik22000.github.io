@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script src = 'point.js'></script>
+<script>
+    js = new PointJS('2d', 1, 1, {background: '#727272'});
+    js.system.initFullPage();
+    var game = js.game;
+    var point = js.vector.point;
+    var i = 0;
+    var shayba = game.newCircleObject({
+        radius:100,
+        fillColor: "white",
+        x: 100,
+        y: 100,
+        visible : true
+    });
+    game.newLoop( "1", function () {
+        game.clear();
+        shayba.moveAngle(10);
+        if (shayba.getPositionC().x > 200)
+            shayba.setAngle(-shayba.getAngle());
+        shayba.draw()
+    });
+    game.setLoop("1");
+    game.start()
+</script>
+</body>
+</html>
