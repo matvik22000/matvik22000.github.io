@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Create a simple CodeMirror instance -->
+    <link rel="stylesheet" href="codemirror-5.25.0/lib/codemirror.css">
+    <link rel="stylesheet" href="codemirror-5.25.0/addon/hint/show-hint.css">
+    <script src="codemirror-5.25.0/lib/codemirror.js"></script>
+    <script src="codemirror-5.25.0/mode/javascript/javascript.js"></script>
+    <script src="codemirror-5.25.0/addon/hint/show-hint.js"></script>
+    <script src="codemirror-5.25.0/addon/hint/javascript-hint.js"></script>
+    <script src="codemirror-5.25.0/addon/mode/simple.js"></script>
+    <script src="codemirror-5.25.0/addon/hint/anyword-hint.js"></script>
+    
+
+
+</head>
+<body>
+<label>
+    <textarea id="test">вверх \вниз \влево \вправо \закрасить \алг \нач \кон \сверху свободно \снизу свободно \слева свободно \справа свободно \И \ИЛИ \НЕ \сверху свободно \снизу свободно \слева свободно \справа свободно \сверху стена \снизу стена \слева стена \справа стена \то
+\все \иначе
+
+
+
+</textarea>
+</label>
+<script>
+    /* Example definition of a simple mode that understands a subset of
+     * JavaScript:
+     */
+
+    CodeMirror.defineSimpleMode("simplemode", {
+        // The start state contains the rules that are intially used
+        start: [
+            // The regex matches the token, the token property contains the type
+            {regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string"},
+            // You can match multiple tokens at once. Note that the captured
+            // groups must span the whole string in this case
+            {regex: /(если|пока)(\s+)([a-z$][\w$]*)/,
+                token: ["keyword", null, "atom"]},
+            // Rules are matched in the order in which they appear, so there is
+            // no ambiguity between this one and the one above
+            {regex: /(?:function|var|return|if|for|while|else|do|this)\b/,
+                token: "keyword"},
+            {regex: /вправо|вверх|вниз|влево|закрасить/, token: "variable-2"},
+            {regex: /если|пока|повторить|алг|И|ИЛИ|НЕ|то|иначе|все/, token: "keyword"},
+            {regex: /нач|кон/, token: "variable-3"},
+            {regex: /справа стена|слева стена|сверху стена|снизу стена|справа свободно|слева свободно|сверху свободно|снизу свободно|клетка закрашена|клетка чистая/, token: "atom"},
+            {regex: /0x[a-f\d]+|[-+]?(?:\.\d+|\d+\.?\d*)(?:e[-+]?\d+)?/i,
+                token: "number"},
+            {regex: /\/\/.*/, token: "comment"},
+            {regex: /\/(?:[^\\]|\\.)*?\//, token: "variable-3"},
+
+            // A next property will cause the mode to move to a different state
+            {regex: /\/\*/, token: "comment", next: "comment"},
+            {regex: /[-+\/*=<>!]+/, token: "operator"},
+            // indent and dedent properties guide autoindentation
+            {regex: /нц/, indent: true},
+            {regex: /кц/, dedent: true, indent: false},
+            {regex: /[a-z$][\w$]*/, token: "variable"},
+            // You can embed other modes with the mode property. This rule
+            // causes all code between << and >> to be highlighted with the XML
+            // mode.
+            {regex: /<</, token: "meta", mode: {spec: "xml", end: />>/}}
+        ],
+        // The multi-line comment state.
+        comment: [
+            {regex: /.*?\*\//, token: "comment", next: "start"},
+            {regex: /.*/, token: "comment"}
+        ],
+
+        // The meta property contains global information about the mode. It
+        // can contain properties like lineComment, which are supported by
+        // all modes, and also directives like dontIndentStates, which are
+        // specific to simple modes.
+        meta: {
+            dontIndentStates: ["comment"],
+            lineComment: "//"
+        }
+    });
+    var myTextarea = document.getElementById("test");
+    var editor = CodeMirror.fromTextArea(myTextarea, {
+        mode: "simplemode",
+        lineNumbers: true,
+        tabSize: 5,
+        extraKeys: {
+            "Alt" : "autocomplete",
+            "Ctrl-L" : function (cm) {
+                editor.replaceRange("влево ", editor.getCursor())
+            },
+            "Ctrl-R" : function (cm) {
+                editor.replaceRange("вправо ", editor.getCursor())
+
+            },
+            "Ctrl-U" : function (cm) {
+                editor.replaceRange("вверх ", editor.getCursor())
+
+            },
+            "Ctrl-D" : function (cm) {
+                editor.replaceRange("вниз ", editor.getCursor())
+
+            },
+            "Ctrl-Space" : function (cm) {
+                editor.replaceRange("закрасить ", editor.getCursor())
+
+            },
+            "Ctrl-Shift-L" : function (cm) {
+                editor.replaceRange("справа стена ", editor.getCursor())
+            },
+            "Ctrl-Alt-R" : function (cm) {
+                editor.replaceRange("справа стена ", editor.getCursor())
+
+            },
+            "Ctrl-Alt-U" : function (cm) {
+                editor.replaceRange("сверху стена ", editor.getCursor())
+
+            },
+            "Ctrl-Alt-D" : function (cm) {
+                editor.replaceRange("снизу стена ", editor.getCursor())
+
+            },
+            "Ctrl-Alt-Space" : function (cm) {
+                editor.replaceRange("клетка закрашена ", editor.getCursor())
+
+            }
+
+        }
+
+    });
+
+
+</script>
+</body>
+</html>

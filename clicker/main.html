@@ -10,49 +10,68 @@
 </head>
 <body>
 <script>
-   var game = new Phaser.Game(1960, 1080, Phaser.AUTO, "phaser-example", {preload:preload, create:create, update:update, render:render});
+   var game = new Phaser.Game("100", "100", Phaser.AUTO, "phaser-example", {preload:preload, create:create, update:update, render:render});
    var goToM = false;
-   var playerBet;
-   var s;
 
-   function createBet() {
-       var bet = game.add.sprite(0, 0, 'test');
-       bet.anchor.setTo(0.5, 0.5);
-       return bet;
-   }
+
+
+
 
     function preload() {
-        game.load.image("test", "favicon_m.png");
-        game.load.image("test2", "bita.png");
+
+        game.load.image("test2", "test_card.jpg");
+        game.load.image("table", "table.png");
 
     }
 
     function create() {
+        var cell_x = 270;
+       var your_hand = [];
+       var enemy_table = [];
+       var your_table = [];
+       game.stage.backgroundColor = "#b8925e";
 
-        game.stage.backgroundColor = "#ffffff";
-        game.input.onDown.add(mouseDown);
-        playerBet = createBet();
-        goHome();
-        s = game.add.sprite(0, 0, 'test2');
+
+        table1 = game.add.sprite(0,document.documentElement.clientHeight - 330 , 'table');
+        table2 = game.add.sprite(0,document.documentElement.clientHeight - 660 , 'table');
+        for (var i = 0; i < 7; i++) {
+            var s = {name: game.add.sprite(0, 0, 'test2'), parent: "your_hand", index: i};
+            s.name.inputEnabled = true;
+            your_hand.push(s);
+            s.name.events.onInputDown.add(mouseDown, this);
+        }
+
+
+
+    }
+   function pos(parent, index) {
+       if(parent == "your_hand"){
+           your_hand[index].name.position.y = document.documentElement.clientHeight - 300;
+           your_hand[index].name.position.x = cell_x * index
+       }
+   }
+    function mouseDown() {
+       if(!goToM){
+           goToM = {parent:this.parent, index: this.index}
+       }
+       else{
+           goToM = false
+       }
+
     }
 
-    function mouseDown(e) {
-       goToM = !goToM;
-       console.debug(e)
-    }
 
-   function goHome() {
-        playerBet.position.x = game.world.centerX;
-        playerBet.position.y = 600
-    }
 
    function update() {
-       s.position.x += 4;
-        if (goToM) {
-            playerBet.position = game.input.position;
-        } else {
-            goHome()
+
+        if (goToM != false) {
+            alert(game.input.position);
+            goToM.name.position = game.input.position;
         }
+        if (goToM == false && goToM != undefined){
+            goToM.name.position.x = pos(goToM.parent, goToM.index)
+        }
+
     }
 
     function render() {
