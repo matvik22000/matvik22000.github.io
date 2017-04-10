@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Robot Editor</title>
     <!-- Create a simple CodeMirror instance -->
     <link rel="stylesheet" href="codemirror-5.25.0/lib/codemirror.css">
     <link rel="stylesheet" href="codemirror-5.25.0/addon/hint/show-hint.css">
@@ -19,11 +19,65 @@
 <body>
 <label>
     <textarea id="test">вверх \вниз \влево \вправо \закрасить \алг \нач \кон \сверху свободно \снизу свободно \слева свободно \справа свободно \И \ИЛИ \НЕ \сверху свободно \снизу свободно \слева свободно \справа свободно \сверху стена \снизу стена \слева стена \справа стена \то
-\все \иначе
+\все \иначе \если \пока \повторить \раз \клетка закрашена \клетка чистая
+
+использовать Робот
+алг
+нач
 
 
 
-</textarea>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+кон</textarea>
 </label>
 <script>
     /* Example definition of a simple mode that understands a subset of
@@ -44,12 +98,13 @@
             {regex: /(?:function|var|return|if|for|while|else|do|this)\b/,
                 token: "keyword"},
             {regex: /вправо|вверх|вниз|влево|закрасить/, token: "variable-2"},
-            {regex: /если|пока|повторить|алг|И|ИЛИ|НЕ|то|иначе|все/, token: "keyword"},
+            {regex: /если|пока|повторить|алг|И|ИЛИ|НЕ|то|иначе|все|раз|использовать Робот/, token: "keyword"},
             {regex: /нач|кон/, token: "variable-3"},
             {regex: /справа стена|слева стена|сверху стена|снизу стена|справа свободно|слева свободно|сверху свободно|снизу свободно|клетка закрашена|клетка чистая/, token: "atom"},
             {regex: /0x[a-f\d]+|[-+]?(?:\.\d+|\d+\.?\d*)(?:e[-+]?\d+)?/i,
                 token: "number"},
             {regex: /\/\/.*/, token: "comment"},
+
             {regex: /\/(?:[^\\]|\\.)*?\//, token: "variable-3"},
 
             // A next property will cause the mode to move to a different state
@@ -59,6 +114,7 @@
             {regex: /нц/, indent: true},
             {regex: /кц/, dedent: true, indent: false},
             {regex: /[a-z$][\w$]*/, token: "variable"},
+            {regex: /[а-яА-Я]/, token: "string"},
             // You can embed other modes with the mode property. This rule
             // causes all code between << and >> to be highlighted with the XML
             // mode.
@@ -105,27 +161,67 @@
                 editor.replaceRange("закрасить ", editor.getCursor())
 
             },
-            "Ctrl-Shift-L" : function (cm) {
-                editor.replaceRange("справа стена ", editor.getCursor())
+            "Ctrl-Alt-Left" : function (cm) {
+                editor.replaceRange("слева стена ", editor.getCursor())
             },
-            "Ctrl-Alt-R" : function (cm) {
+            "Ctrl-Alt-Right" : function (cm) {
                 editor.replaceRange("справа стена ", editor.getCursor())
 
             },
-            "Ctrl-Alt-U" : function (cm) {
+            "Ctrl-Alt-Up" : function (cm) {
                 editor.replaceRange("сверху стена ", editor.getCursor())
 
             },
-            "Ctrl-Alt-D" : function (cm) {
+            "Ctrl-Alt-Down" : function (cm) {
                 editor.replaceRange("снизу стена ", editor.getCursor())
 
             },
             "Ctrl-Alt-Space" : function (cm) {
                 editor.replaceRange("клетка закрашена ", editor.getCursor())
 
+            },
+            "Ctrl-S" : function (cm) {
+                cur = editor.getCursor();
+                editor.replaceRange("нц ", cur);
+                editor.replaceRange("\n", {line: cur.line + 1, ch: 0});
+                editor.replaceRange("\n", {line: cur.line + 2, ch: 0});
+                editor.replaceRange("  ", {line: cur.line + 3, ch: 0});
+                editor.replaceRange("\n", {line: cur.line + 4, ch: 0});
+                editor.replaceRange("  ", {line: cur.line + 5, ch: 0});
+                editor.replaceRange("\n", {line: cur.line + 6, ch: 0});
+                editor.replaceRange("кц", {line: cur.line + 7, ch: 0});
+                editor.setCursor({line: cur.line, ch: 5})
+
+            },
+            "Shift-9" : function (cm) {
+                cur = editor.getCursor();
+                editor.replaceRange("(", editor.getCursor());
+                editor.replaceRange(")", editor.getCursor());
+                editor.setCursor({line: cur.line, ch: cur.ch + 1 });
+
+            },
+            "Ctrl-I" : function (cm) {
+                cur = editor.getCursor();
+                editor.replaceRange("если ", cur);
+                editor.replaceRange("\n", {line: cur.line + 1, ch: 0});
+                editor.replaceRange("то ", {line: cur.line + 2, ch: 0});
+                editor.replaceRange("\n", {line: cur.line + 3, ch: 0});
+
+                editor.replaceRange("все", {line: cur.line + 4, ch: 0});
+                editor.setCursor({line: cur.line, ch: 6})
+
+            },
+            "Ctrl-E" : function (cm) {
+                cur = editor.getCursor();
+                editor.replaceRange("иначе ", {line: cur.line, ch: 0});
+
+
+                editor.setCursor({line: cur.line, ch: 6})
+
             }
 
         }
+
 
     });
 
