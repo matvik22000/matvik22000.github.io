@@ -36,47 +36,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 кон</textarea>
 </label>
 <script>
@@ -91,14 +50,14 @@
             {regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string"},
             // You can match multiple tokens at once. Note that the captured
             // groups must span the whole string in this case
-            {regex: /(если|пока)(\s+)([a-z$][\w$]*)/,
+            {regex: /(алг)(\s+)([а-я&\w$]*)/,
                 token: ["keyword", null, "atom"]},
             // Rules are matched in the order in which they appear, so there is
             // no ambiguity between this one and the one above
             {regex: /(?:function|var|return|if|for|while|else|do|this)\b/,
                 token: "keyword"},
-            {regex: /вправо|вверх|вниз|влево|закрасить/, token: "variable-2"},
-            {regex: /если|пока|повторить|алг|И|ИЛИ|НЕ|то|иначе|все|раз|использовать Робот/, token: "keyword"},
+            {regex: /вправо|вверх|вниз|влево|закрасить|сместиться в точку|сместиться на вектор/, token: "variable-2"},
+            {regex: /если|пока|повторить|алг|И|ИЛИ|НЕ|то|иначе|все|раз|использовать Робот|использовать Чертежник/, token: "keyword"},
             {regex: /нач|кон/, token: "variable-3"},
             {regex: /справа стена|слева стена|сверху стена|снизу стена|справа свободно|слева свободно|сверху свободно|снизу свободно|клетка закрашена|клетка чистая/, token: "atom"},
             {regex: /0x[a-f\d]+|[-+]?(?:\.\d+|\d+\.?\d*)(?:e[-+]?\d+)?/i,
@@ -214,6 +173,21 @@
             "Ctrl-E" : function (cm) {
                 cur = editor.getCursor();
                 editor.replaceRange("иначе ", {line: cur.line, ch: 0});
+
+
+                editor.setCursor({line: cur.line, ch: 6})
+
+            },
+            "Ctrl-F" : function (cm) {
+                cur = editor.getCursor();
+                editor.replaceRange("алг ", {line: cur.line, ch: 0});
+                editor.replaceRange("\n", {line: cur.line + 1, ch: 0});
+                editor.replaceRange("нач", {line: cur.line + 1, ch: 0});
+                editor.replaceRange("\n", {line: cur.line + 2, ch: 0});
+                editor.replaceRange("\n", {line: cur.line + 3, ch: 0});
+                editor.replaceRange("\n", {line: cur.line + 4, ch: 0});
+                editor.replaceRange("кон", {line: cur.line + 5, ch: 0});
+
 
 
                 editor.setCursor({line: cur.line, ch: 6})
