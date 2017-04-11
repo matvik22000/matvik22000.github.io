@@ -12,7 +12,6 @@
     <script src="codemirror-5.25.0/addon/hint/javascript-hint.js"></script>
     <script src="codemirror-5.25.0/addon/mode/simple.js"></script>
     <script src="codemirror-5.25.0/addon/hint/anyword-hint.js"></script>
-    
 
 
 </head>
@@ -50,18 +49,37 @@
             {regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string"},
             // You can match multiple tokens at once. Note that the captured
             // groups must span the whole string in this case
-            {regex: /(алг)(\s+)([а-я&\w$]*)/,
-                token: ["keyword", null, "atom"]},
+            {
+                regex: /(алг)(\s+)([а-я&\w$]*)/,
+                token: ["keyword", null, "atom"]
+            },
+            {
+                regex: /(нц)(\s+)([а-я&\w$]*)/,
+                token: ["keyword", null, "atom"]
+            },
             // Rules are matched in the order in which they appear, so there is
             // no ambiguity between this one and the one above
-            {regex: /(?:function|var|return|if|for|while|else|do|this)\b/,
-                token: "keyword"},
-            {regex: /вправо|вверх|вниз|влево|закрасить|сместиться в точку|сместиться на вектор|поднять перо|опустить перо/, token: "variable-2"},
-            {regex: /если|пока|повторить|алг|И|ИЛИ|НЕ|то|иначе|все|раз|использовать Робот|использовать Чертежник/, token: "keyword"},
+            {
+                regex: /(?:function|var|return|if|for|while|else|do|this)\b/,
+                token: "keyword"
+            },
+            {
+                regex: /вправо|вверх|вниз|влево|закрасить|сместиться в точку|сместиться на вектор|поднять перо|опустить перо/,
+                token: "variable-2"
+            },
+            {
+                regex: /если|пока|повторить|алг|И|ИЛИ|НЕ|то|иначе|все|раз|использовать Робот|использовать Чертежник|нц|кц/,
+                token: "keyword"
+            },
             {regex: /нач|кон/, token: "variable-3"},
-            {regex: /справа стена|слева стена|сверху стена|снизу стена|справа свободно|слева свободно|сверху свободно|снизу свободно|клетка закрашена|клетка чистая/, token: "atom"},
-            {regex: /0x[a-f\d]+|[-+]?(?:\.\d+|\d+\.?\d*)(?:e[-+]?\d+)?/i,
-                token: "number"},
+            {
+                regex: /справа стена|слева стена|сверху стена|снизу стена|справа свободно|слева свободно|сверху свободно|снизу свободно|клетка закрашена|клетка чистая/,
+                token: "atom"
+            },
+            {
+                regex: /0x[a-f\d]+|[-+]?(?:\.\d+|\d+\.?\d*)(?:e[-+]?\d+)?/i,
+                token: "number"
+            },
             {regex: /\/\/.*/, token: "comment"},
 
             {regex: /\/(?:[^\\]|\\.)*?\//, token: "variable-3"},
@@ -100,46 +118,46 @@
         lineNumbers: true,
         tabSize: 5,
         extraKeys: {
-            "Alt" : "autocomplete",
-            "Ctrl-L" : function (cm) {
+            "Alt": "autocomplete",
+            "Ctrl-L": function (cm) {
                 editor.replaceRange("влево ", editor.getCursor())
             },
-            "Ctrl-R" : function (cm) {
+            "Ctrl-R": function (cm) {
                 editor.replaceRange("вправо ", editor.getCursor())
 
             },
-            "Ctrl-U" : function (cm) {
+            "Ctrl-U": function (cm) {
                 editor.replaceRange("вверх ", editor.getCursor())
 
             },
-            "Ctrl-D" : function (cm) {
+            "Ctrl-D": function (cm) {
                 editor.replaceRange("вниз ", editor.getCursor())
 
             },
-            "Ctrl-Space" : function (cm) {
+            "Ctrl-Space": function (cm) {
                 editor.replaceRange("закрасить ", editor.getCursor())
 
             },
-            "Ctrl-Alt-Left" : function (cm) {
+            "Ctrl-Alt-Left": function (cm) {
                 editor.replaceRange("слева стена ", editor.getCursor())
             },
-            "Ctrl-Alt-Right" : function (cm) {
+            "Ctrl-Alt-Right": function (cm) {
                 editor.replaceRange("справа стена ", editor.getCursor())
 
             },
-            "Ctrl-Alt-Up" : function (cm) {
+            "Ctrl-Alt-Up": function (cm) {
                 editor.replaceRange("сверху стена ", editor.getCursor())
 
             },
-            "Ctrl-Alt-Down" : function (cm) {
+            "Ctrl-Alt-Down": function (cm) {
                 editor.replaceRange("снизу стена ", editor.getCursor())
 
             },
-            "Ctrl-Alt-Space" : function (cm) {
+            "Ctrl-Alt-Space": function (cm) {
                 editor.replaceRange("клетка закрашена ", editor.getCursor())
 
             },
-            "Ctrl-S" : function (cm) {
+            "Ctrl-S": function (cm) {
                 cur = editor.getCursor();
                 editor.replaceRange("нц ", cur);
                 editor.replaceRange("\n", {line: cur.line + 1, ch: 0});
@@ -152,14 +170,14 @@
                 editor.setCursor({line: cur.line, ch: 5})
 
             },
-            "Shift-9" : function (cm) {
+            "Shift-9": function (cm) {
                 cur = editor.getCursor();
                 editor.replaceRange("(", editor.getCursor());
                 editor.replaceRange(")", editor.getCursor());
-                editor.setCursor({line: cur.line, ch: cur.ch + 1 });
+                editor.setCursor({line: cur.line, ch: cur.ch + 1});
 
             },
-            "Ctrl-I" : function (cm) {
+            "Ctrl-I": function (cm) {
                 cur = editor.getCursor();
                 editor.replaceRange("если ", cur);
                 editor.replaceRange("\n", {line: cur.line + 1, ch: 0});
@@ -170,7 +188,7 @@
                 editor.setCursor({line: cur.line, ch: 6})
 
             },
-            "Ctrl-E" : function (cm) {
+            "Ctrl-E": function (cm) {
                 cur = editor.getCursor();
                 editor.replaceRange("иначе ", {line: cur.line, ch: 0});
 
@@ -178,7 +196,7 @@
                 editor.setCursor({line: cur.line, ch: 6})
 
             },
-            "Ctrl-F" : function (cm) {
+            "Ctrl-F": function (cm) {
                 cur = editor.getCursor();
                 editor.replaceRange("алг ", {line: cur.line, ch: 0});
                 editor.replaceRange("\n", {line: cur.line + 1, ch: 0});
@@ -187,9 +205,6 @@
                 editor.replaceRange("\n", {line: cur.line + 3, ch: 0});
                 editor.replaceRange("\n", {line: cur.line + 4, ch: 0});
                 editor.replaceRange("кон", {line: cur.line + 5, ch: 0});
-
-
-
                 editor.setCursor({line: cur.line, ch: 6})
 
             }
