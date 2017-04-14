@@ -277,12 +277,14 @@
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
             type: "GET",//Request type GET/POST
             data:{
-                name: first_name,
-                code: code
+                name: document.getElementById("name").value,
+                code: code,
+                author: first_name
             },
             success: function (data) {
                 document.getElementById("auth").style = "opacity:0; z-index:-100;";
                 document.getElementById("parent_popup").style = "opacity:0; z-index:-100;";
+                document.getElementById("name").style = "opacity:0; z-index:-100;";
                 alert(data)
             }
         });
@@ -294,8 +296,10 @@
     <div id="auth">
         <p>Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
         <div id="vk_auth"></div>
+        <label>
+            <input id="name" class="w3-input">
+        </label>
         <button class="w3-btn w3-padding w3-margin" onclick="save_text_2()">сохранить</button>
-        <div id = "w_p"></div>
     </div>
 </div>
 </body>

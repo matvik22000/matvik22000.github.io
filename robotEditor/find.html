@@ -14,18 +14,33 @@
     <button onclick="find()" class="w3-btn w3-padding w3-margin">найти</button>
     </div>
 </label>
+<div id="cards"></div>
 <script>
     function find() {
+        minAjax({
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_card",
+            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+            type: "GET",//Request type GET/POST
+            data:{
+                name: document.getElementById("name").value
+            },
+            success: function (data) {
+                document.getElementById("cards").innerHTML = data
+            }
+        });
+    }
+    function open(name, author) {
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_code",
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
             type: "GET",//Request type GET/POST
             data:{
-                name: document.getElementById("name")
+                name: name,
+                author: author
             },
             success: function (data) {
-                code = JSON.parse(data);
-                alert(code)
+                localStorage.setItem("code", data);
+                window.location = "index.html"
             }
         });
     }
