@@ -32,10 +32,11 @@
 </head>
 <body>
 <script>
+    var first_name;
     VK.init({apiId: 5815731});
     VK.Widgets.Auth("vk_auth", {onAuth: function(data) {
-        var f_n = data['first_name'];
-        var l_n = data['last_name']
+        first_name = data['first_name'];
+
     } });
 </script>
 
@@ -276,7 +277,7 @@
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
             type: "GET",//Request type GET/POST
             data:{
-                name: f_n,
+                name: first_name,
                 code: code
             },
             success: function (data) {
