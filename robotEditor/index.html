@@ -99,7 +99,7 @@
                 token: "variable-2"
             },
             {
-                regex: /или|если|пока|повторить|алг|и|не|то|иначе|все|раз|использовать Робот|использовать Чертежник|нц|кц/,
+                regex: /если|пока|повторить|алг|то|иначе|все|раз|использовать Робот|использовать Чертежник|нц|кц/,
                 token: "keyword"
             },
             {regex: /нач|кон/, token: "variable-3"},
@@ -119,8 +119,7 @@
             {regex: /\/\*/, token: "comment", next: "comment"},
             {regex: /[-+\/*=<>!]+/, token: "operator"},
             // indent and dedent properties guide autoindentation
-            {regex: /нц/, indent: true},
-            {regex: /кц/, dedent: true, indent: false},
+            {regex: /или|и|не/, token: "keyword"},
             {regex: /[a-z$][\w$]*/, token: "variable"},
             {regex: /[а-яА-Я]/, token: "error"},
             // You can embed other modes with the mode property. This rule
