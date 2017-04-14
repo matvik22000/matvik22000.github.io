@@ -8,7 +8,7 @@
 </head>
 <body>
 <label>
-    <h2 align="center">введите имя автора</h2>
+    <h2 align="center">введите имя программы</h2>
     <input class="w3-input" id="name">
     <div style="text-align: center;">
     <button onclick="find()" class="w3-btn w3-padding w3-margin">найти</button>
@@ -25,11 +25,21 @@
                 name: document.getElementById("name").value
             },
             success: function (data) {
-                document.getElementById("cards").innerHTML = data
+                var cards = JSON.parse(data);
+                console.log(cards);
+                var html = "";
+                for (var i = 0; i < cards.length; i++) {
+                    html += "<div class='w3-card w3-green w3-hover' onclick='open_text(" + "\"" +cards[i].name + "\", \"" + cards[i].author + "\"" +  ")'>";
+                    html += "<h1 align='center'>" + cards[i].name + "</h1>";
+                    html += "<h3 align = center>" + cards[i].author + "</h3>";
+                    html += "</div>"
+                }
+                document.getElementById("cards").innerHTML = html
             }
         });
     }
-    function open(name, author) {
+    function open_text(name, author) {
+
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_code",
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
@@ -39,11 +49,14 @@
                 author: author
             },
             success: function (data) {
-                localStorage.setItem("code", data);
+                localStorage.setItem("text", data);
                 window.location = "index.html"
             }
         });
     }
+
 </script>
+
+
 </body>
 </html>

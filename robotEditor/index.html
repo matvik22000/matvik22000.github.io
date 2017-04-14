@@ -271,7 +271,8 @@
 
     }
     function save_text_2() {
-        var code = document.getElementById("test").value;
+        if(first_name != undefined){
+        var code = editor.getValue();
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "save",
             // + buy + "цена:" +cost + "от:"+ l_n + f_n +
@@ -289,15 +290,22 @@
             }
         });
     }
+    else {
+            alert("Вы не авторизованы!")
+        }
+    }
 
-
+if (localStorage.getItem("text") != undefined){
+    editor.setValue(localStorage.getItem("text"));
+    localStorage.setItem("text", undefined)
+}
 </script>
 <div id="parent_popup">
     <div id="auth">
         <p>Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
         <div id="vk_auth"></div>
         <label>
-            <input id="name" class="w3-input">
+            <input id="name" class="w3-input w3-padding" style="background-color: #f4edda">
         </label>
         <button class="w3-btn w3-padding w3-margin" onclick="save_text_2()">сохранить</button>
     </div>
