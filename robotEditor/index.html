@@ -3,22 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Robot Editor</title>
-    <!-- Create a simple CodeMirror instance -->
+    <script src="minajax.js"></script>
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
     <link rel="stylesheet" href="codemirror-5.25.0/lib/codemirror.css">
     <link rel="stylesheet" href="codemirror-5.25.0/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="codemirror-5.25.0/addon/display/fullscreen.css">
     <script src="codemirror-5.25.0/lib/codemirror.js"></script>
     <script src="codemirror-5.25.0/mode/javascript/javascript.js"></script>
     <script src="codemirror-5.25.0/addon/hint/show-hint.js"></script>
     <script src="codemirror-5.25.0/addon/hint/javascript-hint.js"></script>
     <script src="codemirror-5.25.0/addon/mode/simple.js"></script>
     <script src="codemirror-5.25.0/addon/hint/anyword-hint.js"></script>
-
-
+    <script src="codemirror-5.25.0/addon/display/fullscreen.js"></script>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <style>
+        body{
+            background-color:whitesmoke;
+        }
+        #auth{
+            z-index:-100;
+            opacity:0;
+        }
+        #parent_popup{
+            z-index:-100;
+            opacity:0;
+        }
+    </style>
 </head>
 <body>
+<script>
+    VK.init({apiId: 5815731});
+    VK.Widgets.Auth("vk_auth", {onAuth: function(data) {
+        var f_n = data['first_name'];
+        var l_n = data['last_name']
+    } });
+</script>
+
+<div id="toolbar" class="w3-top">
+    <ul class="w3-navbar w3-white w3-wide w3-padding-8 w3-card-2">
+        <li>
+            <a style="cursor: pointer" onclick="hide()" class="w3-left">спрятать панель</a>
+        </li>
+        <!-- Right-sided navbar links. Hide them on small screens -->
+        <li class="w3-right w3-hide-small">
+            <a style="cursor: pointer" onclick="save_text()" class="w3-left">сохранить</a>
+            <a href="manual.html" class="w3-left">список команд</a>
+
+
+        </li>
+        <li class="w3-right w3-hide-small">
+            <div id="vk_contact_us"></div>
+        </li>
+        <li class="w3-right w3-hide-small">
+            <div id="vk_like"></div>
+        </li>
+    </ul>
+</div>
+<br>
+<br>
+<br>
+
 <label>
-    <textarea id="test">вверх \вниз \влево \вправо \закрасить \алг \нач \кон \сверху свободно \снизу свободно \слева свободно \справа свободно \И \ИЛИ \НЕ \сверху свободно \снизу свободно \слева свободно \справа свободно \сверху стена \снизу стена \слева стена \справа стена \то
-\все \иначе \если \пока \повторить \раз \клетка закрашена \клетка чистая
+    <textarea id="test">вверх \вниз \влево \вправо \закрасить \алг \нач \кон \сверху свободно \снизу свободно \слева свободно \справа свободно \И \ИЛИ \НЕ \сверху свободно \снизу свободно \слева свободно \справа свободно \сверху стена \снизу стена
+\слева стена \справа стена \то \все \иначе \если \пока \повторить \раз \клетка закрашена \клетка чистая
 
 использовать Робот
 алг
@@ -28,15 +75,9 @@
 
 
 
-
-
-
-
-
-
-
 кон</textarea>
 </label>
+
 <script>
     /* Example definition of a simple mode that understands a subset of
      * JavaScript:
@@ -51,7 +92,7 @@
             // groups must span the whole string in this case
             {
                 regex: /(алг)(\s+)([а-я&\w$]*)/,
-                token: ["keyword", null, "atom"]
+                token: ["keyword", null, "variable-2"]
             },
             {
                 regex: /(нц)(\s+)([а-я&\w$]*)/,
@@ -64,11 +105,11 @@
                 token: "keyword"
             },
             {
-                regex: /вправо|вверх|вниз|влево|закрасить|сместиться в точку|сместиться на вектор|поднять перо|опустить перо/,
+                regex: /вправо|вверх|вниз|влево|закрасить|сместиться в точку|сместиться на вектор|поднять перо|опустить перо|функция[1-9]/,
                 token: "variable-2"
             },
             {
-                regex: /если|пока|повторить|алг|И|ИЛИ|НЕ|то|иначе|все|раз|использовать Робот|использовать Чертежник|нц|кц/,
+                regex: /ИЛИ|если|пока|повторить|алг|И|НЕ|то|иначе|все|раз|использовать Робот|использовать Чертежник|нц|кц/,
                 token: "keyword"
             },
             {regex: /нач|кон/, token: "variable-3"},
@@ -91,7 +132,7 @@
             {regex: /нц/, indent: true},
             {regex: /кц/, dedent: true, indent: false},
             {regex: /[a-z$][\w$]*/, token: "variable"},
-            {regex: /[а-яА-Я]/, token: "string"},
+            {regex: /[а-яА-Я]/, token: "error"},
             // You can embed other modes with the mode property. This rule
             // causes all code between << and >> to be highlighted with the XML
             // mode.
@@ -112,9 +153,11 @@
             lineComment: "//"
         }
     });
+    var f_num = 1;
     var myTextarea = document.getElementById("test");
     var editor = CodeMirror.fromTextArea(myTextarea, {
         mode: "simplemode",
+        fullscreen: true,
         lineNumbers: true,
         tabSize: 5,
         extraKeys: {
@@ -181,10 +224,10 @@
                 cur = editor.getCursor();
                 editor.replaceRange("если ", cur);
                 editor.replaceRange("\n", {line: cur.line + 1, ch: 0});
-                editor.replaceRange("то ", {line: cur.line + 2, ch: 0});
-                editor.replaceRange("\n", {line: cur.line + 3, ch: 0});
+                editor.replaceRange("то ", {line: cur.line + 1, ch: 0});
+                editor.replaceRange("\n", {line: cur.line + 2, ch: 0});
 
-                editor.replaceRange("все", {line: cur.line + 4, ch: 0});
+                editor.replaceRange("все", {line: cur.line + 2, ch: 0});
                 editor.setCursor({line: cur.line, ch: 6})
 
             },
@@ -198,23 +241,61 @@
             },
             "Ctrl-F": function (cm) {
                 cur = editor.getCursor();
-                editor.replaceRange("алг ", {line: cur.line, ch: 0});
+                editor.replaceRange("алг функция" + f_num, {line: cur.line, ch: 0});
                 editor.replaceRange("\n", {line: cur.line + 1, ch: 0});
                 editor.replaceRange("нач", {line: cur.line + 1, ch: 0});
                 editor.replaceRange("\n", {line: cur.line + 2, ch: 0});
                 editor.replaceRange("\n", {line: cur.line + 3, ch: 0});
                 editor.replaceRange("\n", {line: cur.line + 4, ch: 0});
                 editor.replaceRange("кон", {line: cur.line + 5, ch: 0});
-                editor.setCursor({line: cur.line, ch: 6})
+                editor.setCursor({line: cur.line + 2, ch: 6});
+                f_num ++
 
+            },
+            "Esc": function (cm) {
+                cm.setOption("fullScreen", !cm.getOption("fullScreen"));
             }
 
         }
 
 
     });
+    function hide() {
+        editor.setOption("fullScreen", true);
+
+    }
+    function save_text() {
+        document.getElementById("auth").style = "position: fixed; left:35%; opacity: 1; z-index: 100; padding: 30px; background-color: #f4edda;";
+        document.getElementById("parent_popup").style = "background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 1000;top: 0;left: 0;";
+
+    }
+    function save_text_2() {
+        var code = document.getElementById("test").value;
+        minAjax({
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "save",
+            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+            type: "GET",//Request type GET/POST
+            data:{
+                name: f_n,
+                code: code
+            },
+            success: function (data) {
+                document.getElementById("auth").style = "opacity:0; z-index:-100;";
+                document.getElementById("parent_popup").style = "opacity:0; z-index:-100;";
+                alert(data)
+            }
+        });
+    }
 
 
 </script>
+<div id="parent_popup">
+    <div id="auth">
+        <p>Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
+        <div id="vk_auth"></div>
+        <button class="w3-btn w3-padding w3-margin" onclick="save_text_2()">сохранить</button>
+        <div id = "w_p"></div>
+    </div>
+</div>
 </body>
 </html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="minajax.js"></script>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <meta charset="UTF-8">
+    <title>найти программу</title>
+</head>
+<body>
+<label>
+    <h2 align="center">введите имя автора</h2>
+    <input class="w3-input" id="name">
+    <div style="text-align: center;">
+    <button onclick="find()" class="w3-btn w3-padding w3-margin">найти</button>
+    </div>
+</label>
+<script>
+    function find() {
+        minAjax({
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_code",
+            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
+            type: "GET",//Request type GET/POST
+            data:{
+                name: document.getElementById("name")
+            },
+            success: function (data) {
+                code = JSON.parse(data);
+                alert(code)
+            }
+        });
+    }
+</script>
+</body>
+</html>
