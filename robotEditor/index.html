@@ -295,9 +295,9 @@
         }
     }
 
-if (localStorage.getItem("text") != undefined){
+if (localStorage.getItem("text") != ""){
     editor.setValue(localStorage.getItem("text"));
-    localStorage.setItem("text", undefined)
+    localStorage.setItem("text", "")
 }
 </script>
 <div id="parent_popup">
