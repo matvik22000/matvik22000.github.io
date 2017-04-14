@@ -193,12 +193,7 @@
                 cur = editor.getCursor();
                 editor.replaceRange("нц ", cur);
                 editor.replaceRange("\n", {line: cur.line + 1, ch: 0});
-                editor.replaceRange("\n", {line: cur.line + 2, ch: 0});
-                editor.replaceRange("  ", {line: cur.line + 3, ch: 0});
-                editor.replaceRange("\n", {line: cur.line + 4, ch: 0});
-                editor.replaceRange("  ", {line: cur.line + 5, ch: 0});
-                editor.replaceRange("\n", {line: cur.line + 6, ch: 0});
-                editor.replaceRange("кц", {line: cur.line + 7, ch: 0});
+                editor.replaceRange("кц", {line: cur.line + 3, ch: 0});
                 editor.setCursor({line: cur.line, ch: 5})
 
             },
