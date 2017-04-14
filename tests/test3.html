@@ -5,10 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-
+<button id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">This is what I want to copy</button>
 
 <script>
-alert (location.hash.substring(1))
+    function copyToClipboard(text) {
+        window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+    }
 </script>
+
+
+
 </body>
 </html>
