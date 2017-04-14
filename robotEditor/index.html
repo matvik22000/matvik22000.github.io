@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Robot Editor</title>
     <script src="minajax.js"></script>
-    <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+
     <link rel="stylesheet" href="codemirror-5.25.0/lib/codemirror.css">
     <link rel="stylesheet" href="codemirror-5.25.0/addon/hint/show-hint.css">
     <link rel="stylesheet" href="codemirror-5.25.0/addon/display/fullscreen.css">
@@ -31,14 +31,7 @@
     </style>
 </head>
 <body>
-<script>
-    var first_name;
-    VK.init({apiId: 5815731});
-    VK.Widgets.Auth("vk_auth", {onAuth: function(data) {
-        first_name = data['first_name'];
 
-    } });
-</script>
 
 <div id="toolbar" class="w3-top">
     <ul class="w3-navbar w3-white w3-wide w3-padding-8 w3-card-2">
@@ -49,14 +42,7 @@
         <li class="w3-right w3-hide-small">
             <a style="cursor: pointer" onclick="save_text()" class="w3-left">сохранить</a>
             <a href="manual.html" class="w3-left">список команд</a>
-
-
-        </li>
-        <li class="w3-right w3-hide-small">
-            <div id="vk_contact_us"></div>
-        </li>
-        <li class="w3-right w3-hide-small">
-            <div id="vk_like"></div>
+            <a style="cursor:pointer;" onclick="share()" class="w3-left">поделиться</a>
         </li>
     </ul>
 </div>
@@ -80,6 +66,9 @@
 </label>
 
 <script>
+    function share() {
+        alert('ссылка: ' + location.href)
+    }
     /* Example definition of a simple mode that understands a subset of
      * JavaScript:
      */
@@ -266,49 +255,38 @@
 
     }
     function save_text() {
-        document.getElementById("auth").style = "position: fixed; left:35%; opacity: 1; z-index: 100; padding: 30px; background-color: #f4edda;";
-        document.getElementById("parent_popup").style = "background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 1000;top: 0;left: 0;";
-
-    }
-    function save_text_2() {
-        if(first_name != undefined){
         var code = editor.getValue();
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "save",
-            // + buy + "цена:" +cost + "от:"+ l_n + f_n +
             type: "GET",//Request type GET/POST
             data:{
-                name: document.getElementById("name").value,
                 code: code,
-                author: first_name
+                id: location.hash.substring(1)
             },
             success: function (data) {
-                document.getElementById("auth").style = "opacity:0; z-index:-100;";
-                document.getElementById("parent_popup").style = "opacity:0; z-index:-100;";
-                document.getElementById("name").style = "opacity:0; z-index:-100;";
-                alert(data)
+                location = "#" + data
+
+
             }
         });
     }
-    else {
-            alert("Вы не авторизованы!")
-        }
+    if(location.hash.substring(1) != ""){
+        minAjax({
+            url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_code",
+            type: "GET",//Request type GET/POST
+            data:{
+                id: location.hash.substring(1)
+            },
+            success: function (data) {
+                editor.setValue(data)
+
+
+            }
+        });
     }
 
-if (localStorage.getItem("text") != ""){
-    editor.setValue(localStorage.getItem("text"));
-    localStorage.setItem("text", "")
-}
+
 </script>
-<div id="parent_popup">
-    <div id="auth">
-        <p>Нажмите на кнопку "Войти через ВКонтакте", чтобы авторизоваться</p>
-        <div id="vk_auth"></div>
-        <label>
-            <input id="name" class="w3-input w3-padding" style="background-color: #f4edda">
-        </label>
-        <button class="w3-btn w3-padding w3-margin" onclick="save_text_2()">сохранить</button>
-    </div>
-</div>
+
 </body>
 </html>
