@@ -5,12 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-<button id="demo" onclick="copyToClipboard(document.getElementById('demo').innerHTML)">This is what I want to copy</button>
+
 
 <script>
-    function copyToClipboard(text) {
-        window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
-    }
+    window.onpopstate = function(event) {
+        location.reload()
+    };
 </script>
 
 
