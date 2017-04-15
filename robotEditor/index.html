@@ -137,6 +137,7 @@
         }
     });
     var f_num = 1;
+    var autocomplete = false;
     var myTextarea = document.getElementById("test");
     var editor = CodeMirror.fromTextArea(myTextarea, {
         mode: "simplemode",
@@ -144,7 +145,7 @@
         lineNumbers: true,
         tabSize: 5,
         extraKeys: {
-            "Alt": "autocomplete",
+
             "Ctrl-L": function (cm) {
                 editor.replaceRange("влево ", editor.getCursor())
             },
@@ -258,6 +259,17 @@
             }
         });
     }
+    editor.on("keyup", function (cm, event) {
+
+        if (event.key.charCodeAt() >=1040 && event.key.charCodeAt() <= 1105){
+            console.log("test");
+            if (!cm.state.completionActive && /*Enables keyboard navigation in autocomplete list*/
+                event.keyCode != 13) {        /*Enter - do not open autocomplete list just after item has been selected in it*/
+                CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
+            }
+        }
+    });
+
     if (location.hash.substring(1) != "") {
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_code",
@@ -272,6 +284,7 @@
             }
         });
     }
+
 
 
 </script>
