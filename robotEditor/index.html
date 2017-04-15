@@ -88,23 +88,17 @@
                 regex: /(нц)(\s+)([а-я&\w$]*)/,
                 token: ["keyword", null, "atom"]
             },
-            // Rules are matched in the order in which they appear, so there is
-            // no ambiguity between this one and the one above
-            {
-                regex: /(?:function|var|return|if|for|while|else|do|this)\b/,
-                token: "keyword"
-            },
             {
                 regex: /вправо|вверх|вниз|влево|закрасить|сместиться в точку|сместиться на вектор|поднять перо|опустить перо|функция[1-9]/,
                 token: "variable-2"
             },
             {
-                regex: /если|пока|повторить|алг|то|иначе|все|раз|использовать Робот|использовать Чертежник|нц|кц/,
+                regex: /если|пока|повторить|алг|то|иначе|все|раз|использовать Робот|использовать Чертежник|нц|кц|вывод/,
                 token: "keyword"
             },
             {regex: /нач|кон/, token: "variable-3"},
             {
-                regex: /справа стена|слева стена|сверху стена|снизу стена|справа свободно|слева свободно|сверху свободно|снизу свободно|клетка закрашена|клетка чистая/,
+                regex: /справа стена|слева стена|сверху стена|снизу стена|справа свободно|слева свободно|сверху свободно|снизу свободно|клетка закрашена|клетка чистая|радиация/,
                 token: "atom"
             },
             {
@@ -193,7 +187,7 @@
                 cur = editor.getCursor();
                 editor.replaceRange("нц ", cur);
                 editor.replaceRange("\n", {line: cur.line + 1, ch: 0});
-                editor.replaceRange("кц", {line: cur.line + 3, ch: 0});
+                editor.replaceRange("кц", {line: cur.line + 2, ch: 0});
                 editor.setCursor({line: cur.line, ch: 5})
 
             },
