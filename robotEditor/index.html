@@ -13,20 +13,22 @@
     <script src="codemirror-5.25.0/addon/hint/show-hint.js"></script>
     <script src="codemirror-5.25.0/addon/hint/javascript-hint.js"></script>
     <script src="codemirror-5.25.0/addon/mode/simple.js"></script>
-    <script src="codemirror-5.25.0/addon/hint/anyword-hint.js"></script>
+    <script src="hint.js"></script>
     <script src="codemirror-5.25.0/addon/display/fullscreen.js"></script>
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <style>
-        body{
-            background-color:whitesmoke;
+        body {
+            background-color: whitesmoke;
         }
-        #auth{
-            z-index:-100;
-            opacity:0;
+
+        #auth {
+            z-index: -100;
+            opacity: 0;
         }
-        #parent_popup{
-            z-index:-100;
-            opacity:0;
+
+        #parent_popup {
+            z-index: -100;
+            opacity: 0;
         }
     </style>
 </head>
@@ -51,9 +53,7 @@
 <br>
 
 <label>
-    <textarea id="test">вверх \вниз \влево \вправо \закрасить \алг \нач \кон \сверху свободно \снизу свободно \слева свободно \справа свободно \и \или \не \сверху свободно \снизу свободно \слева свободно \справа свободно \сверху стена \снизу стена
-\слева стена \справа стена \то \все \иначе \если \пока \повторить \раз \клетка закрашена \клетка чистая
-
+    <textarea id="test">
 использовать Робот
 алг
 нач
@@ -67,7 +67,7 @@
 
 <script>
     function share() {
-        prompt("ссылка:",location.href);
+        prompt("ссылка:", location.href);
     }
     /* Example definition of a simple mode that understands a subset of
      * JavaScript:
@@ -227,7 +227,7 @@
                 editor.replaceRange("\n", {line: cur.line + 4, ch: 0});
                 editor.replaceRange("кон", {line: cur.line + 5, ch: 0});
                 editor.setCursor({line: cur.line + 2, ch: 6});
-                f_num ++
+                f_num++
 
             },
             "Esc": function (cm) {
@@ -247,7 +247,7 @@
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "save",
             type: "GET",//Request type GET/POST
-            data:{
+            data: {
                 code: code,
                 id: location.hash.substring(1)
             },
@@ -258,11 +258,11 @@
             }
         });
     }
-    if(location.hash.substring(1) != ""){
+    if (location.hash.substring(1) != "") {
         minAjax({
             url: "https://fathomless-shelf-75612.herokuapp.com/" + "r_code",
             type: "GET",//Request type GET/POST
-            data:{
+            data: {
                 id: location.hash.substring(1)
             },
             success: function (data) {
