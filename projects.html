@@ -2,39 +2,85 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href = "favicon5.png" type="image/png">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body{
-            font-size: 30px;
+        p{
+            font-size: 25px;
         }
+        h2{
+            font-size: 35px;
+        }
+        a{
+             font-size: 25px;
+         }
+
     </style>
     <meta charset="UTF-8">
     <title>проекты</title>
 </head>
 <body>
-<h1 align="center">GurProjects | Гуров Матвей</h1>
-<div style="text-align: center;"><a href = 'index.html'>Главная</a></div>
-<h2 align="center">Python 2.7</h2>
-<p align="center">GurShooter</p>
-<p align="center">В этой игре вам придётся защищать какую-то базу в космосе.</p>
-<p align="center">Покупайте новые космические корабли, оснащайте их новейшими модулями, и побеждайте! Как-то так, наверное...</p>
-<br><br>
-<div style="text-align: center;">
-    <a href="gurshooter.zip">скачать</a>
+<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">
+    <button  id="b1" onclick="w3_close()" class="w3-bar-item w3-large w3-button">Close &times;</button>
+    <a href="index.html" class="w3-bar-item w3-button"><i class="fa fa-home"></i> Главаня</a>
+    <a href="games.html" class="w3-bar-item w3-button">игры</a>
+    <a href="https://vk.com/matveygurov" class="w3-bar-item w3-button">feedback</a>
 </div>
-<p align="center">Инструкция по установке:</p>
-<p align="center">1: Скачайте архив, и извлеките его в любую папку.</p>
-<p align="center">2: В этой папке найдите файл под названием "shooter_main.exe", и запустите.</p>
+<div class="w3-teal">
+    <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()"><i class="fa fa-bars"></i></button>
+    <div class="w3-container">
+        <h1 class="w3-animate-top">GurProjects | Гуров Матвей</h1>
+    </div>
+</div>
+<div class="w3-bar w3-indigo">
+    <button class="w3-bar-item w3-button" onclick="openCity('London')">GurShooter</button>
+    <button class="w3-bar-item w3-button" onclick="openCity('Paris')">RobotEditor</button>
+    <button class="w3-bar-item w3-button" onclick="openCity('Tokyo')">GurDonut</button>
+</div>
+<div id="London" class="city">
+    <div class="w3-container">
+        <h2 class="w3-animate-left">GurShooter</h2>
+        <p class="w3-animate-left">В этой игре вам придётся защищать какую-то базу в космосе.</p>
+        <p class="w3-animate-left">Покупайте новые космические корабли, оснащайте их новейшими модулями, и побеждайте! Как-то так, наверное...</p>
+        <a href="gurshooter.zip" class="w3-animate-left">скачать </a>
+    </div>
+    <p class="w3-animate-left">Инструкция по установке:</p>
+    <p class="w3-animate-left">1: Скачайте архив, и извлеките его в любую папку.</p>
+    <p class="w3-animate-left">2: В этой папке найдите файл под названием "shooter_main.exe", и запустите.</p>
+    <p class="w3-animate-left">3: Всё! Можете наслаждаться игрой</p>
+</div>
 
-<p align="center">3: Всё! Можете наслаждаться игрой</p>
-<br><br>
-<p align="center">ГурПышка</p>
-<p align="center">сайт для заказа еды. Заказ будет доставлен в школу</p>
-<div style="text-align: center;"><a href="gurpushka.html" >перейти на сайт</a></div>
-<br><br><br>
-<p align="center">вирус</p>
-<p align="center">просто вирус, который завалит вас вопросами</p>
-<div style="text-align: center;">
-    <a href="prank.exe">скачать</a>
+<div id="Paris" class="city" style="display:none">
+    <h2 class="w3-animate-left">robotEditor</h2>
+    <h2 class="w3-animate-left">Умный редактор для языка "робот КуМир"</h2>
+    <p class="w3-animate-left">Подсказывает и дополняет команды, имеется много горячих клавиш.</p>
+    <p class="w3-animate-left">программу можно сохранить и, впоследствии, найти по ссылке, или скачать</p>
+    <div class="w3-animate-left"><a href="robotEditor" >перейти на сайт</a></div>
 </div>
+
+<div id="Tokyo" class="city" style="display:none">
+    <h2 class="w3-animate-left">GurDonut</h2>
+    <h2 class="w3-animate-left">Сайт для заказа и доставки еды</h2>
+    <p class="w3-animate-left">Можно зарегистрироваться и доставлять еду другим, или заказывать доставку себе.</p>
+    <p class="w3-animate-left">Еду доставят твои друзья на следующий день!</p>
+    <div class="w3-animate-left"><a href="delivery" >перейти на сайт</a></div>
+</div>
+<script>
+    function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+    }
+    function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+    }
+    function openCity(cityName) {
+        var i;
+        var x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        document.getElementById(cityName).style.display = "block";
+    }
+</script>
+
 </body>
 </html>
