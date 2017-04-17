@@ -1,99 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" href = "favicon2.png" type="image/png">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="favicon2.png" type="image/png">
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?136"></script>
     <meta charset="UTF-8">
     <title>GurHouse</title>
     <style>
-        body{
-            background-color: #ffffff;
+        body {
             font-size: 30px;
+        }
 
+        #h2_1 {
+            margin: 50px;
+            color: teal;
+            float: left;
+            font-size: 70px;
         }
-        #but_1{
-            padding-top: 15px;
-            padding-bottom:15px;
-            padding-left: 40px;
-            padding-right: 40px;
-            font-size: large;
 
-        }
-        #but_2{
-            padding-top: 15px;
-            padding-bottom:15px;
-            padding-left: 40px;
-            padding-right: 40px;
-            font-size: large;
-        }
     </style>
 </head>
 <body>
-<h1 align="center">
-    GurHouse | Матвей Гуров
-</h1>
-<script src = "src_change.js"></script>
-
-<center><img src="button_p.png" id="but_p" onmouseover="scr_c_p()" onmouseleave="scr_cn_p()" onclick="return location.href = 'projects.html'" ><img id="but1" onmouseleave="button_cn()" onmouseover="button_c()" src="button.png" onclick="return location.href ='games.html'">
-<img id="but2" onmouseleave="button_cn2()" onmouseover="button_c2()" src="button_f.png" onclick="return location.href ='https://vk.com/gurhouse'"></center>
-<br>
-<center><img src = house.png></center>
-
-<div align="center">
-    Добро пожаловать!
+<div class="w3-teal">
+    <div class="w3-container">
+        <h1 class="w3-animate-top">GurProjects | Гуров Матвей</h1>
+    </div>
 </div>
-<script type="text/javascript" src="//vk.com/js/api/openapi.js?136"></script>
+<div class="w3-display-container">
+    <img class="w3-img w3-right" src="main.jpg" style="width: 85%">
+    <div class="w3-display-middle w3-container" id="h2_1">Born to code</div>
+</div>
+<div class="w3-bar-block w3-border-right w3-lightgray" style="width:15%" id="mySidebar">
+    <a href="index.html" class="w3-bar-item w3-button"><i class="fa fa-home"></i> Главаня</a>
+    <a href="games.html" class="w3-bar-item w3-button">игры</a>
+    <a href="https://vk.com/matveygurov" class="w3-bar-item w3-button">feedback</a>
+    <br>
+    <div id="vk_groups"></div>
+    <br><br><br>
+    <br><br><br>
+    <br><br><br>
+    <br><br><br>
+</div>
 
-<!-- VK Widget -->
-<br>
-<center><div id="vk_groups"></div></center>
+
 <script type="text/javascript">
     VK.Widgets.Group("vk_groups", {mode: 3, width: "220", color1: 'F3F6FC'}, 137251203);
 </script>
-
-<!--<canvas id='example3' width="1000" height="450">Обновите браузер2</canvas>-->
-<!--<script>-->
-    <!--var example3 = document.getElementById("example3"),-->
-        <!--ctx3       = example3.getContext('2d'), // Контекст-->
-        <!--pic3       = new Image();              // "Создаём" изображение-->
-    <!--pic3.src    = 'scr3.png';  // Источник изображения, позаимствовано на хабре-->
-    <!--pic3.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение-->
-        <!--ctx3.drawImage(pic3, 400, 0);  // Рисуем изображение от точки с координатами 0, 0-->
-    <!--}-->
-<!--</script>-->
-<!--<canvas id='example4' width="350" height="450">Обновите браузер2</canvas>-->
-<!--<script>-->
-    <!--var example4 = document.getElementById("example4"),-->
-        <!--ctx4       = example4.getContext('2d'), // Контекст-->
-        <!--pic4       = new Image();              // "Создаём" изображение-->
-    <!--pic4.src    = 'scr4.png';  // Источник изображения, позаимствовано на хабре-->
-    <!--pic4.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение-->
-        <!--ctx4.drawImage(pic4, 50, 0);  // Рисуем изображение от точки с координатами 0, 0-->
-    <!--}-->
-<!--</script>-->
-<!--<br>-->
-<!--<br>-->
-<!--<canvas id='example2' width="600" height="500">Обновите браузер2</canvas>-->
-<!--<script>-->
-    <!--var example2 = document.getElementById("example2"),-->
-        <!--ctx2       = example2.getContext('2d'), // Контекст-->
-        <!--pic2       = new Image();              // "Создаём" изображение-->
-    <!--pic2.src    = 'scr2.png';  // Источник изображения, позаимствовано на хабре-->
-    <!--pic2.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение-->
-        <!--ctx2.drawImage(pic2, 0, 0);  // Рисуем изображение от точки с координатами 0, 0-->
-    <!--}-->
-<!--</script>-->
-<!--<canvas id='example5' width="1200" height="475">Обновите браузер2</canvas>-->
-<!--<script>-->
-    <!--var example5 = document.getElementById("example5"),-->
-        <!--ctx5       = example5.getContext('2d'), // Контекст-->
-        <!--pic5       = new Image();              // "Создаём" изображение-->
-    <!--pic5.src    = 'scr5.png';  // Источник изображения, позаимствовано на хабре-->
-    <!--pic5.onload = function() {    // Событие onLoad, ждём момента пока загрузится изображение-->
-        <!--ctx5.drawImage(pic5, 400, 0);  // Рисуем изображение от точки с координатами 0, 0-->
-    <!--}-->
-<!--</script>-->
-
-
 
 </body>
 </html>
