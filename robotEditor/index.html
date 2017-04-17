@@ -57,6 +57,8 @@
             <a style="cursor: pointer" onclick="save_text()" class="w3-left">сохранить</a>
             <a href="manual.html" class="w3-left">список команд</a>
             <a style="cursor:pointer;" onclick="share()" class="w3-left">поделиться</a>
+            <a id="download" style="cursor:pointer;" onclick="download_prog()" class="w3-left">скачать программу</a>
+            <a class="w3-left" href="map.html">редактор обстановок</a>
         </li>
     </ul>
 </div>
@@ -84,10 +86,14 @@
 <script>
     function share() {
         prompt("ссылка:", location.href);
+
     }
     /* Example definition of a simple mode that understands a subset of
      * JavaScript:
      */
+
+
+
 
     CodeMirror.defineSimpleMode("simplemode", {
         // The start state contains the rules that are intially used
@@ -99,10 +105,6 @@
             {
                 regex: /(алг)(\s+)([а-я&\w$]*)/,
                 token: ["keyword", null, "variable-2"]
-            },
-            {
-                regex: /(нц)(\s+)([а-я&\w$]*)/,
-                token: ["keyword", null, "atom"]
             },
             {
                 regex: /вправо|вверх|вниз|влево|закрасить|сместиться в точку|сместиться на вектор|поднять перо|опустить перо|функция[1-9]/,
@@ -142,6 +144,7 @@
             {regex: /.*?\*\//, token: "comment", next: "start"},
             {regex: /.*/, token: "comment"}
         ],
+
 
         // The meta property contains global information about the mode. It
         // can contain properties like lineComment, which are supported by
@@ -281,6 +284,9 @@
 
             }
         });
+    }
+    function download_prog() {
+        document.getElementById("download").href = "https://fathomless-shelf-75612.herokuapp.com/create_file?id=" + location.hash.substring(1)
     }
     editor.on("keyup", function (cm, event) {
 

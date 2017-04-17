@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="minajax.js"></script>
+    <link rel="shortcut icon" href="robot_icon.png" type="image/png">
+    <link rel="stylesheet" href="codemirror-5.25.0/lib/codemirror.css">
+    <link rel="stylesheet" href="codemirror-5.25.0/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="codemirror-5.25.0/addon/display/fullscreen.css">
+    <script src="codemirror-5.25.0/lib/codemirror.js"></script>
+    <script src="codemirror-5.25.0/addon/hint/show-hint.js"></script>
+    <script src="codemirror-5.25.0/addon/mode/simple.js"></script>
+    <script src="map-hint.js"></script>
+    <script src="codemirror-5.25.0/addon/display/fullscreen.js"></script>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <script src="point.js"></script>
+    <meta charset="UTF-8">
+    <title>Создание обстановки</title>
+</head>
+<body>
+<label>
+    <div style="float:right;">
+<textarea id="input">10 10
+0 0
+клетка x:1 y:1 стена:левая цвет: 1
+;Нажми Ctrl-Enter чтобы обновить обстановку. Курсор должен быть на тексте;
+
+
+
+
+</textarea>
+    </div>
+    <a onclick="r_code()" id="download" class="w3-button w3-padding w3-black w3-right w3-margin">скачать обстановку</a>
+    <a onclick="r_code()" href="index.html" class="w3-button w3-padding w3-black w3-right w3-margin">назад</a>
+</label>
+<script>
+    function r_code() {
+        console.log(1);
+        var ret = "";
+        ret += width + " " + height + "%0A";
+        ret += (robot.x - 10) / 50 + " " + (robot.y - 10) / 50 + "%0A";
+        for (var j = 0; j < mod.length; j++) {
+            ret += mod[j].x + " " + mod[j].y + " " + mod[j].wall + " " + mod[j].color + " " + mod[j].Radiation + " " + mod[j].Temperature + " " + mod[j].Symbol + " " + mod[j].Symbol1 + "%0A";
+            document.getElementById("download").href = "https://fathomless-shelf-75612.herokuapp.com/r_file?text=" + ret + "&id=1"
+        }
+
+    }
+
+    function find(x, y) {
+        var found = false;
+        for (var a = 0; a < mod.length; a++) {
+            if (x == mod[a].x && y == mod[a].y) {
+                found = true;
+                return a
+            }
+        }
+        if (!found) {
+            return undefined
+        }
+    }
+
+    CodeMirror.defineSimpleMode("simplemode", {
+        // The start state contains the rules that are intially used
+        start: [
+            // The regex matches the token, the token property contains the type
+            {regex: /;/, token: "comment", next: "comment"},
+            // You can match multiple tokens at once. Note that the captured
+            // groups must span the whole string in this case
+            {
+                regex: /(x:)(\s+)[0-9]/,
+                token: ["keyword", null, "atom"]
+            },
+            {
+                regex: /(y:)(\s+)[0-9]/,
+                token: ["keyword", null, "atom"]
+            },
+            {
+                regex: /(стена:)(\s*)(нет|левая|верхняя)/,
+                token: ["keyword", null, "atom"]
+            },
+            {
+                regex: /(x:)(\s*)([0-9])/,
+                token: ["keyword", null, "atom"]
+            },
+            {
+                regex: /(y:)(\s*)([0-9])/,
+                token: ["keyword", null, "atom"]
+            },
+            {
+                regex: /(цвет:)(\s*)(0|1)/,
+                token: ["keyword", null, "atom"]
+            },
+            {
+                regex: /(увеличение)(\s*)(x|y)(\s*)([0-9]+)/,
+                token: ["keyword", null, "atom"]
+            },
+            {
+                regex: /[0-9]/,
+                token: "atom"
+            },
+            {
+                regex: /\d/,
+                token: "atom"
+            },
+            {
+                regex: /клетка/,
+                token: "keyword"
+            },
+
+            {
+                regex: /[а-яА-Яa-zA-Z]/,
+                token: "error"
+            }
+        ],
+        comment: [
+            {
+                regex: /[а-яА-Яa-zA-Z0-9]/,
+                token: "comment"
+            },
+            {
+                regex: /;/,
+                token: "comment",
+                next: "start"
+            }
+        ],
+        meta: {
+            dontIndentStates: ["comment"],
+            lineComment: ";"
+        }
+    });
+    var robot;
+    var myTextarea = document.getElementById("input");
+    var editor = CodeMirror.fromTextArea(myTextarea, {
+        mode: "simplemode",
+        lineNumbers: true,
+        tabSize: 5,
+        extraKeys: {
+            "Alt": "autocomplete",
+            "Ctrl-Space": function () {
+                cur = editor.getCursor();
+                editor.replaceRange("клетка x: y: стена: цвет: ", cur);
+
+                editor.setCursor({line: cur.line, ch: 9})
+            },
+            "Ctrl-Enter": function () {
+                mod = [];
+                var text = editor.getValue();
+                var rows = text.split("\n");
+                var x_pos = /(x:)\s*([0-9]*)/;
+                var y_pos = /(y:)\s*([0-9]*)/;
+                var wall = /(стена:)\s*([а-яА-Я]*)/;
+                var color = /(цвет:)\s*(0|1)/;
+                var size = /([0-9]+)\s*([0-9]+)/;
+                var robot_pos = /([0-9]+)\s*([0-9]+)/;
+                var more = /(увеличение)\s*(x|y)\s*([0-9]+)/;
+                var robot_obj = robot_pos.exec(rows[1]);
+                if (robot_obj != 0) {
+                    robot = game.newRectObject({
+                        x: robot_obj[1] * 50 + 10,
+                        y: robot_obj[2] * 50 + 10,
+                        w: 30,
+                        h: 30,
+                        angle: 45,
+                        fillColor: "#000000"
+                    });
+                }
+                var size_obj = size.exec(rows[0]);
+                console.log(size_obj);
+                if (size_obj != null) {
+                    width = size_obj[1];
+                    height = size_obj[2];
+                    background = game.newRectObject({
+                        x: 0,
+                        y: 0,
+                        w: width * 50,
+                        h: height * 50,
+                        fillColor: "#ffffff",
+                        strokeColor: "#027100",
+                        strokeWidth: 2
+                    });
+                }
+                create_model();
+                for (var l = 2; l < rows.length; l++) {
+                    var more_pos = more.exec(rows[l]);
+                    console.log(more_pos);
+                    var x_pos_cell = x_pos.exec(rows[l]);
+                    var y_pos_cell = y_pos.exec(rows[l]);
+                    var wall_cell = wall.exec(rows[l]);
+                    var color_cell = color.exec(rows[l]);
+                    if (more_pos != null) {
+                        var iterate = more_pos[3];
+                        if(rows[l + 1] != undefined){
+                            if(more_pos[2] == "x"){
+                                if(x_pos.exec(rows[l + 1]) != null){
+                                    for(var iter = 0; iter <= iterate; iter ++){
+                                        if(y_pos.exec(rows[l + 1]) != null) {
+                                            if (find(x_pos.exec(rows[l + 1])[2] + iter, y_pos.exec(rows[l + 1])[2]) != undefined){
+                                                if (wall_cell != null &&color_cell != null) {
+                                                    mod[find(x_pos.exec(rows[l + 1])[2] + iter, y_pos.exec(rows[l + 1])[2])].wall = wall_cell;
+                                                    mod[find(x_pos.exec(rows[l + 1])[2] + iter, y_pos.exec(rows[l + 1])[2])].color = color_cell;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (x_pos_cell != null) {
+                        x_pos_cell = x_pos_cell[2]
+                    }
+                    if (y_pos_cell != null) {
+                        y_pos_cell = y_pos_cell[2]
+                    }
+                    if (wall_cell != null) {
+                        wall_cell = wall_cell[2]
+                    }
+                    if (color_cell != null) {
+                        color_cell = color_cell[2]
+                    }
+                    var cell2 = find(x_pos_cell, y_pos_cell);
+                    console.log(x_pos_cell + " " + y_pos_cell);
+                    console.log(mod[cell2]);
+                    if (cell2 != undefined) {
+                        if (wall_cell == "левая") {
+                            mod[cell2].wall = 1
+                        }
+                        if (wall_cell == "верхняя") {
+                            mod[cell2].wall = 3
+                        }
+                        if (wall_cell == "нет") {
+                            mod[cell2].wall = 0
+                        }
+                        if (color_cell != undefined) {
+                            mod[cell2].color = color_cell
+                        }
+                    }
+                }
+
+
+            }
+
+
+        }
+
+    });
+    var background;
+    var js = new PointJS("2d", 700, 900, {backgroundColor: "#ffffff"});
+    var game = js.game;
+    game.setFPS(10);
+    var width;
+    var height;
+    var mod = [];
+    function create_model() {
+        for (var x = 0; x < width; x++) {
+            for (var y = 0; y < height; y++) {
+                var cell = {
+                    x: x, y: y, wall: 0, color: 0, Radiation: 0, Temperature: 0, Symbol: "$", Symbol1: "$", object: {
+                        //main cell
+                        main: game.newRectObject({
+                            x: x * 50 + 2,
+                            y: y * 50 + 2,
+                            w: 48,
+                            h: 48,
+                            fillColor: "#ffffff"
+
+                        }),
+                        //top wall
+                        top: game.newRectObject({
+                            x: x * 50,
+                            y: y * 50,
+                            w: 50,
+                            h: 2,
+                            fillColor: "#027100"
+
+
+                        }),
+
+                        //left wall
+                        left: game.newRectObject({
+                            x: x * 50,
+                            y: y * 50,
+                            w: 2,
+                            h: 50,
+                            fillColor: "#027100"
+
+
+                        })
+                    }
+                };
+                mod.push(cell)
+            }
+        }
+
+    }
+
+    game.newLoop("1", function () {
+        game.clear();
+        if (background != undefined)
+            background.draw();
+        for (var j = 0; j < mod.length; j++) {
+            var obj = mod[j].object;
+            if (mod[j].color == 1) {
+                obj.main.fillColor = "#b9b9b9"
+            }
+            else {
+                obj.main.fillColor = "#ffffff"
+            }
+            if (mod[j].wall == 1) {
+                obj.left.fillColor = "#a10b00"
+            }
+            else {
+                obj.left.fillColor = "#027100"
+            }
+            if (mod[j].wall == 3) {
+                obj.top.fillColor = "#a10b00"
+            }
+            else {
+                obj.top.fillColor = "#027100"
+            }
+
+            for (var i = 0; i < mod.length; i++) {
+                mod[i].object.main.draw();
+                mod[i].object.left.draw();
+                mod[i].object.top.draw();
+
+            }
+        }
+        if (robot != undefined)
+            robot.draw();
+
+    });
+    game.setLoop("1");
+    game.start()
+</script>
+</body>
+</html>
