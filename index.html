@@ -13,9 +13,7 @@
         }
 
         #h2_1 {
-            margin: 50px;
             color: teal;
-            float: left;
             font-size: 70px;
         }
 
@@ -23,27 +21,24 @@
 </head>
 <body>
 <div class="w3-teal">
-    <div class="w3-container">
+    <div class="w3-container" style="width: 85%">
         <h1 class="w3-animate-top">GurProjects | Гуров Матвей</h1>
     </div>
 </div>
-<div class="w3-display-container">
-    <img class="w3-img w3-right w3-animate-left" src="main.jpg" style="width: 85%">
-    <div class="w3-display-middle w3-container" id="h2_1">Born to code</div>
+
+<div style="text-align: center; width: 85%; float: right">
+    <h2 align="center" class="w3-animate-left">I was born for code...</h2>
+    <img class="w3-animate-left" src="house.png">
+    <h2 align="center" class="w3-animate-left">Code was born for me.</h2>
+    <center><div id="vk_groups"></div></center>
 </div>
+
 <div class="w3-bar-block w3-border-right w3-lightgray" style="width:15%" id="mySidebar">
     <a href="index.html" class="w3-bar-item w3-button w3-animate-left"><i class="fa fa-home"></i> Главаня</a>
     <a href="games.html" class="w3-bar-item w3-button w3-animate-left">игры</a>
-    <a href="https://vk.com/matveygurov" class="w3-bar-item w3-button w3-animate-left">feedback</a>
-    <br>
-    <div id="vk_groups"></div>
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
-    <br><br><br>
+    <a href="projects.html" class="w3-bar-item w3-button w3-animate-left">Проекты</a>
+    <a href="https://vk.com/im?sel=354507744" class="w3-bar-item w3-button w3-animate-left">feedback</a>
 </div>
-
-
 <script type="text/javascript">
     VK.Widgets.Group("vk_groups", {mode: 3, width: "220", color1: 'F3F6FC'}, 137251203);
 </script>
