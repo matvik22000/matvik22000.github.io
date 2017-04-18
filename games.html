@@ -2,12 +2,26 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" href = "favicon3.png" type="image/png">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="UTF-8">
     <title>игры</title>
     <style>
-        body{
-            background-color: #ffffff;
-            font-size: 30px;
+        h2{
+            margin: 20px;
+            font-size: 35px;
+        }
+        p{
+            margin: 20px;
+            font-size: 25px;
+        }
+        h4{
+            margin: 20px;
+            font-size: 25px;
+        }
+        a{
+            margin: 20px;
+            font-size: 25px;
         }
 
 
@@ -15,24 +29,53 @@
 
     </style>
 </head>
-<body>
-<h1 align="center" >
-    GurGames | Гуров Матвей
-</h1>
-<div style="text-align: center;"><a href = 'index.html'>Главная</a></div>
-<script src="src_change.js"></script>
-<h2 align="center">Готовые проекты:</h2>
-<h2 align="center">missiles!</h2>
-<h4 align="center">"can you avoid them all?"</h4>
+<body><div class="w3-sidebar w3-bar-block w3-border-righ w3-animate-left" style="display:none" id="mySidebar">
+    <button id="b1" onclick="w3_close()" class="w3-bar-item w3-large w3-button">Close &times;</button>
+    <a href="index.html" class="w3-bar-item w3-button"><i class="fa fa-home"></i> Главная</a>
+    <a href="games.html" class="w3-bar-item w3-button w3-black"><i class="fa fa-plane"></i> игры</a>
+    <a href="projects.html" class="w3-bar-item w3-button"><i class="fa fa-bars"></i> Проекты</a>
+    <a href="https://vk.com/matveygurov" class="w3-bar-item w3-button">feedback</a>
+</div>
+<div class="w3-teal">
+    <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()"><i class="fa fa-bars"></i></button>
+    <div class="w3-container">
+        <h1 class="w3-animate-top">GurGames | Гуров Матвей</h1>
+    </div>
+</div>
+<div class="w3-bar w3-black">
+    <button class="w3-bar-item w3-button" onclick="openCity('London')">Missiles</button>
+    <button class="w3-bar-item w3-button" onclick="openCity('Paris')">AirHockey</button>
+</div>
+<div id="London" class="city">
+    <img src="scr1.png" class="w3-right w3-animate-left" style="margin: 20px">
+    <h2 class="w3-animate-left">missiles!</h2>
+    <h4 class="w3-animate-left">"can you avoid them all?"</h4>
+    <p class="w3-animate-left">Я думаю, что вы все и так понимаете что нужно делать, но я всё же поясню:</p>
+    <p class="w3-animate-left">Вы управляете самолётом, летящим над американской военной базой(понятия не имею, что вы там забыли). Разумеется, вас хотят сбить. Продержитесь как можно дольше, и... вас всё равно собьют. Но вы хоть очков побольше получите.</p>
+    <button class="w3-animate-left w3-button w3-black w3-padding w3-margin" onclick="return location.href = 'missles.html'">Играть!</button>
+</div>
+<div id="Paris" class="city" style="display:none">
+    <h2 class="w3-animate-left">air hockey</h2>
+    <img src="scr6.png" class="w3-img w3-right w3-margin w3-animate-left">
+    <p class="w3-animate-left">тут всё ещё понятнее, объяснять нет смысла.</p>
+    <button class="w3-animate-left w3-button w3-black w3-padding w3-margin" onclick="return location.href = 'hockey.html'">Играть!</button>
+</div>
 
-<center><img src="scr1.png" id="img" align="middle" onmouseover="img_c()" onmouseleave="img_cn()" onclick="return location.href = 'missles.html'" ></center>
-<center><button onclick="return location.href = 'missiles_mobile.html'">мобильная версия</button></center>
-<p align="center">Я думаю, что вы все и так понимаете что нужно делать, но я всё же поясню:</p>
-<p align="center">Вы управляете самолётом, летящим над американской военной базой(понятия не имею, что вы там забыли). Разумеется, вас хотят сбить. Продержитесь как можно дольше, и... вас всё равно собьют. Но вы хоть очков побольше получите.</p>
-<h2 align="center">В стадии разработки:</h2>
-<p align="center">(могут быть ошибки и баги. Если наёдёте, напишите мне)</p>
-<h2 align="center">air hockey</h2>
-<center><img src="scr6.png" id="scr" align="middle" onmouseover="scr_c()" onmouseleave="scr_cn()" onclick="return location.href = 'hockey.html'" ></center>
-<p align="center">тут всё ещё понятнее, объяснять нет смысла.</p>
+<script>
+    function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+    }
+    function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+    }
+    function openCity(cityName) {
+        var i;
+        var x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        document.getElementById(cityName).style.display = "block";
+    }
+</script>
 </body>
 </html>

@@ -45,6 +45,36 @@
 </head>
 <body>
 
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+        <header class="w3-container w3-teal">
+        <span onclick="document.getElementById('id01').style.display='none'"
+              class="w3-button w3-display-topright w3-teal">&times;</span>
+            <h2>Поделиться ссылкой</h2>
+        </header>
+        <div class="w3-container">
+            <p>ваша ссылка:</p>
+            <p id="href"></p>
+        </div>
+    </div>
+</div>
+<div id="id02" class="w3-modal">
+    <div class="w3-modal-content">
+        <header class="w3-container w3-red">
+        <span onclick="document.getElementById('id02').style.display='none'"
+              class="w3-button w3-display-topright w3-red">&times;</span>
+            <h2>Программа с таким именем уже сохранена.</h2>
+        </header>
+        <div class="w3-container">
+            <p>По этой ссылке уже сохранена программа.</p>
+            <p>Программа, сохранённая под этой ссылкой будет удалена.</p>
+            <button class="w3-button w3-padding w3-margin" onclick="save_text2()">переписать</button>
+        </div>
+        <footer class="w3-container w3-red">
+            <h2>Внимание</h2>
+        </footer>
+    </div>
+</div>
 
 <div id="toolbar" class="w3-top">
     <ul class="w3-navbar w3-white w3-wide w3-padding-8 w3-card-2">
@@ -84,14 +114,29 @@
 </div>
 <div id="parent_popup"></div>
 <script>
+    function setSelection() {
+        var target = document.getElementById('href').getElementsByTagName('span')[0];
+        var rng, sel;
+        if (document.createRange) {
+            rng = document.createRange();
+            rng.selectNode(target);
+            sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(rng);
+        } else {
+            var rng = document.body.createTextRange();
+            rng.moveToElementText(target);
+            rng.select();
+        }
+    }
     function share() {
-        prompt("ссылка:", location.href);
-
+        document.getElementById('id01').style.display='block';
+        document.getElementById('href').innerHTML = "<span>" + location.href + "</span>";
+        setSelection()
     }
     /* Example definition of a simple mode that understands a subset of
      * JavaScript:
      */
-
 
 
 
@@ -262,7 +307,7 @@
         editor.setOption("fullScreen", true);
 
     }
-    function save_text() {
+    function save_text2() {
         var code = editor.getValue();
         document.getElementById("saving").style = "opacity:1; z-index:1001; color: white;";
         document.getElementById("auth").style = "top:20%; position: fixed; left:42%; opacity: 1; z-index: 1000; background-color: #black; padding: 0px;";
@@ -284,6 +329,35 @@
 
             }
         });
+    }
+    function save_text() {
+        if(location.hash == "") {
+            var code = editor.getValue();
+            document.getElementById("saving").style = "opacity:1; z-index:1001; color: white;";
+            document.getElementById("auth").style = "top:20%; position: fixed; left:42%; opacity: 1; z-index: 1000; background-color: #black; padding: 0px;";
+            document.getElementById("parent_popup").style = "background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 100;top: 0;left: 0;";
+            document.getElementById("loading").style = "opacity:1; z-index:1001;";
+            minAjax({
+                url: "https://fathomless-shelf-75612.herokuapp.com/" + "save",
+                type: "GET",//Request type GET/POST
+                data: {
+                    code: code,
+                    id: location.hash.substring(1)
+                },
+                success: function (data) {
+                    location = "#" + data;
+                    document.getElementById("auth").style = "z-index:-100; opacity:0;";
+                    document.getElementById("parent_popup").style = "z-index:-100; opacity:0;";
+                    document.getElementById("loading").style = "z-index:-100; opacity:0;";
+                    document.getElementById("saving").style = "z-index:-100; opacity:0;"
+
+                }
+            });
+        }
+        else{
+            document.getElementById('id02').style.display='block';
+        }
+
     }
     function download_prog() {
         document.getElementById("download").href = "https://fathomless-shelf-75612.herokuapp.com/create_file?id=" + location.hash.substring(1)
