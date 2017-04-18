@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="favicon2.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?136"></script>
     <meta charset="UTF-8">
     <title>GurHouse</title>
@@ -13,9 +14,14 @@
             color: #0d1b0d
         }
 
-        #h2_1 {
-            color: teal;
-            font-size: 70px;
+        #home {
+            background-color: #b2cecb;
+        }
+
+        h2 {
+            z-index: 100;
+            font-family: 'Dancing Script', cursive;
+            font-size: 50px;
         }
 
     </style>
@@ -27,21 +33,23 @@
     </div>
 </div>
 
-<div style="text-align: center; width: 85%; float: right">
-    <h2 align="center" class="w3-animate-left">I was born for code...</h2>
-    <img class="w3-animate-left" src="house.png">
-    <h2 align="center" class="w3-animate-left">Code was born for me.</h2>
-    <center><div id="vk_groups" class="w3-animate-left"></div></center>
+<div style="text-align: center; width: 70%; margin: 5.5%;float: right" class="w3-display-container">
+    <h2 class="w3-display-topleft w3-animate-opacity">I was born for code...</h2>
+    <img class="w3-animate-opacity" src="house.png">
+    <h2 align="center" class="w3-display-right w3-animate-opacity">...Code was born for me.</h2>
 </div>
 
-<div class="w3-bar-block w3-border-right w3-lightgray" style="width:15%" id="mySidebar">
-    <a href="index.html" class="w3-bar-item w3-button w3-green"><i class="fa fa-home"></i> Главная</a>
-    <a href="games.html" class="w3-bar-item w3-button"><i class="fa fa-plane"></i> игры</a>
+<div class="w3-bar-block w3-border-right w3-lightgray w3-animate-left" style="width:15%" id="mySidebar">
+    <a href="index.html" class="w3-bar-item w3-button" id="home"><i class="fa fa-home"></i> Главная</a>
+    <a href="games.html" class="w3-bar-item w3-button"><i class="fa fa-plane"></i> Игры</a>
     <a href="projects.html" class="w3-bar-item w3-button"><i class="fa fa-bars"></i> Проекты</a>
     <a href="https://vk.com/matveygurov" class="w3-bar-item w3-button">feedback</a>
+    <center>
+        <div id="vk_groups"></div>
+    </center>
 </div>
 <script type="text/javascript">
-    VK.Widgets.Group("vk_groups", {mode: 3, width: "220", color1: 'F3F6FC', color3:'4caf50'}, 137251203);
+    VK.Widgets.Group("vk_groups", {mode: 3, width: "220"}, 137251203);
 </script>
 
 </body>
