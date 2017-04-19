@@ -3,50 +3,67 @@
 <title>W3.CSS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet">
+
+<style>
+    h1 {
+        font-size: 50px;
+    }
+
+    h2 {
+        font-size: 40px;
+        opacity: 0;
+    }
+
+    #id01 {
+        display: block;
+    }
+
+    a {
+        opacity: 0;
+    }
+</style>
 <body>
 
-<!-- Sidebar -->
-<div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">
-    <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>
-    <a href="index.html" class="w3-bar-item w3-button"><i class="fa fa-home"> Home</i></a>
-    <a href="#" class="w3-bar-item w3-button">Link 2</a>
-    <a href="#" class="w3-bar-item w3-button">Link 3</a>
-</div>
+<div class="w3-container">
 
-<!-- Page Content -->
-<div class="w3-teal">
-    <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()"><i class="fa fa-bars"></i></button>
-    <div class="w3-container">
-        <h1>My Page</h1>
+
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content">
+            <header class="w3-container w3-teal">
+        <span onclick="document.getElementById('id01').style.display='none'"
+              class="w3-button w3-display-topright">&times;</span>
+                <h1 class="w3-animate-top">RobotEditor</h1>
+            </header>
+            <div class="w3-container">
+                <h2 id="h31">The smartest </h2>
+                <h2 id="h32">Editor for the </h2>
+                <h2 id="h33">"Robot" interpreter!</h2>
+            </div>
+            <footer class="w3-container w3-teal">
+                <a onclick="document.getElementById('id01').style.display='none'" id="a2">Go!</a>
+            </footer>
+        </div>
     </div>
 </div>
-<div class="w3-container">
-    <h2 align="center">Python 2.7</h2>
-    <p align="center">GurShooter</p>
-    <p align="center">В этой игре вам придётся защищать какую-то базу в космосе.</p>
-    <p align="center">Покупайте новые космические корабли, оснащайте их новейшими модулями, и побеждайте! Как-то так, наверное...</p>
-</div>
-<p align="center">Инструкция по установке:</p>
-<p align="center">1: Скачайте архив, и извлеките его в любую папку.</p>
-<p align="center">2: В этой папке найдите файл под названием "shooter_main.exe", и запустите.</p>
-<p align="center">3: Всё! Можете наслаждаться игрой</p>
-
-<p align="center">robotEditor</p>
-<p align="center">редактор для языка робот КуМир</p>
-<div style="text-align: center;"><a href="robotEditor" >перейти на сайт</a></div>
-
-<p align="center">ГурПышка</p>
-<p align="center">сайт для заказа еды. Заказ будет доставлен в школу</p>
-<div style="text-align: center;"><a href="gurpushka.html" >перейти на сайт</a></div>
 <script>
-    function w3_open() {
-        document.getElementById("mySidebar").style.display = "block";
-    }
-    function w3_close() {
-        document.getElementById("mySidebar").style.display = "none";
-    }
+    setTimeout(function () {
+        document.getElementById("h31").className = "w3-animate-left";
+        document.getElementById("h31").style = "opacity:1; font-family: 'Droid Serif', serif;";
+    }, 500);
+    setTimeout(function () {
+        document.getElementById("h32").className = "w3-animate-right";
+        document.getElementById("h32").style = "opacity:1; font-family: 'Droid Serif', serif;";
+    }, 1000);
+    setTimeout(function () {
+        document.getElementById("h33").className = "w3-animate-bottom";
+        document.getElementById("h33").style = "opacity:1; font-family: 'Droid Serif', serif;";
+        document.getElementById("h33").style = "opacity:1; font-family: 'Droid Serif', serif;";
+    }, 1500);
+    setTimeout(function () {
+        document.getElementById("a2").className = "w3-animate-opacity w3-button w3-black w3-margin w3-padding";
+        document.getElementById("a2").style = "opacity:1;";
+    }, 2000);
 </script>
-
 </body>
 </html>

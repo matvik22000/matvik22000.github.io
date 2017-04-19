@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Robot Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="minajax.js"></script>
     <link rel="shortcut icon" href="robot_icon.png" type="image/png">
     <link rel="stylesheet" href="codemirror-5.25.0/lib/codemirror.css">
@@ -16,7 +17,26 @@
     <script src="hint.js"></script>
     <script src="codemirror-5.25.0/addon/display/fullscreen.js"></script>
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet">
     <style>
+        h1 {
+            font-size: 50px;
+        }
+
+        h2 {
+            font-size: 40px;
+            opacity: 0;
+        }
+
+        #id03 {
+            display: block;
+        }
+
+        #a2 {
+            opacity: 0;
+            width: 150px;
+        }
+
         body {
             background-color: whitesmoke;
         }
@@ -30,27 +50,30 @@
             z-index: -100;
             opacity: 0;
         }
-        #loading{
+
+        #loading {
             z-index: -100;
             opacity: 0;
         }
-        #saving{
+
+        #saving {
             z-index: 1001;
             opacity: 1;
             color: white;
 
-
+        }
+        #share{
+            opacity:1
         }
     </style>
 </head>
 <body>
-
 <div id="id01" class="w3-modal">
     <div class="w3-modal-content">
         <header class="w3-container w3-teal">
         <span onclick="document.getElementById('id01').style.display='none'"
-              class="w3-button w3-display-topright w3-teal">&times;</span>
-            <h2>Поделиться ссылкой</h2>
+              class="w3-button w3-display-topright w3-teal w3-margin w3-padding">&times;</span>
+            <h3 id="share">Поделиться ссылкой</h3>
         </header>
         <div class="w3-container">
             <p>ваша ссылка:</p>
@@ -58,12 +81,53 @@
         </div>
     </div>
 </div>
+<div class="w3-container">
+
+
+    <div id="id03" class="w3-modal">
+        <div class="w3-modal-content">
+            <header class="w3-container w3-teal">
+        <span id="close" onclick="document.getElementById('id03').style.display='none'"
+              class="w3-button w3-display-topright w3-teal">&times;</span>
+                <h1 class="w3-animate-top">RobotEditor</h1>
+            </header>
+            <div class="w3-container">
+                <h2 id="h31">The smartest </h2>
+                <h2 id="h32">Editor for the </h2>
+                <h2 id="h33">"Robot" interpreter!</h2>
+            </div>
+            <footer class="w3-container w3-teal">
+                <a onclick="document.getElementById('id03').style.display='none'" id="a2">Go!</a>
+            </footer>
+        </div>
+    </div>
+</div>
+<script>
+//        document.getElementById("close).focus();
+        setTimeout(function () {
+        document.getElementById("h31").className = "w3-animate-left";
+        document.getElementById("h31").style = "opacity:1; font-family: 'Droid Serif', serif;";
+    }, 500);
+    setTimeout(function () {
+        document.getElementById("h32").className = "w3-animate-right";
+        document.getElementById("h32").style = "opacity:1; font-family: 'Droid Serif', serif;";
+    }, 1000);
+    setTimeout(function () {
+        document.getElementById("h33").className = "w3-animate-bottom";
+        document.getElementById("h33").style = "opacity:1; font-family: 'Droid Serif', serif;";
+        document.getElementById("h33").style = "opacity:1; font-family: 'Droid Serif', serif;";
+    }, 1500);
+    setTimeout(function () {
+        document.getElementById("a2").className = "w3-animate-opacity w3-button w3-black w3-margin w3-padding";
+        document.getElementById("a2").style = "opacity:1;";
+    }, 2000);
+</script>
 <div id="id02" class="w3-modal">
     <div class="w3-modal-content">
         <header class="w3-container w3-red">
         <span onclick="document.getElementById('id02').style.display='none'"
               class="w3-button w3-display-topright w3-red">&times;</span>
-            <h2>Программа с таким именем уже сохранена.</h2>
+            <h3>Программа с таким именем уже сохранена.</h3>
         </header>
         <div class="w3-container">
             <p>По этой ссылке уже сохранена программа.</p>
@@ -71,7 +135,7 @@
             <button class="w3-button w3-padding w3-margin" onclick="save_text2()">переписать</button>
         </div>
         <footer class="w3-container w3-red">
-            <h2>Внимание</h2>
+            <h3>Внимание</h3>
         </footer>
     </div>
 </div>
@@ -130,7 +194,7 @@
         }
     }
     function share() {
-        document.getElementById('id01').style.display='block';
+        document.getElementById('id01').style.display = 'block';
         document.getElementById('href').innerHTML = "<span>" + location.href + "</span>";
         setSelection()
     }
@@ -139,12 +203,11 @@
      */
 
 
-
     CodeMirror.defineSimpleMode("simplemode", {
         // The start state contains the rules that are intially used
         start: [
             // The regex matches the token, the token property contains the type
-            {regex: /\|/, token: "comment", next:"comment"},
+            {regex: /\|/, token: "comment", next: "comment"},
             // You can match multiple tokens at once. Note that the captured
             // groups must span the whole string in this case
             {
@@ -331,7 +394,7 @@
         });
     }
     function save_text() {
-        if(location.hash == "") {
+        if (location.hash == "") {
             var code = editor.getValue();
             document.getElementById("saving").style = "opacity:1; z-index:1001; color: white;";
             document.getElementById("auth").style = "top:20%; position: fixed; left:42%; opacity: 1; z-index: 1000; background-color: #black; padding: 0px;";
@@ -354,8 +417,8 @@
                 }
             });
         }
-        else{
-            document.getElementById('id02').style.display='block';
+        else {
+            document.getElementById('id02').style.display = 'block';
         }
 
     }
@@ -364,7 +427,7 @@
     }
     editor.on("keyup", function (cm, event) {
 
-        if (event.key.charCodeAt() >=1040 && event.key.charCodeAt() <= 1105){
+        if (event.key.charCodeAt() >= 1040 && event.key.charCodeAt() <= 1105) {
             console.log("test");
             if (!cm.state.completionActive && /*Enables keyboard navigation in autocomplete list*/
                 event.keyCode != 13) {        /*Enter - do not open autocomplete list just after item has been selected in it*/
@@ -388,10 +451,9 @@
         });
     }
 
-    window.onpopstate = function(event) {
+    window.onpopstate = function (event) {
         location.reload()
     };
-
 
 
 </script>

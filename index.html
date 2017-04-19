@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="minajax.js"></script>
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="favicon2.png" type="image/png">
@@ -11,11 +12,13 @@
     <style>
         body {
             font-size: 30px;
-            color: #0d1b0d
+            color: #0d1b0d;
+            background-color: #787878;
         }
 
         #home {
             background-color: #ffd560;
+
         }
 
         h2 {
@@ -34,7 +37,7 @@
 
 <div style="text-align: center; width: 50%; margin-left: 10%; margin-right:20%;margin-top: 5%; float: right" class="w3-display-container">
     <h2 class="w3-display-topleft w3-animate-opacity">I was born for code...</h2>
-    <img class="w3-animate-opacity" src="house.png">
+    <img class="w3-animate-opacity" src="house.png" id="img">
     <h2 align="center" class="w3-display-topright w3-animate-opacity">...Code was born for me.</h2>
 </div>
 
@@ -47,9 +50,25 @@
         <div id="vk_groups"></div>
     </center>
 </div>
-<script type="text/javascript">
-    VK.Widgets.Group("vk_groups", {mode: 3, width: "220", color1:'F3EFD5'}, 137251203);
+<script>
+    var time = new Date();
+    if(time.getHours() == 19)
+        document.getElementById("img").src = "house.gif";
+//    minAjax({
+//        url: 'https://fathomless-shelf-75612.herokuapp.com/weather',
+//        type: "GET",//Request type GET/POST
+//        success: function (data) {
+//            if (data == "Rain")
+//                document.body.style = "background-image:url(rain.gif);";
+//            if(data == "Snow")
+//                document.body.style = "background-image:url(snow.gif);";
+//        }
+//    });
+    document.getElementById("img").src = "house.gif"
 </script>
 
+<script type="text/javascript">
+    VK.Widgets.Group("vk_groups", {mode: 3, width: "220", color1:"b8c0c7"}, 137251203);
+</script>
 </body>
 </html>

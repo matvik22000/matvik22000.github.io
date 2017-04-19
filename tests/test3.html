@@ -2,33 +2,19 @@
 <html>
 
 <head>
+    <script src="minajax.js"></script>
     <meta charset="utf-8">
 </head>
 
 <body>
 
-<div id="ex5" style="border:1px dashed #999; color:#666; background:#EEE; padding:2px 5px; margin:10px 0;">
-    Снова будем выделять <span>бабулю</span>, на этот раз без поиска.
-</div>
+
 <div>
     <input onclick="setSelection()" type="button" value="Выделить бабулю">
 </div>
+<a>test</a>
 <script>
-    function setSelection() {
-        var target = document.getElementById('ex5').getElementsByTagName('span')[0];
-        var rng, sel;
-        if (document.createRange) {
-            rng = document.createRange();
-            rng.selectNode(target);
-            sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(rng);
-        } else {
-            var rng = document.body.createTextRange();
-            rng.moveToElementText(target);
-            rng.select();
-        }
-    }
+   alert(document.getElementsByTagName("a"))
 </script>
 
 
