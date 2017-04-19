@@ -52,7 +52,7 @@
 </div>
 <script>
     var time = new Date();
-    if(time.getHours() >= 19)
+    if(time.getHours() >= 19 || time.getHours() <= 8)
         document.getElementById("img").src = "house.gif";
         document.body.style = 'background-color: #787878;';
 //    minAjax({
