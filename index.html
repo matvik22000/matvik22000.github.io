@@ -26,6 +26,7 @@
             font-family: 'Dancing Script', cursive;
             font-size: 50px;
         }
+
         #p {
             font-family: 'Dancing Script', cursive;
         }
@@ -56,9 +57,10 @@
 </div>
 <script>
     var time = new Date();
-    if (time.getHours() >= 19 || time.getHours() <= 8)
+    if (time.getHours() >= 19 || time.getHours() <= 8) {
         document.getElementById("img").src = "house.gif";
-    document.body.style = 'background-color: #787878;';
+        document.body.style = 'background-color: #787878;';
+    }
 </script>
 
 <script type="text/javascript">
