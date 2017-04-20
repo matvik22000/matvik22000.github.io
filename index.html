@@ -60,6 +60,7 @@
         url: "https://fathomless-shelf-75612.herokuapp.com/" + "weather",
         type: "GET",//Request type GET/POST
         success: function (data) {
+
             if(data == "Cloud"){
                 document.getElementById("img").src = "ЗАМОК_облака.jpg";
                 document.body.style  = 'background-color: #ffffff; color:#0d1b0d;';
