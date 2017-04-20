@@ -38,11 +38,10 @@
     <div class="w3-panel" id="panel">
         <p class="w3-xxlarge" id="p"><i>I was born for code, code was born for me...</i></p>
     </div>
-    <img class="w3-animate-opacity" src="house.png" id="img">
+    <img class="w3-animate-opacity" src="ЗАМОК%20день.jpg" id="img">
 </div>
 
 <div class="w3-bar-block w3-border-right w3-lightgray w3-animate-left" style="width:15%" id="mySidebar">
-
     <a href="index.html" class="w3-bar-item w3-button w3-gray" id="home"><i class="fa fa-home"></i> Главная</a>
     <a href="games.html" class="w3-bar-item w3-button"><i class="fa fa-plane"></i> Игры</a>
     <a href="projects.html" class="w3-bar-item w3-button"><i class="fa fa-bars"></i> Проекты</a>
@@ -56,6 +55,17 @@
     if (time.getHours() >= 19 || time.getHours() <= 8) {
         document.getElementById("img").src = "house_night.gif";
         document.body.style  = 'background-color: #03040a; color:#dcdcdc;';
+    }
+    else{minAjax({
+        url: "https://fathomless-shelf-75612.herokuapp.com/" + "weather",
+        type: "GET",//Request type GET/POST
+        success: function (data) {
+            if(data == "Cloud"){
+                document.getElementById("img").src = "ЗАМОК_облака.jpg";
+                document.body.style  = 'background-color: #ffffff; color:#0d1b0d;';
+            }
+        }
+    });
     }
 </script>
 
