@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Birthday</title>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <style>
+        #parent_popup {
+            z-index: -100;
+            opacity: 0;
+        }
+        #car{
+            z-index: -100;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="parent_popup"></div>
+
+<div class="w3-container w3-teal">
+    <h1 class="w3-center">Happy birthday!</h1>
+</div>
+
+<div class="w3-container">
+    <p>Hello, Dad! Today we have a present for you, but before you should find a password, and enter it here. Your first task: "In winter and summer the same color"</p>
+</div>
+<div class="w3-container">
+    <label for="pass">Password</label><input class="w3-input w3-border" id="pass" style="margin-bottom: 30px; width: 300px" >
+    <button class="w3-button w3-black" onclick="enter()">Enter</button>
+</div>
+
+
+<div style="text-align: center;"><img src="bmw.png" alt="Car" style="width:50%"></div>
+
+<div class="w3-container w3-teal">
+    <h2>Good luck!</h2>
+</div>
+<img src="1.png" id="car" style="width:25%">
+</body>
+<script>
+    function enter() {
+        var password = document.getElementById("pass").value;
+        if (password == "bmw"){
+            document.getElementById("parent_popup").style = "background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 100;top: 0;left: 0;";
+            document.getElementById("car").style = "width:70%; top:5%; position: fixed; left:20%; opacity: 1; z-index: 1000; background-color: #black; padding: 0px; "
+
+
+        }
+        else {
+            document.getElementById("pass").value = "Incorrect password!"
+        }
+
+    }
+</script>
+</html>

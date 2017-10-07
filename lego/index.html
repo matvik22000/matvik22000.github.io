@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>game</title>
+</head>
+<body>
+<script src="point.js"></script>
+<script>
+    var left = false;
+    var timer = 0;
+    var js = new PointJS('2d', 0, 0, {background : 'url(background.JPG) center no-repeat',
+        backgroundSize : 'cover'});
+    js.system.initFullPage();
+    js.keyControl.initKeyControl();
+    var game = js.game;
+    var point = js.vector.point;
+    var p2 = game.newImageObject( {
+        file : "left.gif",
+        x : 100,
+        y : 100,
+        scale: 1
+    });
+    p2.file = "left.gif";
+    game.newLoop("myGame", function () {
+        p2.draw();
+    if(js.keyControl.isDown("LEFT")){
+        p2.file = "left.gif"
+    }
+
+    } );
+    game.setLoop( "myGame" );
+    game.start()
+</script>
+</body>
+</html>
