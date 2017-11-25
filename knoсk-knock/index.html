@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <title>knock-knock</title>
+</head>
+<body>
+<center>
+    <div class="w3-container w3-card-4" style="width: 15%">
+        <h2 align="center">Вы</h2>
+        <img src="аноним.jpg" class="w3-image w3-opacity-min" style="width:100%">
+        <div class="w3-container w3-center">
+            <input class="w3-input" placeholder="введите ваше имя" id="name" style="margin: 5px;">
+        </div>
+    </div>
+    <div class="w3-bar">
+        <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked()" style="font-size: 30px">Начать</button>
+    </div>
+
+    <!--<div class="w3-bar">-->
+        <!--<img href="#" class="w3-button w3-center"onclick="click()" src="anonymous1.png">-->
+        <!--<img href="#" class="w3-button w3-center" src="anonymous2.png">-->
+        <!--<img href="#" class="w3-button w3-center" src="anonimus3.png">-->
+    <!--</div>-->
+
+</center>
+<script>
+function clicked() {
+    localStorage.setItem("name", document.getElementById("name").value);
+    console.log(document.getElementById("name"));
+    if(document.getElementById("name").value != ""){
+        location.href = "chat.html"
+    }
+    else{
+        alert("ведите имя!")
+    }
+}
+window.onload = function () {
+    var name = localStorage.getItem("name");
+    console.log(name);
+    if(name != ""){
+        document.getElementById("name").value = name;
+    }
+}
+</script>
+</body>
+</html>

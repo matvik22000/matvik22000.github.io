@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <script src="reconnecting-websocket.min.js"></script>
+    <title>knock-knock</title>
+    <style>
+        #parentMSG{
+            position: fixed;
+            height: 10%;
+            width:100%;
+            float: left;
+        }
+        #inputmsg{
+            position: fixed;
+            height: 10%;
+            float: left;
+        }
+        .messageLeft
+        {
+            border-radius: 40px;
+            font-size: 200%;
+            border-color: black;
+            background-color: #c7f66f;
+            padding: 1%;
+            margin-right: 0.5%;
+            float: left
+
+
+        }
+        .messageRight
+        {
+            border-radius: 40px;
+            font-size: 200%;
+            border-color: black;
+            background-color: #91c5d5;
+            padding: 1%;
+            margin-left: 0.5%;
+            float: right;
+
+        }
+    </style>
+</head>
+<body>
+<label id="parentMSG">
+    <input class="w3-input" placeholder="введите сообщение" onkeydown="KeyDown1(event)" id="InputMSG"/>
+</label>
+<script>
+    var uuids = [];
+    var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
+    var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
+
+
+    function KeyDown1(event) {
+        if(event.keyCode == 13 && document.getElementById("InputMSG").value != "") {
+            var MsgText = document.getElementById("InputMSG").value;
+            var uuidNow = uuid();
+            uuids.push(uuidNow);
+            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name")};
+            console.log(JSON.stringify(msg));
+            outbox.send(JSON.stringify(msg))
+            document.getElementById("InputMSG").value = ""
+        }
+    }
+    function check (uuid) {
+        for (var i = 0; i < uuids.length; i++){
+            if(uuid == uuids[i]){
+                return true
+            }
+
+        }
+        return false
+    }
+    inbox.onmessage = function (data) {
+        var msg = JSON.parse(data.data);
+        console.log(msg.uuid);
+        console.log(msg.text);
+        if(check(msg.uuid)){
+           NewMsg(msg.text, "вы", true)
+        }
+        else {
+            NewMsg(msg.text, msg.name, false)
+        }
+
+    }
+    function uuid() {
+        var now = new Date();
+        return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
+    }
+    function NewMsg (msg,name, mine) {
+        var newDiv = document.createElement("h3");
+        var newContent = document.createTextNode(name + ": " + msg);
+        var br = document.createElement("br");
+        var br2 = document.createElement("br");
+        var br3 = document.createElement("br");
+        var br4 = document.createElement("br");
+        var br5 = document.createElement("br");
+        var br6 = document.createElement("br");
+
+        if(!mine){
+            newDiv.className = "messageLeft";
+
+        }
+        else if(mine){
+            newDiv.className = "messageRight";
+        }
+
+        newDiv.appendChild(newContent);
+        var currentDiv = document.getElementById("InputMsg");
+        document.body.insertBefore(newDiv, currentDiv);
+        document.body.insertBefore(br, newDiv);
+        document.body.insertBefore(br2, newDiv);
+        document.body.insertBefore(br3, newDiv);
+        document.body.insertBefore(br4, newDiv);
+        document.body.insertBefore(br5, newDiv);
+
+
+    }
+</script>
+</body>
+</html>
