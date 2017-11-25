@@ -43,9 +43,8 @@
     </style>
 </head>
 <body>
-<label id="parentMSG">
-    <input class="w3-input" placeholder="введите сообщение" onkeydown="KeyDown1(event)" id="InputMSG"/>
-</label>
+    <input class=" w3-margin w3-input w3-xxxlarge w3-left" placeholder="введите сообщение" style="width: 85%" onkeydown="KeyDown1(event)" id="InputMSG"/>
+    <button onclick="send()" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge" style="width: 10%; background-color:#91c5d5;"><img src="send-button.png"></button>
 <script>
     var uuids = [];
     var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
@@ -59,10 +58,22 @@
             uuids.push(uuidNow);
             var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name")};
             console.log(JSON.stringify(msg));
-            outbox.send(JSON.stringify(msg))
+            outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
         }
     }
+    function send() {
+        if(document.getElementById("InputMSG").value != "") {
+            var MsgText = document.getElementById("InputMSG").value;
+            var uuidNow = uuid();
+            uuids.push(uuidNow);
+            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name")};
+            console.log(JSON.stringify(msg));
+            outbox.send(JSON.stringify(msg));
+            document.getElementById("InputMSG").value = ""
+        }
+    }
+
     function check (uuid) {
         for (var i = 0; i < uuids.length; i++){
             if(uuid == uuids[i]){
