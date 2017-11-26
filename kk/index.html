@@ -17,12 +17,11 @@
     <div class="w3-bar">
         <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked()" style="font-size: 30px">Начать</button>
     </div>
-
-    <!--<div class="w3-bar">-->
-        <!--<img href="#" class="w3-button w3-center"onclick="click()" src="anonymous1.png">-->
-        <!--<img href="#" class="w3-button w3-center" src="anonymous2.png">-->
-        <!--<img href="#" class="w3-button w3-center" src="anonimus3.png">-->
-    <!--</div>-->
+    <div class="w3-bar">
+        <img id="1"  class="w3-button w3-center" onclick="icon('1', '2', '3', 1)"  src="anonymous1.png">
+        <img id="2" class="w3-button w3-center" onclick="icon('2', '1', '3', 2)" src="anonymous2.png">
+        <img id="3" class="w3-button w3-center" onclick="icon('3', '2', '1', 3)" src="anonimus3.png">
+    </div>
 
 </center>
 <script>
@@ -36,11 +35,34 @@ function clicked() {
         alert("ведите имя!")
     }
 }
+function icon(id,id2, id3, num) {
+    var obj = document.getElementById(id);
+    obj.className = "w3-opacaity w3-center";
+    var other1 = document.getElementById(id2);
+    var other2 = document.getElementById(id3);
+    other1.className = "w3-button w3-center";
+    other2.className = "w3-button w3-center";
+    localStorage.setItem("icon", num);
+}
 window.onload = function () {
     var name = localStorage.getItem("name");
     console.log(name);
     if(name != ""){
         document.getElementById("name").value = name;
+    }
+    console.log(localStorage.getItem("icon"));
+    console.log(localStorage.getItem("icon").typeof);
+    if(parseInt(localStorage.getItem("icon")) == 1){
+        var obj = document.getElementById("1");
+        obj.className = "w3-opacaity w3-center"
+    }
+    if(parseInt(localStorage.getItem("icon")) == 2){
+        var obj = document.getElementById("2");
+        obj.className = "w3-opacaity w3-center"
+    }
+    if(parseInt(localStorage.getItem("icon")) == 3){
+        var obj = document.getElementById("3");
+        obj.className = "w3-opacaity w3-center"
     }
 }
 </script>

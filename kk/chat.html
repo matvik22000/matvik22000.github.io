@@ -48,6 +48,7 @@
     <button onclick="send()" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge" style="width: 10%; background-color:#91c5d5;"><img src="send-button.png"></button>
 </div>
 <script>
+    var time = Date();
     var uuids = [];
     var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
     var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
@@ -58,7 +59,8 @@
             var MsgText = document.getElementById("InputMSG").value;
             var uuidNow = uuid();
             uuids.push(uuidNow);
-            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name")};
+            var icon = localStorage.getItem("icon");
+            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon};
             console.log(JSON.stringify(msg));
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
@@ -66,10 +68,12 @@
     }
     function send() {
         if(document.getElementById("InputMSG").value != "") {
+
             var MsgText = document.getElementById("InputMSG").value;
             var uuidNow = uuid();
             uuids.push(uuidNow);
-            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name")};
+            var icon = localStorage.getItem("icon");
+            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon};
             console.log(JSON.stringify(msg));
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
@@ -90,18 +94,19 @@
         console.log(msg.uuid);
         console.log(msg.text);
         if(check(msg.uuid)){
-           NewMsg(msg.text, "вы", true)
+           NewMsg(msg.text, "вы", true, msg.icon)
         }
         else {
-            NewMsg(msg.text, msg.name, false)
+            NewMsg(msg.text, msg.name, false, msg.icon)
         }
 
-    }
+    };
+
     function uuid() {
         var now = new Date();
         return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
     }
-    function NewMsg (msg,name, mine) {
+    function NewMsg (msg,name, mine, icon) {
         var newDiv = document.createElement("h3");
         var newContent = document.createTextNode(name + ": " + msg);
         var br = document.createElement("br");
@@ -119,6 +124,21 @@
             newDiv.className = "messageRight";
         }
 
+        if(icon == 1){
+            var img = document.createElement("IMG");
+            img.src = "anonymous1.png";
+            newDiv.appendChild(img);
+        }
+        else if(icon == 2){
+            var img = document.createElement("IMG");
+            img.src = "anonymous2.png";
+            newDiv.appendChild(img);
+        }
+        else if(icon == 3){
+            var img = document.createElement("IMG");
+            img.src = "anonimus3.png";
+            newDiv.appendChild(img);
+        }
         newDiv.appendChild(newContent);
         var currentDiv = document.getElementById("InputMsg");
         document.body.insertBefore(newDiv, currentDiv);
@@ -128,6 +148,12 @@
         document.body.insertBefore(br4, newDiv);
         document.body.insertBefore(br5, newDiv);
 
+
+    }
+    window.onload = function () {
+        if(localStorage.getItem("name") == "" || typeof localStorage.getItem("icon") == "object" || typeof localStorage.getItem("name") == "object") {
+            location.href = "index.html";
+        }
 
     }
 </script>
