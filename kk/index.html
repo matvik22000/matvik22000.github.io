@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="reconnecting-websocket.min.js"></script>
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="shortcut icon" href="faviocn.png" type="image/png">
     <title>knock-knock</title>
+    <style>
+
+    </style>
 </head>
 <body>
 <center>
@@ -11,11 +16,12 @@
         <h2 align="center">Вы</h2>
         <img src="аноним.jpg" class="w3-image w3-opacity-min" style="width:100%">
         <div class="w3-container w3-center">
-            <input class="w3-input" placeholder="введите ваше имя" id="name" style="margin: 5px;">
+            <input class="w3-input" placeholder="ваше имя" id="name" style="margin: 5px;">
         </div>
     </div>
     <div class="w3-bar">
         <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked()" style="font-size: 30px">Начать</button>
+        <!--<button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="find_user()" style="font-size: 30px">найти собеседника</button>-->
     </div>
     <div class="w3-bar">
         <img id="1"  class="w3-button w3-center" onclick="icon('1', '2', '3', 1)"  src="anonymous1.png">
@@ -25,6 +31,30 @@
 
 </center>
 <script>
+    //var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/registration");
+    //var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/registration2");
+    if (typeof localStorage.getItem("uuid") == "object") {
+        var now = new Date();
+        localStorage.setItem("uuid", (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100));
+    }
+    function find_user() {
+        outbox.send(localStorage.getItem("uuid"));
+        inbox.send(localStorage.getItem("uuid"));
+
+        outbox.onmessage = function (data_msg) {
+            msg = data_msg.data;
+            console.log(msg);
+            if(msg.toString() != localStorage.getItem("uuid")){
+                console.log(msg);
+                localStorage.setItem("address", data_msg.data);
+                console.log(localStorage.getItem("address"));
+                inbox.send(localStorage.getItem("uuid"));
+                outbox.close();
+                inbox.close();
+                location.href = "along.html"
+            }
+        };
+    }
 function clicked() {
     localStorage.setItem("name", document.getElementById("name").value);
     console.log(document.getElementById("name"));
@@ -65,6 +95,8 @@ window.onload = function () {
         obj.className = "w3-opacaity w3-center"
     }
 }
+
+
 </script>
 </body>
 </html>

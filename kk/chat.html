@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <script src="reconnecting-websocket.min.js"></script>
+    <link rel="shortcut icon" href="faviocn.png" type="image/png">
     <title>knock-knock</title>
     <style>
         #parentMSG {
@@ -50,7 +51,7 @@
             style="width: 10%; background-color:#91c5d5;"><img src="send-button.png"></button>
 </div>
 <script>
-    var uuids = [];
+
     var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
     var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
 
@@ -64,7 +65,7 @@
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
             var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon};
-            console.log(JSON.stringify(msg));
+
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
         }
@@ -79,7 +80,7 @@
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
             var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon};
-            console.log(JSON.stringify(msg));
+
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
         }
@@ -90,15 +91,15 @@
     }
     inbox.onmessage = function (data) {
         var msg = JSON.parse(data.data);
-        console.log(msg.uuid);
-        console.log(msg.text);
+        console.log(msg.address);
+
         if (check(msg.uuid)) {
             NewMsg(msg.text, "вы", true, msg.icon)
         }
         else {
             NewMsg(msg.text, msg.name, false, msg.icon)
-        }
 
+        }
     };
 
     function uuid() {
