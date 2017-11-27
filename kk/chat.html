@@ -68,7 +68,7 @@
             }
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
-            var time = moment().format('MMMM Do YYYY, h:mm:ss a');
+            var time = moment().calendar();
             var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time};
 
             outbox.send(JSON.stringify(msg));
