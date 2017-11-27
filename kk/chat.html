@@ -58,6 +58,10 @@
 
     var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
     var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
+    inbox.onclose = function () {
+      console.log("close");
+        location.reload()
+    };
 
 
     function KeyDown1(event) {
@@ -68,7 +72,7 @@
             }
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
-            var time = moment().calendar();
+            var time = moment().format('MMMM Do YYYY, h:mm:ss a');
             var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time};
 
             outbox.send(JSON.stringify(msg));
