@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <script src="reconnecting-websocket.min.js"></script>
+    <script src="moment.js"></script>
     <link rel="shortcut icon" href="faviocn.png" type="image/png">
     <title>knock-knock</title>
     <style>
+        .time{
+            font-size: 15px;
+        }
         #parentMSG {
             position: fixed;
             height: 10%;
@@ -64,7 +68,8 @@
             }
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
-            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon};
+            var time = moment().format('MMMM Do YYYY, h:mm:ss a');
+            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time};
 
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
@@ -79,7 +84,8 @@
             }
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
-            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon};
+            var time = new Date();
+            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time};
 
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
@@ -91,13 +97,12 @@
     }
     inbox.onmessage = function (data) {
         var msg = JSON.parse(data.data);
-        console.log(msg.address);
 
         if (check(msg.uuid)) {
-            NewMsg(msg.text, "вы", true, msg.icon)
+            NewMsg(msg.text, "вы", true, msg.icon, msg.time)
         }
         else {
-            NewMsg(msg.text, msg.name, false, msg.icon)
+            NewMsg(msg.text, msg.name, false, msg.icon, msg.time)
 
         }
     };
@@ -106,15 +111,21 @@
         var now = new Date();
         return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
     }
-    function NewMsg(msg, name, mine, icon) {
+    function NewMsg(msg, name, mine, icon, time_obj) {
         var newDiv = document.createElement("h3");
         var newContent = document.createTextNode(name + ": " + msg);
+        var time = document.createElement("SPAN");
+        time.innerHTML = time_obj;
+        time.className = "time";
         var br = document.createElement("br");
         var br2 = document.createElement("br");
         var br3 = document.createElement("br");
         var br4 = document.createElement("br");
         var br5 = document.createElement("br");
         var br6 = document.createElement("br");
+        var br7 = document.createElement("br");
+        var br8 = document.createElement("br");
+        var br9 = document.createElement("br");
 
         if (!mine) {
             newDiv.className = "messageLeft";
@@ -127,18 +138,21 @@
         if (icon == 1) {
             var img = document.createElement("IMG");
             img.src = "anonymous1.png";
-            newDiv.appendChild(img);
+
         }
         else if (icon == 2) {
             var img = document.createElement("IMG");
             img.src = "anonymous2.png";
-            newDiv.appendChild(img);
+
         }
         else if (icon == 3) {
             var img = document.createElement("IMG");
             img.src = "anonimus3.png";
-            newDiv.appendChild(img);
+
         }
+        newDiv.appendChild(time);
+        newDiv.appendChild(br6);
+        newDiv.appendChild(img);
         newDiv.appendChild(newContent);
         var currentDiv = document.getElementById("InputMsg");
         document.body.insertBefore(newDiv, currentDiv);
@@ -147,6 +161,9 @@
         document.body.insertBefore(br3, newDiv);
         document.body.insertBefore(br4, newDiv);
         document.body.insertBefore(br5, newDiv);
+        document.body.insertBefore(br7, newDiv);
+        document.body.insertBefore(br8, newDiv);
+        document.body.insertBefore(br9, newDiv);
         newDiv.scrollIntoView(true);
 
     }
