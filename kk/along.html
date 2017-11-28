@@ -4,13 +4,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <script src="reconnecting-websocket.min.js"></script>
-    <script src="moment.js"></script>
-    <link rel="shortcut icon" href="faviocn.png" type="image/png">
     <title>knock-knock</title>
     <style>
-        .time{
-            font-size: 15px;
-        }
         #parentMSG {
             position: fixed;
             height: 10%;
@@ -55,17 +50,8 @@
             style="width: 10%; background-color:#91c5d5;"><img src="send-button.png"></button>
 </div>
 <script>
-
-    var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
-    inbox.onopen = function () {
-        var id = localStorage.getItem("uuid");
-        inbox.send(id)
-    };
-    var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
-    inbox.onclose = function () {
-      console.log("close");
-        location.reload()
-    };
+    var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive_along");
+    var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit_along ");
 
 
     function KeyDown1(event) {
@@ -76,9 +62,7 @@
             }
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
-            var time = moment().format('MMMM Do YYYY, h:mm:ss a');
-            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time};
-
+            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon};
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
         }
@@ -92,8 +76,7 @@
             }
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
-            var time = new Date();
-            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time};
+            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, address: localStorage.getItem("address"), sender: localStorage.getItem("uuid")};
 
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
@@ -105,13 +88,17 @@
     }
     inbox.onmessage = function (data) {
         var msg = JSON.parse(data.data);
-
-        if (check(msg.uuid)) {
-            NewMsg(msg.text, "вы", true, msg.icon, msg.time)
-        }
-        else {
-            NewMsg(msg.text, msg.name, false, msg.icon, msg.time)
-
+        //console.log(msg.address != "object");
+        if(msg.address != "object") {
+            if (check(msg.uuid) && msg.address != localStorage.getItem("uuid")) {
+                console.log(check(msg.uuid));
+                console.log(msg.uuid);
+                console.log(localStorage.getItem("uuid"));
+                NewMsg(msg.text, "вы", true, msg.icon)
+            }
+            else if(msg.address == localStorage.getItem("uuid")){
+                NewMsg(msg.text, msg.name, false, msg.icon)
+            }
         }
     };
 
@@ -119,21 +106,15 @@
         var now = new Date();
         return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
     }
-    function NewMsg(msg, name, mine, icon, time_obj) {
+    function NewMsg(msg, name, mine, icon) {
         var newDiv = document.createElement("h3");
         var newContent = document.createTextNode(name + ": " + msg);
-        var time = document.createElement("SPAN");
-        time.innerHTML = time_obj;
-        time.className = "time";
         var br = document.createElement("br");
         var br2 = document.createElement("br");
         var br3 = document.createElement("br");
         var br4 = document.createElement("br");
         var br5 = document.createElement("br");
         var br6 = document.createElement("br");
-        var br7 = document.createElement("br");
-        var br8 = document.createElement("br");
-        var br9 = document.createElement("br");
 
         if (!mine) {
             newDiv.className = "messageLeft";
@@ -146,21 +127,19 @@
         if (icon == 1) {
             var img = document.createElement("IMG");
             img.src = "anonymous1.png";
-
+            newDiv.appendChild(img);
         }
         else if (icon == 2) {
             var img = document.createElement("IMG");
             img.src = "anonymous2.png";
-
+            newDiv.appendChild(img);
         }
         else if (icon == 3) {
             var img = document.createElement("IMG");
             img.src = "anonimus3.png";
-
+            newDiv.appendChild(img);
+            newDiv.appendChild(img);
         }
-        newDiv.appendChild(time);
-        newDiv.appendChild(br6);
-        newDiv.appendChild(img);
         newDiv.appendChild(newContent);
         var currentDiv = document.getElementById("InputMsg");
         document.body.insertBefore(newDiv, currentDiv);
@@ -169,9 +148,6 @@
         document.body.insertBefore(br3, newDiv);
         document.body.insertBefore(br4, newDiv);
         document.body.insertBefore(br5, newDiv);
-        document.body.insertBefore(br7, newDiv);
-        document.body.insertBefore(br8, newDiv);
-        document.body.insertBefore(br9, newDiv);
         newDiv.scrollIntoView(true);
 
     }

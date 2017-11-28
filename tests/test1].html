@@ -1,5 +1,59 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ввод IP-адреса</title>
+</head>
+<body>
+<p>
+    <label>
+        <input pattern="[^а-яА-ЯЁё\s]+$" id="input1">
+        <button onclick="submit()">отправить</button>
+    </label>
+</p>
 <script>
-    var now = new Date();
-    alert((now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100));
+    var socket = new WebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/registration");
+    var socket2 = new WebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/registration2");
+    socket.onopen = function() {
+        alert("Соединение установлено.");
+    };
+    socket2.onopen = function() {
+        alert("Соединение установлено.");
+    };
+
+    socket.onclose = function(event) {
+        if (event.wasClean) {
+            alert('Соединение закрыто чисто');
+        } else {
+            alert('Обрыв соединения'); // например, "убит" процесс сервера
+        }
+        alert('Код: ' + event.code + ' причина: ' + event.reason);
+    };
+    socket2.onclose = function(event) {
+        if (event.wasClean) {
+            alert('Соединение закрыто чисто');
+        } else {
+            alert('Обрыв соединения'); // например, "убит" процесс сервера
+        }
+        alert('Код: ' + event.code + ' причина: ' + event.reason);
+    };
+
+
+    socket.onmessage = function(event) {
+        console.log("Получены данные " + event.data);
+    };
+    socket2.onmessage = function(event) {
+        console.log("Получены данные " + event.data);
+    };
+
+    socket.onerror = function(error) {
+        alert("Ошибка " + error.message);
+    };
+    function submit() {
+        var text = document.getElementById("input1").value;
+        socket.send(text);
+        socket2.send(text)
+    }
 </script>
+</body>
+</html>
