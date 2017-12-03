@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <script src="reconnecting-websocket.min.js"></script>
+    <script src="moment.js"></script>
+    <link rel="shortcut icon" href="faviocn.png" type="image/png">
     <title>knock-knock</title>
     <style>
+        .time{
+            font-size: 15px;
+        }
         #parentMSG {
             position: fixed;
             height: 10%;
@@ -43,31 +48,33 @@
     </style>
 </head>
 <body>
-<div style="position: fixed" style="width: 100%">
+<div style="position: fixed; width: 100%">
     <input class=" w3-margin w3-input w3-xxxlarge w3-left" placeholder="введите сообщение" style="width: 80%"
            onkeydown="KeyDown1(event)" id="InputMSG"/>
-    <button onclick="send()" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge"
+    <button onclick="send2()" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge"
             style="width: 10%; background-color:#91c5d5;"><img src="send-button.png"></button>
 </div>
 <script>
-    var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive_along");
-    var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit_along ");
+
+    var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
+    inbox.onopen = function () {
+        var id = localStorage.getItem("uuid");
+        var msg = {key: id, msg: "false"};
+        inbox.send(JSON.stringify(msg));
+    };
+    var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
+    inbox.onclose = function () {
+        console.log("close");
+        location.reload()
+    };
 
 
     function KeyDown1(event) {
         if (event.keyCode == 13 && document.getElementById("InputMSG").value != "") {
-            var MsgText = document.getElementById("InputMSG").value;
-            if (typeof localStorage.getItem("uuid") == "object") {
-                localStorage.setItem("uuid", uuid())
-            }
-            var uuidNow = localStorage.getItem("uuid");
-            var icon = localStorage.getItem("icon");
-            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon};
-            outbox.send(JSON.stringify(msg));
-            document.getElementById("InputMSG").value = ""
+            send2()
         }
     }
-    function send() {
+    function send2() {
         if (document.getElementById("InputMSG").value != "") {
 
             var MsgText = document.getElementById("InputMSG").value;
@@ -76,10 +83,12 @@
             }
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
-            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, address: localStorage.getItem("address"), sender: localStorage.getItem("uuid")};
-
+            var time = moment().format('MMMM Do YYYY, h:mm:ss a');
+            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time, address: localStorage.getItem("address")};
+            console.log(msg);
             outbox.send(JSON.stringify(msg));
-            document.getElementById("InputMSG").value = ""
+            document.getElementById("InputMSG").value = "";
+            NewMsg(msg.text, "вы", true, msg.icon, msg.time);
         }
     }
 
@@ -88,33 +97,30 @@
     }
     inbox.onmessage = function (data) {
         var msg = JSON.parse(data.data);
-        //console.log(msg.address != "object");
-        if(msg.address != "object") {
-            if (check(msg.uuid) && msg.address != localStorage.getItem("uuid")) {
-                console.log(check(msg.uuid));
-                console.log(msg.uuid);
-                console.log(localStorage.getItem("uuid"));
-                NewMsg(msg.text, "вы", true, msg.icon)
-            }
-            else if(msg.address == localStorage.getItem("uuid")){
-                NewMsg(msg.text, msg.name, false, msg.icon)
-            }
-        }
+        if(check(msg.address))
+            NewMsg(msg.text, msg.name, false, msg.icon, msg.time)
+
     };
 
     function uuid() {
         var now = new Date();
         return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
     }
-    function NewMsg(msg, name, mine, icon) {
+    function NewMsg(msg, name, mine, icon, time_obj) {
         var newDiv = document.createElement("h3");
         var newContent = document.createTextNode(name + ": " + msg);
+        var time = document.createElement("SPAN");
+        time.innerHTML = time_obj;
+        time.className = "time";
         var br = document.createElement("br");
         var br2 = document.createElement("br");
         var br3 = document.createElement("br");
         var br4 = document.createElement("br");
         var br5 = document.createElement("br");
         var br6 = document.createElement("br");
+        var br7 = document.createElement("br");
+        var br8 = document.createElement("br");
+        var br9 = document.createElement("br");
 
         if (!mine) {
             newDiv.className = "messageLeft";
@@ -127,19 +133,21 @@
         if (icon == 1) {
             var img = document.createElement("IMG");
             img.src = "anonymous1.png";
-            newDiv.appendChild(img);
+
         }
         else if (icon == 2) {
             var img = document.createElement("IMG");
             img.src = "anonymous2.png";
-            newDiv.appendChild(img);
+
         }
         else if (icon == 3) {
             var img = document.createElement("IMG");
             img.src = "anonimus3.png";
-            newDiv.appendChild(img);
-            newDiv.appendChild(img);
+
         }
+        newDiv.appendChild(time);
+        newDiv.appendChild(br6);
+        newDiv.appendChild(img);
         newDiv.appendChild(newContent);
         var currentDiv = document.getElementById("InputMsg");
         document.body.insertBefore(newDiv, currentDiv);
@@ -148,6 +156,9 @@
         document.body.insertBefore(br3, newDiv);
         document.body.insertBefore(br4, newDiv);
         document.body.insertBefore(br5, newDiv);
+        document.body.insertBefore(br7, newDiv);
+        document.body.insertBefore(br8, newDiv);
+        document.body.insertBefore(br9, newDiv);
         newDiv.scrollIntoView(true);
 
     }
@@ -156,6 +167,7 @@
             location.href = "index.html";
         }
     }
+
 </script>
 </body>
 </html>

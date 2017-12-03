@@ -21,7 +21,7 @@
     </div>
     <div class="w3-bar">
         <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked()" style="font-size: 30px">Начать</button>
-        <!--<button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="find_user()" style="font-size: 30px">найти собеседника</button>-->
+        <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="registration()" style="font-size: 30px">найти собеседника</button>
     </div>
     <div class="w3-bar">
         <img id="1"  class="w3-button w3-center" onclick="icon('1', '2', '3', 1)"  src="anonymous1.png">
@@ -31,29 +31,22 @@
 
 </center>
 <script>
-    //var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/registration");
-    //var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/registration2");
+    function registration() {
+        var reg = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/reg");
+        reg.onopen = function () {
+            reg.send(localStorage.getItem("uuid"));
+            console.log(localStorage.getItem("uuid"));
+        };
+        reg.onmessage = function (data) {
+            var msg = data.data;
+            localStorage.setItem("address", msg);
+            location.href = "along.html";
+            re.close()
+        }
+    }
     if (typeof localStorage.getItem("uuid") == "object") {
         var now = new Date();
         localStorage.setItem("uuid", (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100));
-    }
-    function find_user() {
-        outbox.send(localStorage.getItem("uuid"));
-        inbox.send(localStorage.getItem("uuid"));
-
-        outbox.onmessage = function (data_msg) {
-            msg = data_msg.data;
-            console.log(msg);
-            if(msg.toString() != localStorage.getItem("uuid")){
-                console.log(msg);
-                localStorage.setItem("address", data_msg.data);
-                console.log(localStorage.getItem("address"));
-                inbox.send(localStorage.getItem("uuid"));
-                outbox.close();
-                inbox.close();
-                location.href = "along.html"
-            }
-        };
     }
 function clicked() {
     localStorage.setItem("name", document.getElementById("name").value);
