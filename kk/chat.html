@@ -59,12 +59,18 @@
     var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
     inbox.onopen = function () {
         var id = localStorage.getItem("uuid");
-        inbox.send(id)
+        var msg = {key: id, msg: "true"};
+        inbox.send(JSON.stringify(msg));
+
     };
+    inbox.onclose = function () {
+        console.log("close1");
+    };
+
     var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
     inbox.onclose = function () {
       console.log("close");
-        location.reload()
+
     };
 
 
@@ -78,7 +84,7 @@
             var icon = localStorage.getItem("icon");
             var time = moment().format('MMMM Do YYYY, h:mm:ss a');
             var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time};
-
+            console.log(msg);
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
         }
@@ -92,9 +98,9 @@
             }
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
-            var time = new Date();
+            var time = moment().format('MMMM Do YYYY, h:mm:ss a');
             var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time};
-
+            console.log(msg);
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
         }
