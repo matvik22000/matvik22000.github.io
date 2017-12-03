@@ -3,10 +3,34 @@
 <head>
     <meta charset="utf-8">
     <script src="moment.js"></script>
+    <script src="reconnecting-websocket.min.js"></script>
 </head>
 <body>
 <script>
-    alert(moment().calendar());
+    var socket = new WebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/reg");
+    socket.onopen = function() {
+        alert("Соединение установлено.");
+        socket.send(localStorage.getItem("uuid"));
+        console.log(localStorage.getItem("uuid"));
+    };
+
+
+    socket.onclose = function(event) {
+        if (event.wasClean) {
+            alert('Соединение закрыто чисто');
+        } else {
+            alert('Обрыв соединения'); // например, "убит" процесс сервера
+        }
+        alert('Код: ' + event.code + ' причина: ' + event.reason);
+    };
+
+    socket.onmessage = function(event) {
+        console.log("Получены данные " + event.data);
+    };
+
+    socket.onerror = function(error) {
+        alert("Ошибка " + error.message);
+    };
 </script>
 </body>
 </html>

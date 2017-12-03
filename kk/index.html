@@ -21,7 +21,7 @@
     </div>
     <div class="w3-bar">
         <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked()" style="font-size: 30px">Начать</button>
-        <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="registration()" style="font-size: 30px">найти собеседника</button>
+
     </div>
     <div class="w3-bar">
         <img id="1"  class="w3-button w3-center" onclick="icon('1', '2', '3', 1)"  src="anonymous1.png">
@@ -31,6 +31,7 @@
 
 </center>
 <script>
+    localStorage.setItem("address", "");
     function registration() {
         var reg = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/reg");
         reg.onopen = function () {
@@ -39,6 +40,7 @@
         };
         reg.onmessage = function (data) {
             var msg = data.data;
+            console.log(msg);
             localStorage.setItem("address", msg);
             location.href = "along.html";
             re.close()

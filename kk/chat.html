@@ -8,9 +8,10 @@
     <link rel="shortcut icon" href="faviocn.png" type="image/png">
     <title>knock-knock</title>
     <style>
-        .time{
+        .time {
             font-size: 15px;
         }
+
         #parentMSG {
             position: fixed;
             height: 10%;
@@ -45,21 +46,41 @@
             float: right;
 
         }
+        .messageRight_red {
+            border-radius: 40px;
+            font-size: 200%;
+            border-color: black;
+            background-color: #d59576;
+            padding: 1%;
+            margin-left: 0.5%;
+            float: right;
+
+        }
+        .messageLeft_red {
+            border-radius: 40px;
+            font-size: 200%;
+            border-color: black;
+            background-color: #d59576;
+            padding: 1%;
+            margin-left: 0.5%;
+            float: right;
+
+        }
     </style>
 </head>
 <body>
-<div style="position: fixed" style="width: 100%">
+<div style="position: fixed; width: 100%">
     <input class=" w3-margin w3-input w3-xxxlarge w3-left" placeholder="введите сообщение" style="width: 80%"
            onkeydown="KeyDown1(event)" id="InputMSG"/>
     <button onclick="send()" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge"
             style="width: 10%; background-color:#91c5d5;"><img src="send-button.png"></button>
 </div>
 <script>
-
+    var users = {};
     var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
     inbox.onopen = function () {
         var id = localStorage.getItem("uuid");
-        var msg = {key: id, msg: "true"};
+        var msg = {key: id, msg: "true", name:localStorage.getItem("name")};
         inbox.send(JSON.stringify(msg));
 
     };
@@ -69,27 +90,17 @@
 
     var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
     inbox.onclose = function () {
-      console.log("close");
+        console.log("close");
 
     };
 
 
     function KeyDown1(event) {
         if (event.keyCode == 13 && document.getElementById("InputMSG").value != "") {
-            var MsgText = document.getElementById("InputMSG").value;
-            if (typeof localStorage.getItem("uuid") == "object") {
-                localStorage.setItem("uuid", uuid())
-            }
-            var uuidNow = localStorage.getItem("uuid");
-            var icon = localStorage.getItem("icon");
-            var time = moment().format('MMMM Do YYYY, h:mm:ss a');
-            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time};
-            console.log(msg);
-            outbox.send(JSON.stringify(msg));
-            document.getElementById("InputMSG").value = ""
+            send2()
         }
     }
-    function send() {
+    function send2() {
         if (document.getElementById("InputMSG").value != "") {
 
             var MsgText = document.getElementById("InputMSG").value;
@@ -99,7 +110,7 @@
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
             var time = moment().format('MMMM Do YYYY, h:mm:ss a');
-            var msg = {uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time:time};
+            var msg = {system: false, uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time: time};
             console.log(msg);
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
@@ -110,14 +121,35 @@
         return uuid == localStorage.getItem("uuid");
     }
     inbox.onmessage = function (data) {
-        var msg = JSON.parse(data.data);
 
-        if (check(msg.uuid)) {
-            NewMsg(msg.text, "вы", true, msg.icon, msg.time)
+        var msg = JSON.parse(data.data);
+        console.log(msg);
+        if (msg.system == "true"){
+            if (msg.event == "reg"){
+                users[msg.key] = msg.name;
+                console.log(users)
+            }
+            if (msg.event == "close"){
+                delete (users[msg.id])
+            }
         }
         else {
-            NewMsg(msg.text, msg.name, false, msg.icon, msg.time)
-
+            if (typeof msg.address == "undefined") {
+                if (check(msg.uuid)) {
+                    NewMsg(msg.text, "вы", true, msg.icon, msg.time)
+                }
+                else {
+                    NewMsg(msg.text, msg.name, false, msg.icon, msg.time)
+                }
+            }
+            else{
+                if (check(msg.uuid)) {
+                    NewMsg(msg.text, "для " + users[msg.address], true, msg.icon, msg.time)
+                }
+                else {
+                    NewMsg(msg.text, "для вас от " + msg.name, false, msg.icon, msg.time)
+                }
+            }
         }
     };
 
@@ -125,6 +157,13 @@
         var now = new Date();
         return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
     }
+
+
+
+
+
+
+
     function NewMsg(msg, name, mine, icon, time_obj) {
         var newDiv = document.createElement("h3");
         var newContent = document.createTextNode(name + ": " + msg);

@@ -12,31 +12,11 @@
     </label>
 </p>
 <script>
-    var socket = new WebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/registration");
-    socket.onopen = function() {
-        alert("Соединение установлено.");
-    };
-
-    socket.onclose = function(event) {
-        if (event.wasClean) {
-            alert('Соединение закрыто чисто');
-        } else {
-            alert('Обрыв соединения'); // например, "убит" процесс сервера
-        }
-        alert('Код: ' + event.code + ' причина: ' + event.reason);
-    };
-
-    socket.onmessage = function(event) {
-        alert("Получены данные " + event.data);
-    };
-
-    socket.onerror = function(error) {
-        alert("Ошибка " + error.message);
-    };
-    function submit() {
-        var text = document.getElementById("input1").value;
-        socket.send(text)
-    }
+   var j = {n: 10};
+   var j2 = {name:1, n:2};
+   j[j2.name] = j2.n;
+   delete (j.n);
+   console.log(j)
 </script>
 </body>
 </html>
