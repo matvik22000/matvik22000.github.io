@@ -63,7 +63,7 @@
             background-color: #cd8d96;
             padding: 1%;
             margin-left: 0.5%;
-            float: right;
+            float: left;
 
         }
         .w3-dropdown-click{
@@ -218,7 +218,9 @@
         if (mine) {
             newDiv.className = "messageRight";
         }
+
         if (!mine && address2) {
+            console.log(mine, address2);
             newDiv.className = "messageLeft_red";
 
         }
