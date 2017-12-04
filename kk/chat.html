@@ -89,7 +89,7 @@
         document.getElementById("address_st").innerHTML = "Кому: всем"
 
     }
-    var addressGlobal;
+    var addressGlobal = "";
     var addressGlobalName;
 
     var users = {};
@@ -129,7 +129,8 @@
             var time = moment().format('MMMM Do YYYY, h:mm:ss a');
             if(addressGlobal != ""){
                 var msg = {system: false, uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time: time, address: addressGlobal, nameAddress: addressGlobalName};
-                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name)
+                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name);
+                console.log("newMsg")
             }
             else {
                 var msg = {system: false, uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time: time};
@@ -145,12 +146,12 @@
     inbox.onmessage = function (data) {
 
         var msg = JSON.parse(data.data);
-        console.log(msg);
+
         if (msg.system == "true"){
             if (msg.event == "reg"){
                 if(msg.key != localStorage.getItem("uuid")) {
                     users[msg.key] = msg.name;
-                    console.log(users);
+
                 }
             }
             if (msg.event == "close"){
@@ -161,20 +162,26 @@
             }
         }
         else {
+
             if (typeof msg.address == "undefined") {
                 if (check(msg.uuid)) {
                     NewMsg(msg.text, "вы", true, msg.icon, msg.time, false, msg.uuid, msg.name)
+                    console.log("newMsg")
                 }
                 else {
                     NewMsg(msg.text, msg.name, false, msg.icon, msg.time, false, msg.uuid, msg.name)
+                    console.log("newMsg")
                 }
             }
             else{
                 if (check(msg.uuid)) {
                     NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name)
+                    console.log("newMsg")
                 }
                 else {
                     NewMsg(msg.text, "для вас от " + msg.name, false, msg.icon, msg.time, true, msg.uuid, msg.name)
+                    console.log("newMsg")
+
                 }
             }
         }
@@ -192,6 +199,7 @@
 
 
     function NewMsg(msg, name, mine, icon, time_obj, address2, uuid, nameAddress) {
+        console.log(msg, name, mine, address2, nameAddress);
         var newDiv = document.createElement("h3");
         var newContent = document.createTextNode(name + ": " + msg);
         var time = document.createElement("SPAN");
@@ -220,7 +228,6 @@
         }
 
         if (!mine && address2) {
-            console.log(mine, address2);
             newDiv.className = "messageLeft_red";
 
         }
