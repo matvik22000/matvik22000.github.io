@@ -32,7 +32,8 @@
             background-color: #c7f66f;
             padding: 1%;
             margin-right: 0.5%;
-            float: left
+            float: left;
+            cursor: pointer;
 
         }
 
@@ -44,6 +45,7 @@
             padding: 1%;
             margin-left: 0.5%;
             float: right;
+            cursor: pointer;
 
         }
         .messageRight_red {
@@ -54,6 +56,7 @@
             padding: 1%;
             margin-left: 0.5%;
             float: right;
+            cursor: pointer;
 
         }
         .messageLeft_red {
@@ -64,6 +67,7 @@
             padding: 1%;
             margin-left: 0.5%;
             float: left;
+            cursor: pointer;
 
         }
         .w3-dropdown-click{
@@ -165,21 +169,21 @@
 
             if (typeof msg.address == "undefined") {
                 if (check(msg.uuid)) {
-                    NewMsg(msg.text, "вы", true, msg.icon, msg.time, false, msg.uuid, msg.name)
+                    NewMsg(msg.text, "вы", true, msg.icon, msg.time, false, msg.uuid, msg.name);
                     console.log("newMsg")
                 }
                 else {
-                    NewMsg(msg.text, msg.name, false, msg.icon, msg.time, false, msg.uuid, msg.name)
+                    NewMsg(msg.text, msg.name, false, msg.icon, msg.time, false, msg.uuid, msg.name);
                     console.log("newMsg")
                 }
             }
             else{
                 if (check(msg.uuid)) {
-                    NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name)
+                    NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name);
                     console.log("newMsg")
                 }
                 else {
-                    NewMsg(msg.text, "для вас от " + msg.name, false, msg.icon, msg.time, true, msg.uuid, msg.name)
+                    NewMsg(msg.text, "для вас от " + msg.name, false, msg.icon, msg.time, true, msg.uuid, msg.name);
                     console.log("newMsg")
 
                 }
@@ -220,19 +224,19 @@
             document.getElementById("address_st").innerHTML = "Кому: " + nameAddress
         };
         if (!mine) {
-            newDiv.className = "messageLeft";
+            newDiv.className = "messageLeft w3-hover-opacity";
 
         }
         if (mine) {
-            newDiv.className = "messageRight";
+            newDiv.className = "messageRight w3-hover-opacity";
         }
 
         if (!mine && address2) {
-            newDiv.className = "messageLeft_red";
+            newDiv.className = "messageLeft_red w3-hover-opacity";
 
         }
         if (mine && address2) {
-            newDiv.className = "messageRight_red";
+            newDiv.className = "messageRight_red w3-hover-opacity";
         }
 
 
