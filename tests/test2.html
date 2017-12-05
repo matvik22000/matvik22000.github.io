@@ -5,13 +5,15 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
 
-<p onclick="soundClick()">Кликни по этому тексту</p>
 
 <script>
-    function soundClick() {
-        var audio = new Audio(); // Создаём новый элемент Audio
-        audio.src = 'click.mp3'; // Указываем путь к звуку "клика"
-        audio.autoplay = true; // Автоматически запускаем
+    var socket = new WebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/all");
+    socket.onmessage = function (msg) {
+        console.log(msg.data);
+        var message = JSON.parse(msg.data);
+        var txt = document.createElement("h2");
+        txt.innerHTML = message.text;
+        document.body.appendChild(txt)
     }
 </script>
 </body>
