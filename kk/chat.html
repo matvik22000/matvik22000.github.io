@@ -93,6 +93,7 @@
         document.getElementById("address_st").innerHTML = "Кому: всем"
 
     }
+    var startMsgs = 0;
     var addressGlobal = "";
     var addressGlobalName;
 
@@ -149,8 +150,8 @@
     }
     inbox.onmessage = function (data) {
 
-        var msg = JSON.parse(data.data);
 
+        var msg = JSON.parse(data.data);
         if (msg.system == "true"){
             if (msg.event == "reg"){
                 if(msg.key != localStorage.getItem("uuid")) {
@@ -174,27 +175,40 @@
                 }
                 else {
                     NewMsg(msg.text, msg.name, false, msg.icon, msg.time, false, msg.uuid, msg.name);
-                    console.log("newMsg")
+                    console.log("newMsg");
+                    soundClick();
+
+
                 }
             }
             else{
                 if (check(msg.uuid)) {
                     NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name);
+
                     console.log("newMsg")
                 }
                 else {
                     NewMsg(msg.text, "для вас от " + msg.name, false, msg.icon, msg.time, true, msg.uuid, msg.name);
-                    console.log("newMsg")
+                    console.log("newMsg");
+                    soundClick();
+
 
                 }
             }
         }
+        startMsgs ++;
     };
 
     function uuid() {
         var now = new Date();
         return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
     }
+    function soundClick() {
+        var audio = new Audio(); // Создаём новый элемент Audio
+        audio.src = 'click.mp3'; // Указываем путь к звуку "клика"
+        audio.autoplay = true; // Автоматически запускаем
+    }
+
 
 
 
@@ -275,6 +289,7 @@
     }
     window.onload = function () {
         if (localStorage.getItem("name") == "" || typeof localStorage.getItem("icon") == "object" || typeof localStorage.getItem("name") == "object") {
+            alert("введите имя!");
             location.href = "index.html";
         }
     }
