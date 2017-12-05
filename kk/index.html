@@ -12,6 +12,9 @@
 </head>
 <body>
 <center>
+
+
+    </div>
     <div class="w3-container w3-card-4 w3-xxxlarge" style="width: 20%">
         <h2 align="center">Вы</h2>
         <img src="аноним.jpg" class="w3-image w3-opacity-min" style="width:100%">
@@ -28,24 +31,34 @@
         <img id="2" class="w3-button w3-center" onclick="icon('2', '1', '3', 2)" src="anonymous2.png">
         <img id="3" class="w3-button w3-center" onclick="icon('3', '2', '1', 3)" src="anonimus3.png">
     </div>
+    <div id="id01" class="w3-panel w3-red" style="display: none; width: 50%">
+        <h2 style="font-size: 50px">Вы не ввели имя!</h2>
+        <br>
+        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
+    </div>
+    <div id="id02" class="w3-panel w3-red" style="display: none; width: 50%">
+        <h2 style="font-size: 50px">Вы не выбрали иконку!</h2>
+        <br>
+        <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
+    </div>
 
 </center>
 <script>
-    localStorage.setItem("address", "");
-    function registration() {
-        var reg = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/reg");
-        reg.onopen = function () {
-            reg.send(localStorage.getItem("uuid"));
-            console.log(localStorage.getItem("uuid"));
-        };
-        reg.onmessage = function (data) {
-            var msg = data.data;
-            console.log(msg);
-            localStorage.setItem("address", msg);
-            location.href = "along.html";
-            re.close()
-        }
-    }
+
+//    function registration() {
+//        var reg = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/reg");
+//        reg.onopen = function () {
+//            reg.send(localStorage.getItem("uuid"));
+//            console.log(localStorage.getItem("uuid"));
+//        };
+//        reg.onmessage = function (data) {
+//            var msg = data.data;
+//            console.log(msg);
+//            localStorage.setItem("address", msg);
+//            location.href = "along.html";
+//            re.close()
+//        }
+//    }
     if (typeof localStorage.getItem("uuid") == "object") {
         var now = new Date();
         localStorage.setItem("uuid", (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100));
@@ -53,12 +66,16 @@
 function clicked() {
     localStorage.setItem("name", document.getElementById("name").value);
     console.log(document.getElementById("name"));
-    if(document.getElementById("name").value != ""){
+    if(document.getElementById("name").value != "" && typeof localStorage.getItem("icon") != "object"){
         location.href = "chat.html"
     }
-    else{
-        alert("ведите имя!")
+    else if (document.getElementById("name").value == ""){
+        document.getElementById('id01').style.display='block'
     }
+    else if (typeof localStorage.getItem("icon") != "object"){
+        document.getElementById('id02').style.display='block'
+    }
+
 }
 function icon(id,id2, id3, num) {
     var obj = document.getElementById(id);
