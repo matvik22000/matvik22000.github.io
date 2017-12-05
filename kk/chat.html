@@ -73,6 +73,14 @@
         .w3-dropdown-click{
          font-size: 30px;
         }
+        .system{
+            border-radius: 40px;
+            font-size: 200%;
+            border-color: black;
+            padding: 1%;
+            margin-left: 0.5%;
+            float: left;
+        }
 
     </style>
 </head>
@@ -80,7 +88,7 @@
 <div style="position: fixed; width: 100%">
     <input class=" w3-margin w3-input w3-xxxlarge w3-left" placeholder="введите сообщение" style="width: 80%"
            onkeydown="KeyDown1(event)" id="InputMSG"/>
-    <button onclick="send()" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge"
+    <button onclick="send2()" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge"
             style="width: 10%; background-color:#91c5d5;"><img src="send-button.png"></button>
     <br>
     <br>
@@ -149,19 +157,20 @@
         return uuid == localStorage.getItem("uuid");
     }
     inbox.onmessage = function (data) {
-
-
+        var time = moment().format('MMMM Do YYYY, h:mm:ss a');
         var msg = JSON.parse(data.data);
         if (msg.system == "true"){
             if (msg.event == "reg"){
                 if(msg.key != localStorage.getItem("uuid")) {
                     users[msg.key] = msg.name;
+//                    systemMsg(msg.name, time, "подключился")
 
                 }
             }
             if (msg.event == "close"){
                 if(msg.key != localStorage.getItem("uuid")) {
                     delete (users[msg.key]);
+//                    systemMsg(msg.name, time, "оключился")
                 }
 
             }
@@ -214,6 +223,37 @@
 
 
 
+    function systemMsg(name, time_obj, msg) {
+        var newDiv = document.createElement("h3");
+        newDiv.className = "system w3-blue";
+        var newContent = document.createTextNode(name + " " + msg);
+        var time = document.createElement("SPAN");
+        time.innerHTML = time_obj;
+        time.className = "time";
+        var br = document.createElement("br");
+        var br2 = document.createElement("br");
+        var br3 = document.createElement("br");
+        var br4 = document.createElement("br");
+        var br5 = document.createElement("br");
+        var br6 = document.createElement("br");
+        var br7 = document.createElement("br");
+        var br8 = document.createElement("br");
+        var br9 = document.createElement("br");
+        newDiv.appendChild(time);
+        newDiv.appendChild(br6);
+        newDiv.appendChild(newContent);
+        var currentDiv = document.getElementById("InputMsg");
+        document.body.insertBefore(newDiv, currentDiv);
+        document.body.insertBefore(br, newDiv);
+        document.body.insertBefore(br2, newDiv);
+        document.body.insertBefore(br3, newDiv);
+        document.body.insertBefore(br4, newDiv);
+        document.body.insertBefore(br5, newDiv);
+        document.body.insertBefore(br7, newDiv);
+        document.body.insertBefore(br8, newDiv);
+        document.body.insertBefore(br9, newDiv);
+        newDiv.scrollIntoView(true);
+    }
 
 
     function NewMsg(msg, name, mine, icon, time_obj, address2, uuid, nameAddress) {
