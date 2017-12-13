@@ -24,7 +24,6 @@
     </div>
     <div class="w3-bar">
         <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked()" style="font-size: 30px">Начать</button>
-
     </div>
     <div class="w3-bar">
         <img id="1"  class="w3-button w3-center" onclick="icon('1', '2', '3', 1)"  src="anonymous1.png">
@@ -41,6 +40,7 @@
         <br>
         <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
     </div>
+    <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked1()" style="font-size: 30px">стикеры</button>
 
 </center>
 <script>
@@ -62,6 +62,9 @@
     if (typeof localStorage.getItem("uuid") == "object") {
         var now = new Date();
         localStorage.setItem("uuid", (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100));
+    }
+    function clicked1() {
+        location.href = "stickers.html"
     }
 function clicked() {
     localStorage.setItem("name", document.getElementById("name").value);

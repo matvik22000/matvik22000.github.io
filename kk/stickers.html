@@ -2,9 +2,147 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <title>Cтикеры</title>
 </head>
 <body>
+<div id="id01" class="w3-panel w3-red" style="display: none; width: 50%">
+    <h2 style="font-size: 20px">неверный url адрес картинки</h2>
+    <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-left w3-margin w3-black">Хорошо</span>
+</div>
+<button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-large" onclick="clicked11()" style="font-size: 30px">Начать</button>
+<div style="width: 100%" class="inputDiv w3-border w3-container">
+    <input id="input1" class="w3-input w3-left w3-margin" style="width: 40%">
+    <button onclick="clicked()" class="w3-button w3-black w3-xlarge w3-padding w3-margin w3-round">ok</button>
 
+</div>
+<script>
+    function clicked11() {
+        location.href = "chat.html"
+    }
+    window.onload = function () {
+      if(typeof localStorage.getItem("stickers") != "object"){
+          var stickers = JSON.parse(localStorage.getItem("stickers"));
+          var isfirst = true;
+          for (var i = 0; i < stickers.length; i++){
+              if(isfirst){
+                  document.getElementById("input1").value = stickers[i];
+                  var obj = document.getElementsByClassName("w3-input")[document.getElementsByClassName("w3-input").length - 1];
+                  obj.value = stickers[i];
+                  console.log("click");
+                  var obj = document.getElementsByClassName("w3-input")[document.getElementsByClassName("w3-input").length - 1];
+                  console.log(document.getElementsByClassName("w3-input"));
+                  var div = document.getElementsByClassName("inputDiv")[document.getElementsByClassName("inputDiv").length - 1];
+                  var img = document.createElement("img");
+                  var error = false;
+                  img.src = obj.value;
+                  img.className = "w3-right w3-margin";
+                  img.onerror = function () {
+                      error = true;
+                      console.log(error);
+                      document.getElementById('id01').style.display='block';
+                  };
+                  img.style.maxWidth = "100px";
+                  div.appendChild(img);
+                  console.log(error);
+                  if(!error) {
+                      var parent = document.createElement("div");
+                      var childInput = document.createElement("input");
+                      var childBtn = document.createElement("button");
+                      parent.style.width = "100%";
+                      parent.className = "inputDiv w3-border w3-container";
+                      childInput.className = "w3-input w3-left w3-margin";
+                      childInput.style.width = "40%";
+                      childBtn.className = "w3-button w3-black w3-xlarge w3-padding w3-margin w3-round";
+                      childBtn.onclick = function () {
+                          clicked();
+                      };
+                      childBtn.innerHTML = "ok";
+                      parent.appendChild(childInput);
+                      parent.appendChild(childBtn);
+                      document.body.appendChild(parent);
+                  }
+                  isfirst = false
+              }
+              else {
+                  var obj = document.getElementsByClassName("w3-input")[document.getElementsByClassName("w3-input").length - 1];
+                  obj.value = stickers[i];
+                  console.log("click");
+                  var obj = document.getElementsByClassName("w3-input")[document.getElementsByClassName("w3-input").length - 1];
+                  console.log(document.getElementsByClassName("w3-input"));
+                  var div = document.getElementsByClassName("inputDiv")[document.getElementsByClassName("inputDiv").length - 1];
+                  var img = document.createElement("img");
+                  var error = false;
+                  img.src = obj.value;
+                  img.className = "w3-right w3-margin";
+                  img.onerror = function () {
+                      error = true;
+                      console.log(error);
+                      document.getElementById('id01').style.display='block';
+                  };
+                  img.style.maxWidth = "100px";
+                  div.appendChild(img);
+                  console.log(error);
+                  if(!error) {
+                      var parent = document.createElement("div");
+                      var childInput = document.createElement("input");
+                      var childBtn = document.createElement("button");
+                      parent.style.width = "100%";
+                      parent.className = "inputDiv w3-border w3-container";
+                      childInput.className = "w3-input w3-left w3-margin";
+                      childInput.style.width = "40%";
+                      childBtn.className = "w3-button w3-black w3-xlarge w3-padding w3-margin w3-round";
+                      childBtn.onclick = function () {
+                          clicked();
+                      };
+                      childBtn.innerHTML = "ok";
+                      parent.appendChild(childInput);
+                      parent.appendChild(childBtn);
+                      document.body.appendChild(parent);
+                  }
+              }
+          }
+      }
+    };
+    function clicked() {
+        console.log("click");
+        var obj = document.getElementsByClassName("w3-input")[document.getElementsByClassName("w3-input").length - 1];
+        console.log(document.getElementsByClassName("w3-input"));
+        var div = document.getElementsByClassName("inputDiv")[document.getElementsByClassName("inputDiv").length - 1];
+        var img = document.createElement("img");
+        var error = false;
+        img.src = obj.value;
+        img.className = "w3-right w3-margin";
+        img.onerror = function () {
+            error = true;
+            console.log(error);
+            document.getElementById('id01').style.display='block';
+        };
+        img.style.maxWidth = "100px";
+        div.appendChild(img);
+        console.log(error);
+        if(!error){
+            var parent = document.createElement("div");
+            var childInput = document.createElement("input");
+            var childBtn = document.createElement("button");
+            parent.style.width = "100%";
+            parent.className = "inputDiv w3-border w3-container";
+            childInput.className = "w3-input w3-left w3-margin";
+            childInput.style.width = "40%";
+            childBtn.className = "w3-button w3-black w3-xlarge w3-padding w3-margin w3-round";
+            childBtn.onclick = function () {
+                clicked();
+            };
+            childBtn.innerHTML = "ok";
+            parent.appendChild(childInput);
+            parent.appendChild(childBtn);
+            document.body.appendChild(parent);
+            var stickers = JSON.parse(localStorage.getItem("stickers"));
+            stickers.push(obj.value);
+            localStorage.setItem("stickers", JSON.stringify(stickers))
+        }
+
+    }
+</script>
 </body>
 </html>
