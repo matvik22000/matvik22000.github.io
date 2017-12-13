@@ -1,0 +1,84 @@
+.time {
+    font-size: 15px;
+}
+
+#parentMSG {
+    position: fixed;
+    height: 10%;
+    width: 100%;
+    float: left;
+}
+
+#inputmsg {
+    position: fixed;
+    height: 10%;
+    float: left;
+}
+
+.messageLeft {
+    border-radius: 40px;
+    font-size: 200%;
+    border-color: black;
+    background-color: #c7f66f;
+    padding: 1%;
+    margin-right: 0.5%;
+    /*width: 45%;*/
+    cursor: pointer;
+
+
+}
+
+.messageRight {
+    border-radius: 40px;
+    font-size: 200%;
+    border-color: black;
+    background-color: #91c5d5;
+    padding: 1%;
+    margin-left: 0.5%;
+    /*width: 45%;*/
+    cursor: pointer;
+
+}
+
+.messageRight_red {
+
+    border-radius: 40px;
+    font-size: 200%;
+    border-color: black;
+    background-color: #cd8d96;
+    padding: 1%;
+    margin-left: 0.5%;
+    /*width: 45%;*/
+    cursor: pointer;
+
+}
+
+.messageLeft_red {
+    border-radius: 40px;
+    font-size: 200%;
+    border-color: black;
+    background-color: #cd8d96;
+    padding: 1%;
+    margin-left: 0.5%;
+    /*width: 45%;*/
+    cursor: pointer;
+
+}
+
+.w3-dropdown-click {
+    font-size: 30px;
+}
+
+.system {
+    border-radius: 40px;
+    font-size: 200%;
+    border-color: black;
+    padding: 1%;
+    margin-left: 0.5%;
+    float: left;
+}
+.msg{
+    margin-top:2%;
+    margin-bottom: 0.5%;
+    width: 100%;
+}

@@ -3,99 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="chatStyle.css">
     <script src="reconnecting-websocket.min.js"></script>
     <script src="moment.js"></script>
     <link rel="shortcut icon" href="faviocn.png" type="image/png">
     <title>knock-knock</title>
-    <style>
-        .time {
-            font-size: 15px;
-        }
-
-        #parentMSG {
-            position: fixed;
-            height: 10%;
-            width: 100%;
-            float: left;
-        }
-
-        #inputmsg {
-            position: fixed;
-            height: 10%;
-            float: left;
-        }
-
-        .messageLeft {
-            border-radius: 40px;
-            font-size: 200%;
-            border-color: black;
-            background-color: #c7f66f;
-            padding: 1%;
-            margin-right: 0.5%;
-            float: left;
-            cursor: pointer;
-
-        }
-
-        .messageRight {
-            border-radius: 40px;
-            font-size: 200%;
-            border-color: black;
-            background-color: #91c5d5;
-            padding: 1%;
-            margin-left: 0.5%;
-            float: right;
-            cursor: pointer;
-
-        }
-        .messageRight_red {
-            border-radius: 40px;
-            font-size: 200%;
-            border-color: black;
-            background-color: #cd8d96;
-            padding: 1%;
-            margin-left: 0.5%;
-            float: right;
-            cursor: pointer;
-
-        }
-        .messageLeft_red {
-            border-radius: 40px;
-            font-size: 200%;
-            border-color: black;
-            background-color: #cd8d96;
-            padding: 1%;
-            margin-left: 0.5%;
-            float: left;
-            cursor: pointer;
-
-        }
-        .w3-dropdown-click{
-         font-size: 30px;
-        }
-        .system{
-            border-radius: 40px;
-            font-size: 200%;
-            border-color: black;
-            padding: 1%;
-            margin-left: 0.5%;
-            float: left;
-        }
-
-    </style>
 </head>
 <body>
 <div style="position: fixed; width: 100%">
     <input class=" w3-margin w3-input w3-xxxlarge w3-left" placeholder="введите сообщение" style="width: 80%"
            onkeydown="KeyDown1(event)" id="InputMSG"/>
-    <button onclick="send2()" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge"
+    <button onclick="send2('text')" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge"
             style="width: 10%; background-color:#91c5d5;"><img src="send-button.png"></button>
     <br>
     <br>
-    <button onclick='address_change()' id="address_st" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-black w3-left"
-            style="width: 30%; float: left">Кому: всем</button>
+    <button onclick='address_change()' id="address_st"
+            class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-black w3-left"
+            style="width: 30%; float: left">Кому: всем
+    </button>
+    <div class="w3-dropdown-hover w3-xlarge" style="width: 50%">
+        <button class="w3-button w3-black w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-black"
+                style="width: 100%">Стикеры
+        </button>
+        <div class="w3-dropdown-content w3-bar-block w3-border" id="textView" style="width: 100%; overflow: auto; max-height: 500px">
+
+        </div>
+    </div>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <script>
+    function sticker(src_var) {
+        if (typeof localStorage.getItem("uuid") == "object") {
+            localStorage.setItem("uuid", uuid())
+        }
+        var uuidNow = localStorage.getItem("uuid");
+        var icon = localStorage.getItem("icon");
+        var time = moment().format('MMMM Do YYYY, h:mm:ss a');
+        if (addressGlobal != "") {
+            var msg = {
+                system: false,
+                uuid: uuidNow,
+                text: src_var,
+                name: localStorage.getItem("name"),
+                icon: icon,
+                time: time,
+                address: addressGlobal,
+                nameAddress: addressGlobalName,
+                type: "img"
+            };
+            NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "img");
+            console.log("newMsg")
+        }
+        else {
+            var msg = {
+                system: false,
+                uuid: uuidNow,
+                text: src_var,
+                name: localStorage.getItem("name"),
+                icon: icon,
+                time: time,
+                type: "img"
+            };
+        }
+        outbox.send(JSON.stringify(msg));
+        document.getElementById("InputMSG").value = ""
+    }
     function address_change() {
         addressGlobal = "";
         document.getElementById("address_st").innerHTML = "Кому: всем"
@@ -109,7 +87,7 @@
     var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
     inbox.onopen = function () {
         var id = localStorage.getItem("uuid");
-        var msg = {key: id, msg: "true", name:localStorage.getItem("name")};
+        var msg = {key: id, msg: "true", name: localStorage.getItem("name")};
         inbox.send(JSON.stringify(msg));
 
     };
@@ -130,6 +108,7 @@
             send2()
         }
     }
+
     function send2() {
         if (document.getElementById("InputMSG").value != "") {
 
@@ -140,13 +119,31 @@
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
             var time = moment().format('MMMM Do YYYY, h:mm:ss a');
-            if(addressGlobal != ""){
-                var msg = {system: false, uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time: time, address: addressGlobal, nameAddress: addressGlobalName};
-                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name);
+            if (addressGlobal != "") {
+                var msg = {
+                    system: false,
+                    uuid: uuidNow,
+                    text: MsgText,
+                    name: localStorage.getItem("name"),
+                    icon: icon,
+                    time: time,
+                    address: addressGlobal,
+                    nameAddress: addressGlobalName,
+                    type: "text"
+                };
+                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "text");
                 console.log("newMsg")
             }
             else {
-                var msg = {system: false, uuid: uuidNow, text: MsgText, name: localStorage.getItem("name"), icon: icon, time: time};
+                var msg = {
+                    system: false,
+                    uuid: uuidNow,
+                    text: MsgText,
+                    name: localStorage.getItem("name"),
+                    icon: icon,
+                    time: time,
+                    type: "text"
+                };
             }
             outbox.send(JSON.stringify(msg));
             document.getElementById("InputMSG").value = ""
@@ -159,16 +156,16 @@
     inbox.onmessage = function (data) {
         var time = moment().format('MMMM Do YYYY, h:mm:ss a');
         var msg = JSON.parse(data.data);
-        if (msg.system == "true"){
-            if (msg.event == "reg"){
-                if(msg.key != localStorage.getItem("uuid")) {
+        if (msg.system == "true") {
+            if (msg.event == "reg") {
+                if (msg.key != localStorage.getItem("uuid")) {
                     users[msg.key] = msg.name;
 //                    systemMsg(msg.name, time, "подключился")
 
                 }
             }
-            if (msg.event == "close"){
-                if(msg.key != localStorage.getItem("uuid")) {
+            if (msg.event == "close") {
+                if (msg.key != localStorage.getItem("uuid")) {
                     delete (users[msg.key]);
 //                    systemMsg(msg.name, time, "оключился")
                 }
@@ -176,38 +173,43 @@
             }
         }
         else {
+            Msg(msg)
+        }
 
-            if (typeof msg.address == "undefined") {
-                if (check(msg.uuid)) {
-                    NewMsg(msg.text, "вы", true, msg.icon, msg.time, false, msg.uuid, msg.name);
-                    console.log("newMsg")
-                }
-                else {
-                    NewMsg(msg.text, msg.name, false, msg.icon, msg.time, false, msg.uuid, msg.name);
-                    console.log("newMsg");
-                    soundClick();
+        startMsgs++;
+    };
+    function Msg(msg) {
 
 
-                }
+        if (typeof msg.address == "undefined") {
+            if (check(msg.uuid)) {
+                NewMsg(msg.text, "вы", true, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
+                console.log("newMsg")
             }
-            else{
-                if (check(msg.uuid)) {
-                    NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name);
-
-                    console.log("newMsg")
-                }
-                else {
-                    NewMsg(msg.text, "для вас от " + msg.name, false, msg.icon, msg.time, true, msg.uuid, msg.name);
-                    console.log("newMsg");
-                    soundClick();
+            else {
+                NewMsg(msg.text, msg.name, false, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
+                console.log("newMsg");
+                soundClick();
 
 
-                }
             }
         }
-        startMsgs ++;
-    };
+        else {
+            if (check(msg.uuid)) {
+                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
 
+                console.log("newMsg")
+            }
+            else {
+                NewMsg(msg.text, "для вас от " + msg.name, false, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
+                console.log("newMsg");
+                soundClick();
+
+
+            }
+        }
+
+    }
     function uuid() {
         var now = new Date();
         return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
@@ -217,10 +219,6 @@
         audio.src = 'click.mp3'; // Указываем путь к звуку "клика"
         audio.autoplay = true; // Автоматически запускаем
     }
-
-
-
-
 
 
     function systemMsg(name, time_obj, msg) {
@@ -256,43 +254,44 @@
     }
 
 
-    function NewMsg(msg, name, mine, icon, time_obj, address2, uuid, nameAddress) {
+    function NewMsg(msg, name, mine, icon, time_obj, address2, uuid, nameAddress, type) {
         console.log(msg, name, mine, address2, nameAddress);
-        var newDiv = document.createElement("h3");
-        var newContent = document.createTextNode(name + ": " + msg);
-        var time = document.createElement("SPAN");
+        var parentDiv = document.createElement("DIV");
+        var newDiv = document.createElement("DIV");
+        parentDiv.className = "msg w3-container";
+        var newContent;
+        if (type == "img") {
+            newContent = document.createElement("IMG");
+            newContent.src = msg
+        }
+        else {
+            newContent = document.createTextNode(name + ": " + msg);
+        }
+
+        var time = document.createElement("DIV");
         time.innerHTML = time_obj;
         time.className = "time";
-        var br = document.createElement("br");
-        var br2 = document.createElement("br");
-        var br3 = document.createElement("br");
-        var br4 = document.createElement("br");
-        var br5 = document.createElement("br");
-        var br6 = document.createElement("br");
-        var br7 = document.createElement("br");
-        var br8 = document.createElement("br");
-        var br9 = document.createElement("br");
+
         newDiv.onclick = function () {
-            addressGlobal =  uuid;
+            addressGlobal = uuid;
             addressGlobalName = nameAddress;
             document.getElementById("address_st").innerHTML = "Кому: " + nameAddress
         };
         if (!mine) {
-            newDiv.className = "messageLeft w3-hover-opacity";
+            newDiv.className = "messageLeft w3-hover-opacity w3-left";
 
         }
         if (mine) {
-            newDiv.className = "messageRight w3-hover-opacity";
+            newDiv.className = "messageRight w3-hover-opacity w3-right";
         }
 
         if (!mine && address2) {
-            newDiv.className = "messageLeft_red w3-hover-opacity";
+            newDiv.className = "messageLeft_red w3-hover-opacity w3-left";
 
         }
         if (mine && address2) {
-            newDiv.className = "messageRight_red w3-hover-opacity";
+            newDiv.className = "messageRight_red w3-hover-opacity w3-right";
         }
-
 
 
         if (icon == 1) {
@@ -311,27 +310,42 @@
 
         }
         newDiv.appendChild(time);
-        newDiv.appendChild(br6);
         newDiv.appendChild(img);
         newDiv.appendChild(newContent);
+
         var currentDiv = document.getElementById("InputMsg");
-        document.body.insertBefore(newDiv, currentDiv);
-        document.body.insertBefore(br, newDiv);
-        document.body.insertBefore(br2, newDiv);
-        document.body.insertBefore(br3, newDiv);
-        document.body.insertBefore(br4, newDiv);
-        document.body.insertBefore(br5, newDiv);
-        document.body.insertBefore(br7, newDiv);
-        document.body.insertBefore(br8, newDiv);
-        document.body.insertBefore(br9, newDiv);
+        parentDiv.appendChild(newDiv);
+        document.body.appendChild(parentDiv);
+//
+
         newDiv.scrollIntoView(true);
 
     }
     window.onload = function () {
+        var stickers = JSON.parse(localStorage.getItem("stickers"));
+        console.log(stickers);
+        for (var i = 0; i < stickers.length; i++){
+            var parent = document.getElementById("textView");
+            var child = document.createElement("div");
+            child.className = "w3-bar-item w3-button";
+            child.onclick =  function (_i) {
+                return function () {
+                    sticker(stickers[_i])
+                }
+            }(i);
+            var img = document.createElement("img");
+            img.src = stickers[i];
+            img.style.width = "10%";
+            child.appendChild(img);
+            console.log(child);
+            parent.appendChild(child);
+        }
         if (localStorage.getItem("name") == "" || typeof localStorage.getItem("icon") == "object" || typeof localStorage.getItem("name") == "object") {
             alert("введите имя!");
             location.href = "index.html";
+
         }
+
     }
 </script>
 </body>
