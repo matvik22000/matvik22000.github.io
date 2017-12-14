@@ -17,17 +17,22 @@
             style="width: 10%; background-color:#91c5d5;"><img src="send-button.png"></button>
     <br>
     <br>
-    <button onclick='address_change()' id="address_st"
-            class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-black w3-left"
-            style="width: 30%; float: left">Кому: всем
-    </button>
-    <div class="w3-dropdown-hover w3-xlarge" style="width: 50%">
-        <button class="w3-button w3-black w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-black"
-                style="width: 100%">Стикеры
+    <div class="w3-display-container">
+        <button onclick='address_change()' id="address_st"
+                class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-black w3-left"
+                style="width: 30%; float: left">Кому: всем
         </button>
-        <div class="w3-dropdown-content w3-bar-block w3-border" id="textView" style="width: 100%; overflow: auto; max-height: 500px">
+        <div class="w3-dropdown-hover w3-xlarge" style="width: 50%">
+            <button class="w3-button w3-black w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-black"
+                    style="width: 100%">Стикеры
+            </button>
+            <div class="w3-dropdown-content w3-bar-block w3-border w3-right" id="textView"
+                 style="width: 100%; overflow: auto; max-height: 500px">
 
+            </div>
         </div>
+        <button class="w3-button w3-black w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-display-topright" style="height: 70%" onclick="return location.href = 'index.html'"><img src="home.png">
+        </button>
     </div>
 </div>
 <br>
@@ -329,11 +334,11 @@
     window.onload = function () {
         var stickers = JSON.parse(localStorage.getItem("stickers"));
         console.log(stickers);
-        for (var i = 0; i < stickers.length; i++){
+        for (var i = 0; i < stickers.length; i++) {
             var parent = document.getElementById("textView");
             var child = document.createElement("div");
             child.className = "w3-bar-item w3-button";
-            child.onclick =  function (_i) {
+            child.onclick = function (_i) {
                 return function () {
                     sticker(stickers[_i])
                 }
