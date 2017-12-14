@@ -262,7 +262,9 @@
         var newContent;
         if (type == "img") {
             newContent = document.createElement("IMG");
-            newContent.src = msg
+            newContent.src = msg;
+            newContent.style.maxWdth = "300px";
+            newContent.style.maxHeight = "300px"
         }
         else {
             newContent = document.createTextNode(name + ": " + msg);
