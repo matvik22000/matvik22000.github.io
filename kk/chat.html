@@ -308,11 +308,14 @@
             var img = document.createElement("IMG");
             img.src = "anonimus3.png";
 
+
         }
         newDiv.appendChild(time);
         newDiv.appendChild(img);
+        if (type == "img") {
+            newDiv.appendChild(document.createTextNode(name + ":"));
+        }
         newDiv.appendChild(newContent);
-
         var currentDiv = document.getElementById("InputMsg");
         parentDiv.appendChild(newDiv);
         document.body.appendChild(parentDiv);

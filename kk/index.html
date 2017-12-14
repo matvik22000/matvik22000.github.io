@@ -109,6 +109,9 @@ window.onload = function () {
         var obj = document.getElementById("3");
         obj.className = "w3-opacaity w3-center"
     }
+    if(JSON.parse(localStorage.getItem("stickers")) == null){
+        localStorage.setItem("stickers", JSON.stringify(["https://vk.com/images/stickers/3/128.png", "https://vk.com/images/stickers/2/128.png", "https://vk.com/images/stickers/1/128.png"]))
+    }
 }
 
 
