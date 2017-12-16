@@ -42,9 +42,16 @@
 <br>
 <br>
 <script>
-    var users = {"привет":["Здравствуй!", "Рад тебя видеть! Точнее, слышать."], "здравствуй":["Здравствуй!", "Рад тебя видеть! Точнее, слышать."], "как тебя зовут?": ["А так непонятно?", "А ты попробуй, угадай!"], "пока":["До следующего Нового Года!", "Ещё увидимся!", "пока-пока!"], "до свидания":["До следующего Нового Года!", "Ещё увидимся!"]};
-    var unknown = ["я тебя не понимаю!", "Что? повтори-ка ещё разок, я не расслышал.", "чего-чего?", "что-то я тебя не понял.", "Что?", "Ничего не понял!", "в смысле?", "А?", "Чего?"]
-    var start = ["Привет! Напиши своё имя, если хочешь получить задание!", "Хо-хо-хо! Скажи-ка мне как тебя зовут, и я дам тебе задание!"]
+    var users = {
+        "привет": ["Здравствуй!", "Рад тебя видеть! Точнее, слышать."],
+        "здравствуй": ["Здравствуй!", "Рад тебя видеть! Точнее, слышать."],
+        "как тебя зовут?": ["А так непонятно?", "А ты попробуй, угадай!"],
+        "пока": ["До следующего Нового Года!", "Ещё увидимся!", "пока-пока!"],
+        "до свидания": ["До следующего Нового Года!", "Ещё увидимся!"]
+    };
+    var unknown = ["я тебя не понимаю!", "Что? повтори-ка ещё разок, я не расслышал.", "чего-чего?", "что-то я тебя не понял.", "Что?", "Ничего не понял!", "в смысле?", "А?", "Чего?", "Староват я стал, ничего уж не слышу. Повтори-ка ещй разок!", "Я не могу так быстро отвечать!"]
+    var start = ["Привет! Напиши своё имя, если хочешь получить задание!", "Хо-хо-хо! Скажи-ка мне как тебя зовут, и я дам тебе задание!", "С новым годом! Что такое? Ах, Да, я ведь забыл про подарки. скажи мне, как тебя зовут?"]
+    var stickerFF = ["http://vk.com/images/stickers/6217/128.png", "http://vk.com/images/stickers/6218/128.png", "http://vk.com/images/stickers/6220/128.png", "http://vk.com/images/stickers/6223/128.png", "http://vk.com/images/stickers/6221/128.png"]
     function sticker(src_var) {
         if (typeof localStorage.getItem("uuid") == "object") {
             localStorage.setItem("uuid", uuid())
@@ -89,7 +96,6 @@
     var startMsgs = 0;
     var addressGlobal = "";
     var addressGlobalName;
-
 
 
     function KeyDown1(event) {
@@ -185,9 +191,11 @@
     }
 
     function send_msg(msg) {
+
+
         var message = JSON.parse(msg);
-        var name2 = "Дедушка Мороз"
-        if(typeof users[message.text.toLowerCase()] == "object") {
+        var name2 = "Дедушка Мороз";
+        if (typeof users[message.text.toLowerCase()] == "object") {
             var txt = users[message.text.toLowerCase()][getRandomInt(0, users[message.text.toLowerCase()].length)];
         }
         message.uuid = "11"
@@ -195,15 +203,20 @@
         setTimeout(function () {
             message.name = name2;
             message.uuid = "22"
-            if(message.type == "text") {
-                if(txt == undefined){
-                    txt = unknown[getRandomInt(0, unknown.length)]
+            if (message.type == "text") {
+                if (txt == undefined) {
+                    if (Math.random() < 0.9) {
+                        txt = unknown[getRandomInt(0, unknown.length)]
+                    }
+                    else {
+                        txt = "http://vk.com/images/stickers/6230/128.png"
+                        message.type = "img"
+                    }
                 }
                 message.text = txt;
             }
             else {
-                var stickers = JSON.parse(localStorage.getItem("stickers"));
-                message.text = stickers[getRandomInt(0, stickers.length)]
+                message.text = stickerFF[getRandomInt(0, stickerFF.length)]
                 message.type = "img"
             }
             Msg(message)
@@ -314,10 +327,11 @@
             type: "text"
         };
         Msg(msg)
-        if (localStorage.getItem("name") == "" || typeof localStorage.getItem("icon") == "object" || typeof localStorage.getItem("name") == "object") {
-            alert("введите имя!");
-            location.href = "index.html";
-
+        if (typeof localStorage.getItem("icon") == "object") {
+            localStorage.setItem("icon", 3)
+        }
+        if (typeof localStorage.getItem("name") == "object") {
+            localStorage.setItem("name", "вы")
         }
 
     }
