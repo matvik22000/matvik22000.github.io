@@ -69,13 +69,15 @@
 function clicked() {
     localStorage.setItem("name", document.getElementById("name").value);
     console.log(document.getElementById("name"));
+    console.log(localStorage.getItem("icon"));
+    console.log(typeof localStorage.getItem("icon"));
     if(document.getElementById("name").value != "" && typeof localStorage.getItem("icon") != "object"){
         location.href = "chat.html"
     }
-    else if (document.getElementById("name").value == ""){
+    if (document.getElementById("name").value == ""){
         document.getElementById('id01').style.display='block'
     }
-    else if (typeof localStorage.getItem("icon") != "object"){
+    if (typeof localStorage.getItem("icon") == "object"){
         document.getElementById('id02').style.display='block'
     }
 
@@ -95,8 +97,6 @@ window.onload = function () {
     if(name != ""){
         document.getElementById("name").value = name;
     }
-    console.log(localStorage.getItem("icon"));
-    console.log(localStorage.getItem("icon").typeof);
     if(parseInt(localStorage.getItem("icon")) == 1){
         var obj = document.getElementById("1");
         obj.className = "w3-opacaity w3-center"
@@ -109,7 +109,10 @@ window.onload = function () {
         var obj = document.getElementById("3");
         obj.className = "w3-opacaity w3-center"
     }
-    if(JSON.parse(localStorage.getItem("stickers")) == null){
+    console.log(JSON.parse(localStorage.getItem("stickers")));
+    console.log(JSON.parse(localStorage.getItem("stickers")) == []);
+    console.log(localStorage.getItem("stickers") == "[]");
+    if(JSON.parse(localStorage.getItem("stickers")) == null || localStorage.getItem("stickers") == "[]"){
         localStorage.setItem("stickers", JSON.stringify(["https://vk.com/images/stickers/3/128.png", "https://vk.com/images/stickers/2/128.png", "https://vk.com/images/stickers/1/128.png"]))
     }
 }
