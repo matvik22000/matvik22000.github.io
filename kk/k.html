@@ -41,15 +41,40 @@
 <br>
 <br>
 <br>
+
 <script>
-    var users = {
-        "привет": ["Здравствуй!", "Рад тебя видеть! Точнее, слышать."],
-        "здравствуй": ["Здравствуй!", "Рад тебя видеть! Точнее, слышать."],
-        "как тебя зовут?": ["А так непонятно?", "А ты попробуй, угадай!"],
-        "пока": ["До следующего Нового Года!", "Ещё увидимся!", "пока-пока!"],
-        "до свидания": ["До следующего Нового Года!", "Ещё увидимся!"]
+    var tasks = {
+        "федя" : {name:"Федя1.png", type:"img"},
+        "маша": {name:"Маша1.png", type: "img"},
+        "парфён" :{name: "парфен1.png", type : "img"},
+        "парфен" :{name: "парфен1.png", type : "img"},
+        "кто-то" : {name: "click.mp3", type: "audio"}
     };
-    var unknown = ["я тебя не понимаю!", "Что? повтори-ка ещё разок, я не расслышал.", "чего-чего?", "что-то я тебя не понял.", "Что?", "Ничего не понял!", "в смысле?", "А?", "Чего?", "Староват я стал, ничего уж не слышу. Повтори-ка ещй разок!", "Я не могу так быстро отвечать!"]
+    var users = [
+        "федя",
+        "маша",
+        "парфён",
+        "парфен",
+        "кто-то"
+    ]
+    var hello = ["Привет!", "Приветствую тебя, мой друг.", "Здравствуй", "Рад тебя видеть"];
+    var end = ["Пока-пока!", "До следующего нового года!", "До свидания, мой друг. Ещё увидимся!"];
+    var map = {
+        "привет" : hello,
+        "здравствуй" : hello,
+        "здравствуйте" : hello,
+        "пока" : end,
+        "до свидания" : end
+
+    };
+    var variants = [
+        "привет",
+        "здравствуй",
+        "здравствуйте",
+
+    ]
+
+    var unknown = ["я тебя не понимаю!", "Что? повтори-ка ещё разок, я не расслышал.", "чего-чего?", "что-то я тебя не понял.", "Что?", "Ничего не понял!", "в смысле?", "А?", "Чего?", "Староват я стал, ничего уж не слышу."]
     var start = ["Привет! Напиши своё имя, если хочешь получить задание!", "Хо-хо-хо! Скажи-ка мне как тебя зовут, и я дам тебе задание!", "С новым годом! Что такое? Ах, Да, я ведь забыл про подарки. скажи мне, как тебя зовут?"]
     var stickerFF = ["http://vk.com/images/stickers/6217/128.png", "http://vk.com/images/stickers/6218/128.png", "http://vk.com/images/stickers/6220/128.png", "http://vk.com/images/stickers/6223/128.png", "http://vk.com/images/stickers/6221/128.png"]
     function sticker(src_var) {
@@ -158,7 +183,7 @@
             }
             else {
                 NewMsg(msg.text, msg.name, false, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
-                soundClick();
+                soundClick('click.mp3');
 
 
             }
@@ -169,7 +194,7 @@
             }
             else {
                 NewMsg(msg.text, "для вас от " + msg.name, false, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
-                soundClick();
+                soundClick('click.mp3');
 
 
             }
@@ -180,9 +205,10 @@
         var now = new Date();
         return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
     }
-    function soundClick() {
+    function soundClick(name) {
+        console.log("play")
         var audio = new Audio(); // Создаём новый элемент Audio
-        audio.src = 'click.mp3'; // Указываем путь к звуку "клика"
+        audio.src = name; // Указываем путь к звуку "клика"
         audio.autoplay = true; // Автоматически запускаем
     }
 
@@ -191,13 +217,48 @@
     }
 
     function send_msg(msg) {
-
-
         var message = JSON.parse(msg);
-        var name2 = "Дедушка Мороз";
-        if (typeof users[message.text.toLowerCase()] == "object") {
-            var txt = users[message.text.toLowerCase()][getRandomInt(0, users[message.text.toLowerCase()].length)];
+        var name2 = "Дедушка Мороз"
+        var txt;
+        var type = "text"
+        var timeout = 1000;
+        for (var i = 0; i < users.length; i ++){
+            console.log(users[i])
+            console.log(message.text.toLowerCase())
+            if(((message.text).toLowerCase()).indexOf(users[i]) != -1){
+                txt = tasks[users[i]].name;
+                type = tasks[users[i]].type;
+            }
         }
+        if(txt != undefined){
+            timeout = 1500
+            setTimeout(function () {
+                message.text = "Сейчас я дам тебе задание. Ответом будет место, где ты найдёшь следующую подсказку."
+                message.uuid = "22"
+                message.name = name2
+                Msg(message)
+            }, 500)
+
+        }
+        else {
+            console.log(map[message.text.toLowerCase()])
+            console.log(map)
+            if(map[message.text.toLowerCase()] != undefined){
+                txt = map[message.text.toLowerCase()][getRandomInt(0, map[message.text.toLowerCase()].length)];
+            }
+        }
+//          else if (txt == undefined){
+//            for(var i = 0; i < variants.length; i++){
+//                console.log(message.text.toLowerCase().indexOf(variants[i]))
+//                if(message.text.toLowerCase().indexOf(variants[i] >= 0)){
+//                    console.log(map)
+//                    console.log(map[variants[i]])
+//                    console.log(variants[i])
+//
+//                    txt = map[variants[i]][getRandomInt(0, map[variants[i]].length)]
+//                }
+//            }
+//        }
         message.uuid = "11"
         Msg(message)
         setTimeout(function () {
@@ -213,6 +274,9 @@
                         message.type = "img"
                     }
                 }
+                else {
+                    message.type = type
+                }
                 message.text = txt;
             }
             else {
@@ -220,7 +284,7 @@
                 message.type = "img"
             }
             Msg(message)
-        }, 1000)
+        }, timeout)
 
 
     }
@@ -230,11 +294,25 @@
         var newDiv = document.createElement("DIV");
         parentDiv.className = "msg w3-container";
         var newContent;
+        console.log(type == "img")
         if (type == "img") {
+            console.log(msg)
             newContent = document.createElement("IMG");
             newContent.src = msg;
-            newContent.style.maxWdth = "300px";
-            newContent.style.maxHeight = "300px"
+            newContent.style.maxWdth = "500px";
+            newContent.style.maxHeight = "500px"
+        }
+        else if(type == "audio") {
+            newContent = document.createElement("div");
+            var txt1 = document.createTextNode("Голосовое сообщение.")
+            var but1 = document.createElement("button")
+            but1.className = "w3-button w3-black w3-round w3-hover-opacity"
+            but1.innerHTML = "Проиграть"
+            but1.onclick = function () {
+                soundClick(msg)
+            }
+            newContent.appendChild(txt1);
+            newContent.appendChild(but1)
         }
         else {
             newContent = document.createTextNode(name + ": " + msg);
@@ -287,6 +365,7 @@
         if (type == "img") {
             newDiv.appendChild(document.createTextNode(name + ":"));
         }
+
         newDiv.appendChild(newContent);
         var currentDiv = document.getElementById("InputMsg");
         parentDiv.appendChild(newDiv);
