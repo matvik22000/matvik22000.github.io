@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var baseFrom = prompt("base from");
+    var number = prompt("number");
+    var baseTo = prompt("base to");
+    function to10(bf, num) {
+        var res = 0;
+        for (var i = 0; i < num.length; i ++){
+            res += parseInt(num[num.length - (i + 1)]) * Math.pow(bf, i);
+        }
+        return res
+    }
+    function from10(bt, num) {
+        var res = "";
+
+        while (num > bt){
+            res = (num % bt).toString() + res;
+            num = Math.floor(num  / bt);
+
+        }
+        res = num.toString() + res;
+        return res
+    }
+    if(baseFrom == 10){
+        alert(from10(parseInt(baseTo), parseInt(number)))
+    }
+    if(baseTo == 10){
+        alert(to10(parseInt(baseFrom), number))
+    }
+</script>
+</body>
+</html>
