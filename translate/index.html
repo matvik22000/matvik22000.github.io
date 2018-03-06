@@ -1,39 +1,73 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Перевод</title>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 </head>
 <body>
+<input id="bf" placeholder="основание исходной сс" class="w3-input w3-margin w3-padding w3-large">
+<input id="bt" placeholder="основание сс для первода" class = "w3-input w3-margin w3-padding w3-large">
+<input id="num" placeholder="число" class =  "w3-input w3-margin w3-padding w3-large">
+<button class="w3-button w3-black w3-large w3-padding w3-margin" onclick="trans()">Перевести</button>
+<div id="parent" style="opacity: 0;" class="w3-panel w3-green w3-round w3-large w3-margin">
+    <h3 id="ans">Ответ:</h3>
+</div>
+<div id="alert" style="opacity: 0;" class="w3-panel w3-red w3-round w3-large w3-margin">
+    <h3>Неверно введены данные!</h3>
+    <button class="w3-button w3-black w3-margin" onclick="ok()">Закрыть</button>
+</div>
 <script>
-
-    var baseFrom = prompt("base from");
-    var number = prompt("number");
-    var baseTo = prompt("base to");
-    function to10(bf, num) {
-        var res = 0;
-        for (var i = 0; i < num.length; i ++){
-            res += parseInt(num[num.length - (i + 1)]) * Math.pow(bf, i);
+    function ok() {
+        document.getElementById("alert").style = "opacity:0;"
+    }
+    function trans() {
+        if(document.getElementById("bf").value == "" | document.getElementById("bt").value == "" | document.getElementById("num").value == "") {
+            document.getElementById("alert").style = "opacity:1;"
         }
-        return res
-    }
-    function from10(bt, num) {
-        var res = "";
+        else {
+            var baseFrom = parseInt(document.getElementById("bf").value);
+            var number = document.getElementById("num").value;
+            var baseTo = parseInt(document.getElementById("bt").value);
 
-        while (num > bt){
-            res = (num % bt).toString() + res;
-            num = Math.floor(num  / bt);
+            function to10(bf, num) {
+                var res = 0;
+                for (var i = 0; i < num.length; i++) {
+                    res += parseInt(num[num.length - (i + 1)]) * Math.pow(bf, i);
+                }
+
+                return res
+            }
+
+            function from10(bt, num) {
+                var res = "";
+
+                while (num >= bt) {
+                    res = (num % bt).toString() + res;
+                    num = Math.floor(num / bt);
+
+                }
+                res = num.toString() + res;
+                return res
+            }
+
+            function fromXtoY(bf, bt, num) {
+                console.log(bf, bt, num);
+                var num2 = to10(bf, num);
+                console.log(num2 + " num2");
+                return from10(bt, num2)
+            }
+            var res = from10(baseTo, parseInt(number, baseFrom));
+            console.log(res);
+            document.getElementById("parent").style ="opacity : 1;"
+            document.getElementById("ans").innerHTML = "Ответ : " + res.toString()
 
         }
-        res = num.toString() + res;
-        return res
+
     }
-    if(baseFrom == 10){
-        alert(from10(parseInt(baseTo), parseInt(number)))
-    }
-    if(baseTo == 10){
-        alert(to10(parseInt(baseFrom), number))
-    }
+
+
 </script>
 </body>
 </html>
