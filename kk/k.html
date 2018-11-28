@@ -437,6 +437,10 @@
     }
     window.onload = function () {
         var stickers = JSON.parse(localStorage.getItem("stickers"));
+        if(JSON.parse(localStorage.getItem("stickers")) == null || localStorage.getItem("stickers") == "[]"){
+            localStorage.setItem("stickers", JSON.stringify(["https://vk.com/images/stickers/3/128.png", "https://vk.com/images/stickers/2/128.png", "https://vk.com/images/stickers/1/128.png"]))
+            var stickers = JSON.parse(localStorage.getItem("stickers"));
+        }
         console.log(stickers);
         for (var i = 0; i < stickers.length; i++) {
             var parent = document.getElementById("textView");

@@ -40,6 +40,11 @@
         <br>
         <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
     </div>
+    <div id="id03" class="w3-panel w3-red" style="display: none; width: 50%">
+        <h2 style="font-size: 50px">Имя слишком длинное! Максимальная длина - 15 символов.</h2>
+        <br>
+        <span onclick="document.getElementById('id03').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
+    </div>
     <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked1()" style="font-size: 30px">стикеры</button>
 
 </center>
@@ -67,19 +72,28 @@
         location.href = "stickers.html"
     }
 function clicked() {
-    localStorage.setItem("name", document.getElementById("name").value);
+    var pass = false;
+    var name = document.getElementById("name").value;
     console.log(document.getElementById("name"));
     console.log(localStorage.getItem("icon"));
     console.log(typeof localStorage.getItem("icon"));
-    if(document.getElementById("name").value != "" && typeof localStorage.getItem("icon") != "object"){
+    if(name.length <= 15) {
+        localStorage.setItem("name", name);
+        pass = true;
+    }
+    else {
+        document.getElementById('id03').style.display='block'
+    }
+    if(document.getElementById("name").value !== "" && typeof localStorage.getItem("icon") !== "object" && pass === true){
         location.href = "chat.html"
     }
-    if (document.getElementById("name").value == ""){
+    if (document.getElementById("name").value === ""){
         document.getElementById('id01').style.display='block'
     }
-    if (typeof localStorage.getItem("icon") == "object"){
+    if (typeof localStorage.getItem("icon") === "object"){
         document.getElementById('id02').style.display='block'
     }
+
 
 }
 function icon(id,id2, id3, num) {

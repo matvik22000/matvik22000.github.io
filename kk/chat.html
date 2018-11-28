@@ -94,6 +94,7 @@
         var id = localStorage.getItem("uuid");
         var msg = {key: id, msg: "true", name: localStorage.getItem("name")};
         inbox.send(JSON.stringify(msg));
+        console.log((JSON.stringify(msg)));
 
     };
     inbox.onclose = function () {
