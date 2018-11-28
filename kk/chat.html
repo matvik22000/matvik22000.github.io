@@ -52,7 +52,7 @@
         var time = moment().format('MMMM Do YYYY, h:mm:ss a');
         if (addressGlobal != "") {
             var msg = {
-                system: false,
+                system: "false",
                 uuid: uuidNow,
                 text: src_var,
                 name: localStorage.getItem("name"),
@@ -67,7 +67,7 @@
         }
         else {
             var msg = {
-                system: false,
+                system: "false",
                 uuid: uuidNow,
                 text: src_var,
                 name: localStorage.getItem("name"),
@@ -127,7 +127,7 @@
             var time = moment().format('MMMM Do YYYY, h:mm:ss a');
             if (addressGlobal != "") {
                 var msg = {
-                    system: false,
+                    system: "false",
                     uuid: uuidNow,
                     text: MsgText,
                     name: localStorage.getItem("name"),
@@ -142,7 +142,7 @@
             }
             else {
                 var msg = {
-                    system: false,
+                    system: "false",
                     uuid: uuidNow,
                     text: MsgText,
                     name: localStorage.getItem("name"),
