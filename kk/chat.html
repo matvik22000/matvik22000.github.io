@@ -35,7 +35,10 @@
                 style="height: 70%" onclick="return location.href = 'index.html'"><img src="home.png">
         </button>
     </div>
+    <button class="w3-btn w3-hover-opacity w3-black w3-margin w3-padding w3-left w3-xxxlarge" id="arrow"  style="opacity: 1" onclick="f1()">⟱</button>
 </div>
+
+
 <div id="id01" class="w3-panel w3-red" style="display: none; width: 15%;position: fixed">
     <h2 style="font-size: 50px">Вы не ввели имя!</h2>
     <br>
@@ -50,6 +53,9 @@
 <br>
 <br>
 <script>
+    function f1() {
+        document.documentElement.scrollTop = document.body.scrollHeight
+    }
     function ping() {
         // inbox.send('{"system": "true", "name": "ping", "key": "key", "event": "ping"}');
         outbox.send('{"system": "true", "name": "ping", "key": "key", "event": "ping"}');
@@ -77,7 +83,7 @@
                 type: "img"
             };
             NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "img");
-            console.log("newMsg")
+
         }
         else {
             var msg = {
@@ -114,12 +120,12 @@
 
     };
     inbox.onclose = function () {
-        console.log("close1");
+
     };
 
     var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
     inbox.onclose = function () {
-        console.log("close");
+
         location.reload()
 
     };
@@ -133,7 +139,7 @@
 
     function send2() {
         if (document.getElementById("InputMSG").value != "") {
-
+            document.getElementsByClassName("msg")[document.getElementsByClassName("msg").length - 1].scrollIntoView(true);
             var MsgText = document.getElementById("InputMSG").value;
             if (typeof localStorage.getItem("uuid") == "object") {
                 localStorage.setItem("uuid", uuid())
@@ -154,7 +160,7 @@
                     type: "text"
                 };
                 NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "text");
-                console.log("newMsg")
+
             }
             else {
                 var msg = {
@@ -208,11 +214,11 @@
         if (typeof msg.address == "undefined") {
             if (check(msg.uuid)) {
                 NewMsg(msg.text, "вы", true, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
-                console.log("newMsg")
+
             }
             else {
                 NewMsg(msg.text, msg.name, false, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
-                console.log("newMsg");
+
                 soundClick();
 
 
@@ -222,11 +228,11 @@
             if (check(msg.uuid)) {
                 NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
 
-                console.log("newMsg")
+
             }
             else {
                 NewMsg(msg.text, "для вас от " + msg.name, false, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
-                console.log("newMsg");
+
                 soundClick();
 
 
@@ -239,6 +245,13 @@
         var now = new Date();
         return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
     }
+    var f;
+    window.onfocus = function() {
+        f = false;
+    };
+    window.onblur = function() {
+        f = true;
+    };
 
     function soundClick() {
         if (f === true) {
@@ -293,19 +306,29 @@
 
     }
     var cur_count_msg = 30;
-    var f = true;
+    var cur_msgs = 0;
+
      window.onscroll = function() {
-         var scrolled = window.pageYOffset || document.documentElement.scrollTop;
+         var scrolled = document.documentElement.scrollTop;
+
+         if (document.documentElement.scrollTop===document.documentElement.scrollHeight-document.documentElement.clientHeight){
+             document.getElementById("arrow").style.opacity = '0'
+         }
+         console.log(scrolled, document.documentElement.scrollTop===document.documentElement.scrollHeight-document.documentElement.clientHeight);
+         if (document.documentElement.scrollTop!==document.documentElement.scrollHeight-document.documentElement.clientHeight) {
+
+             document.getElementById("arrow").style.opacity = '1'
+         }
          if (scrolled === 0){
+
              while (document.getElementsByClassName('msg').length > 0){
                  document.getElementsByClassName('msg')[0].parentNode.removeChild(document.getElementsByClassName('msg')[0])
              }
-             f = false;
-             setTimeout(function () {
-                 f = true;
-             }, 5000);
+
+
              setTimeout(
                  function () {
+                     cur_msgs = cur_count_msg + 30;
                      inbox.send(JSON.stringify({
                          "lim": cur_count_msg + 30,
                          "msg": "false",
@@ -313,8 +336,9 @@
                          "start": 0
                      }));
                      cur_count_msg += 30;
-                 }, 10
-             )
+                 }, 5
+             );
+
 
         }
     };
@@ -344,7 +368,8 @@
 
 
     function NewMsg(msg, name, mine, icon, time_obj, address2, uuid, nameAddress, type) {
-        console.log(msg, name, mine, address2, nameAddress);
+        console.log(cur_msgs);
+        cur_msgs --;
         var parentDiv = document.createElement("DIV");
         var newDiv = document.createElement("DIV");
         parentDiv.className = "msg w3-container";
@@ -412,7 +437,7 @@
 
         document.body.appendChild(parentDiv);
 //
-        if (f === true) {
+        if (cur_msgs <= 0) {
             newDiv.scrollIntoView(true);
         }
 
