@@ -200,6 +200,9 @@
                 }
 
             }
+            if(msg.end === "true"){
+                all = true;
+            }
         }
         else {
             Msg(msg)
@@ -306,7 +309,7 @@
 
     }
     var cur_count_msg = 30;
-    var cur_msgs = 0;
+    var all = true;
 
      window.onscroll = function() {
          var scrolled = document.documentElement.scrollTop;
@@ -328,7 +331,7 @@
 
              setTimeout(
                  function () {
-                     cur_msgs = cur_count_msg + 30;
+                    all = false;
                      inbox.send(JSON.stringify({
                          "lim": cur_count_msg + 30,
                          "msg": "false",
@@ -368,8 +371,8 @@
 
 
     function NewMsg(msg, name, mine, icon, time_obj, address2, uuid, nameAddress, type) {
-        console.log(cur_msgs);
-        cur_msgs --;
+
+
         var parentDiv = document.createElement("DIV");
         var newDiv = document.createElement("DIV");
         parentDiv.className = "msg w3-container";
@@ -437,8 +440,11 @@
 
         document.body.appendChild(parentDiv);
 //
-        if (cur_msgs <= 0) {
+        if (all === true) {
             newDiv.scrollIntoView(true);
+        }
+        else {
+            document.getElementsByClassName("msg")[30].scrollIntoView(true)
         }
 
     }
