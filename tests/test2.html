@@ -7,14 +7,8 @@
 
 
 <script>
-    var socket = new WebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/all");
-    socket.onmessage = function (msg) {
-        console.log(msg.data);
-        var message = JSON.parse(msg.data);
-        var txt = document.createElement("h2");
-        txt.innerHTML = message.text;
-        document.body.appendChild(txt)
-    }
+    console.log([1, 2, 3].toString());
+    console.log([1, 2, 3])
 </script>
 </body>
 </html>

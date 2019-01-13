@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="reconnecting-websocket.min.js"></script>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="shortcut icon" href="faviocn.png" type="image/png">
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+    <title>knock-knock</title>
+    <style>
+        #auth {
+            position: fixed; left:35%; opacity: 1; z-index: 100;
+            padding: 30px;
+            background-color: whitesmoke;
+        }
+        #parent_popup{
+            background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 1000;top: 0;left: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="parent_popup">
+    <div id="auth">
+        <p>Нажмите на кнопку "Войти через ВКонтакте" чтобы авторизоваться</p>
+        <table>
+            <tr>
+                <td>
+                    <div style="text-align: center" id="vk_auth"></div>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<center>
+
+    <div class="w3-container w3-card-4 w3-xxxlarge" style="width: 20%">
+        <h2 align="center">Вы</h2>
+        <img src="аноним.jpg" class="w3-image w3-opacity-min" style="width:100%">
+
+        <div class="w3-container w3-center">
+            <input class="w3-input" placeholder="ваше имя" id="name" style="margin: 5px;">
+        </div>
+    </div>
+
+    <div class="w3-bar">
+        <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked()" style="font-size: 30px">Начать</button>
+    </div>
+    <div class="w3-bar">
+        <img id="1"  class="w3-button w3-center" onclick="icon('1', '2', '3', 1)"  src="anonymous1.png">
+        <img id="2" class="w3-button w3-center" onclick="icon('2', '1', '3', 2)" src="anonymous2.png">
+        <img id="3" class="w3-button w3-center" onclick="icon('3', '2', '1', 3)" src="anonimus3.png">
+    </div>
+    <div id="id01" class="w3-panel w3-red" style="display: none; width: 50%">
+        <h2 style="font-size: 50px">Вы не ввели имя!</h2>
+        <br>
+        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
+    </div>
+    <div id="id02" class="w3-panel w3-red" style="display: none; width: 50%">
+        <h2 style="font-size: 50px">Вы не выбрали иконку!</h2>
+        <br>
+        <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
+    </div>
+    <div id="id03" class="w3-panel w3-red" style="display: none; width: 50%">
+        <h2 style="font-size: 50px">Имя слишком длинное! Максимальная длина - 20 символов.</h2>
+        <br>
+        <span onclick="document.getElementById('id03').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
+    </div>
+    <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked1()" style="font-size: 30px">стикеры</button>
+
+</center>
+<script>
+    VK.init({apiId: 5815731, onlyWidgets: true});
+    VK.Widgets.Auth("vk_auth", {
+        width: "200px", onAuth: function (data) {
+
+            minAjax({
+                url: "https://warm-bayou-37022.herokuapp.com/login",
+                type: "GET",
+                data: {
+                    type: "vk",
+                    id: data['uid']
+                },
+                success: function (ans) {
+                    if (ans === "false") {
+                        minAjax({
+                            url: "https://warm-bayou-37022.herokuapp.com/reg",
+                            type: "POST",
+                            data: {
+                                type: "vk",
+                                id: data['uid'],
+                                info: [data['first_name'], data['last_name']].toString(),
+                                name: ""
+                            },
+                            success: function (ans) {
+                                if (ans === "success") {
+                                    document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
+                                    document.getElementById("auth").style = "opacity: 0; z-index:-1;"
+                                }
+                                else {
+                                    alert("произошла ошибка попробуйте еще раз")
+                                }
+
+                            }
+                        });
+                    }
+                    else{
+                        localStorage.setItem("uuid", ans)
+                    }
+                }
+            });
+        }
+    });
+</script>
+<script>
+    function guid() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+
+    if (typeof localStorage.getItem("uuid") == "object") {
+        location.href = "reg.html"
+
+    }
+    function clicked1() {
+        location.href = "stickers.html"
+    }
+    function clicked() {
+        var pass = false;
+        var name = document.getElementById("name").value;
+        console.log(document.getElementById("name"));
+        console.log(localStorage.getItem("icon"));
+        console.log(typeof localStorage.getItem("icon"));
+        if(name.length <= 20) {
+            localStorage.setItem("name", name);
+            pass = true;
+        }
+        else {
+            document.getElementById('id03').style.display='block'
+        }
+        if(document.getElementById("name").value !== "" && typeof localStorage.getItem("icon") !== "object" && pass === true){
+            location.href = "chat.html"
+        }
+        if (document.getElementById("name").value === ""){
+            document.getElementById('id01').style.display='block'
+        }
+        if (typeof localStorage.getItem("icon") === "object"){
+            document.getElementById('id02').style.display='block'
+        }
+
+
+    }
+    function icon(id,id2, id3, num) {
+        var obj = document.getElementById(id);
+        obj.className = "w3-opacaity w3-center";
+        var other1 = document.getElementById(id2);
+        var other2 = document.getElementById(id3);
+        other1.className = "w3-button w3-center";
+        other2.className = "w3-button w3-center";
+        localStorage.setItem("icon", num);
+    }
+    window.onload = function () {
+        var name = localStorage.getItem("name");
+        console.log(name);
+        if(name != ""){
+            document.getElementById("name").value = name;
+        }
+        if(parseInt(localStorage.getItem("icon")) == 1){
+            var obj = document.getElementById("1");
+            obj.className = "w3-opacaity w3-center"
+        }
+        if(parseInt(localStorage.getItem("icon")) == 2){
+            var obj = document.getElementById("2");
+            obj.className = "w3-opacaity w3-center"
+        }
+        if(parseInt(localStorage.getItem("icon")) == 3){
+            var obj = document.getElementById("3");
+            obj.className = "w3-opacaity w3-center"
+        }
+        console.log(JSON.parse(localStorage.getItem("stickers")));
+        console.log(JSON.parse(localStorage.getItem("stickers")) == []);
+        console.log(localStorage.getItem("stickers") == "[]");
+        if(JSON.parse(localStorage.getItem("stickers")) == null || localStorage.getItem("stickers") == "[]"){
+            localStorage.setItem("stickers", JSON.stringify(["https://vk.com/images/stickers/3/128.png", "https://vk.com/images/stickers/2/128.png", "https://vk.com/images/stickers/1/128.png"]))
+        }
+    }
+
+
+</script>
+</body>
+</html>

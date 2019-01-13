@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+</head>
+<body>
+<center>
+    <div style="text-align: center" id="vk_auth"></div>
+</center>
+
+<script>
+    VK.init({apiId: 5815731, onlyWidgets: true});
+    VK.Widgets.Auth("vk_auth", {
+        width: "200px", onAuth: function (data) {
+
+            minAjax({
+                url: "https://warm-bayou-37022.herokuapp.com/login",
+                type: "GET",
+                data: {
+                    type: "vk",
+                    id: data['uid']
+                },
+                success: function (ans) {
+                    if (ans === "false") {
+                      location.href = "index.html"
+                    }
+                    else{
+                        localStorage.setItem("uuid", ans)
+                    }
+                }
+            });
+        }
+    });
+</script>
+<center>
+    <button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin w3-large">регистрация при помощи логина
+        и пароля
+    </button>
+
+</center>
+<center><button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin w3-large">у меня уже есть аккаунт с логингом и паролем
+
+</button></center>
+</body>
+</html>
