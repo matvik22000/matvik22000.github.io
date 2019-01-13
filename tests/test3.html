@@ -4,11 +4,39 @@
     <meta charset="utf-8">
     <script src="moment.js"></script>
     <script src="reconnecting-websocket.min.js"></script>
+    <script src="minajax.js"></script>
 </head>
 <body>
+<div style="text-align: center" id="vk_auth"></div>
+<script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+
 <script>
-    var a = "aaaaaae";
-    console.log(a.indexOf("e"))
+    VK.init({apiId: 5815731, onlyWidgets: true});
+    VK.Widgets.Auth("vk_auth", {
+        width: "200px", onAuth: function (data) {
+
+            uid = data['uid'];
+            f_n = data['first_name'];
+            l_n = data['last_name'];
+            alert(f_n);
+            alert(l_n);
+            alert(uid);
+        }});
+
+    minAjax({
+        url: "https://warm-bayou-37022.herokuapp.com/login",
+        type: "GET",
+        data: {
+            type: "vk",
+            id:"32123"
+        },
+        success: function (ans) {
+            console.log(ans)
+
+        }
+    });
+
+
 </script>
 </body>
 </html>
