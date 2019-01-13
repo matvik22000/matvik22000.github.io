@@ -108,6 +108,8 @@
                         });
                     }
                     else{
+                        document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
+                        document.getElementById("auth").style = "opacity: 0; z-index:-1;";
                         localStorage.setItem("uuid", ans)
                     }
                 }
