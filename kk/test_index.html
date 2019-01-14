@@ -128,6 +128,21 @@
                         console.log(ans);
                         console.log(ans.length);
                         ans = JSON.parse(ans);
+                        var name = localStorage.getItem("name");
+                        if(name != ""){
+                            document.getElementById("name").value = name;
+                        }
+                        if(parseInt(localStorage.getItem("icon")) == 1){
+                            var obj = document.getElementById("1");
+                            obj.className = "w3-opacaity w3-center"
+                        }
+                        if(parseInt(localStorage.getItem("icon")) == 2){
+                            var obj = document.getElementById("2");
+                            obj.className = "w3-opacaity w3-center"
+                        }
+                        if(parseInt(localStorage.getItem("icon")) == 3){
+                            var obj = document.getElementById("3");
+                            obj.className = "w3-opacaity w3-center";
                         if (ans.length === 4){
                             alert("3");
                             localStorage.setItem("uuid", ans[0]);
@@ -262,11 +277,28 @@
                         localStorage.setItem("cookie", ans[1]);
                         localStorage.setItem("name", ans[2]);
                         localStorage.setItem("icon", ans[3]);
+                        var name = localStorage.getItem("name");
+                        if(name != ""){
+                            document.getElementById("name").value = name;
+                        }
+                        if(parseInt(localStorage.getItem("icon")) == 1){
+                            var obj = document.getElementById("1");
+                            obj.className = "w3-opacaity w3-center"
+                        }
+                        if(parseInt(localStorage.getItem("icon")) == 2){
+                            var obj = document.getElementById("2");
+                            obj.className = "w3-opacaity w3-center"
+                        }
+                        if(parseInt(localStorage.getItem("icon")) == 3){
+                            var obj = document.getElementById("3");
+                            obj.className = "w3-opacaity w3-center"
+                        }
                     }
                 }
 
             }
         });
+
         var name = localStorage.getItem("name");
         console.log(name);
         if(name != ""){
