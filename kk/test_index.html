@@ -125,6 +125,8 @@
                         alert("auth");
                         document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
                         document.getElementById("auth").style = "opacity: 0; z-index:-1;";
+                        console.log(ans);
+                        console.log(ans.length);
                         if (ans.length === 3){
                             alert("3");
                             localStorage.setItem("uuid", ans[0]);
