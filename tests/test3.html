@@ -11,6 +11,7 @@
 <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
 
 <script>
+
     VK.init({apiId: 5815731, onlyWidgets: true});
     VK.Widgets.Auth("vk_auth", {
         width: "200px", onAuth: function (data) {
@@ -24,19 +25,19 @@
         }});
 
     minAjax({
-        url: "https://warm-bayou-37022.herokuapp.com/login",
+        url: "https://warm-bayou-37022.herokuapp.com/check",
         type: "GET",
-        data: {
-            type: "vk",
-            id:"32123"
+        data:{
+            cookie: "NX9D3SYEQ34JSKX",
+            id: "4"
+
+
         },
         success: function (ans) {
             console.log(ans)
 
         }
     });
-
-
 </script>
 </body>
 </html>

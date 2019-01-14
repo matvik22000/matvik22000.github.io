@@ -53,6 +53,7 @@
 <br>
 <br>
 <script>
+    var users_map = {};
     function f1() {
         document.documentElement.scrollTop = document.body.scrollHeight
     }
@@ -115,7 +116,7 @@
         var id = localStorage.getItem("uuid");
         var msg = {key: id, msg: "true", name: localStorage.getItem("name")};
         inbox.send(JSON.stringify(msg));
-        console.log((JSON.stringify(msg)));
+
 
     };
     inbox.onclose = function () {
@@ -201,6 +202,9 @@
             }
             if(msg.end === "true"){
                 all = true;
+            }
+            if(msg.event === "map"){
+                users_map[msg.id] = msg.name
             }
         }
         else {
@@ -316,7 +320,7 @@
          if (document.documentElement.scrollTop===document.documentElement.scrollHeight-document.documentElement.clientHeight){
              document.getElementById("arrow").style.opacity = '0'
          }
-         console.log(scrolled, document.documentElement.scrollTop===document.documentElement.scrollHeight-document.documentElement.clientHeight);
+
          if (document.documentElement.scrollTop!==document.documentElement.scrollHeight-document.documentElement.clientHeight) {
 
              document.getElementById("arrow").style.opacity = '1'
@@ -450,7 +454,7 @@
 
     window.onload = function () {
         var stickers = JSON.parse(localStorage.getItem("stickers"));
-        console.log(stickers);
+
         for (var i = 0; i < stickers.length; i++) {
             var parent = document.getElementById("textView");
             var child = document.createElement("div");
@@ -464,7 +468,7 @@
             img.src = stickers[i];
             img.style.width = "10%";
             child.appendChild(img);
-            console.log(child);
+
             parent.appendChild(child);
         }
         if (localStorage.getItem("name") == "" || typeof localStorage.getItem("icon") == "object" || typeof localStorage.getItem("name") == "object") {

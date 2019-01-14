@@ -21,12 +21,21 @@
 </head>
 <body>
 <div id="parent_popup">
-    <div id="auth">
+    <div id="auth" class="w3-container w3-card-4">
         <p>Нажмите на кнопку "Войти через ВКонтакте" чтобы авторизоваться</p>
         <table>
             <tr>
                 <td>
                     <div style="text-align: center" id="vk_auth"></div>
+                </td>
+                <td>
+                    <input id="save" class="w3-checkbox w3-large w3-padding" type="checkbox" checked="checked" style="
+                             -ms-transform: scale(2); /* IE */
+                             -moz-transform: scale(2); /* FF */
+                             -webkit-transform: scale(2); /* Safari and Chrome */
+                             -o-transform: scale(2); /* Opera */
+                             padding: 10px;">
+                    <label class="w3-xlarge">Запомнить</label>
                 </td>
                 <td>
 
@@ -82,7 +91,9 @@
                 type: "GET",
                 data: {
                     type: "vk",
-                    id: data['uid']
+                    id: data['uid'],
+                    save: document.getElementById("save").checked.toString()
+
                 },
                 success: function (ans) {
                     if (ans === "false") {
@@ -107,10 +118,22 @@
                             }
                         });
                     }
-                    else{
+                    else {
                         document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
                         document.getElementById("auth").style = "opacity: 0; z-index:-1;";
-                        localStorage.setItem("uuid", ans)
+                        if (ans.length === 3){
+                            localStorage.setItem("uuid", ans[0]);
+                            localStorage.setItem("name", ans[1]);
+                            localStorage.setItem("icon", ans[2]);
+                        }
+                        if (ans.length === 4){
+                            localStorage.setItem("uuid", ans[0]);
+                            localStorage.setItem("cookie", ans[1]);
+                            localStorage.setItem("name", ans[2]);
+                            localStorage.setItem("icon", ans[3]);
+                        }
+
+
                     }
                 }
             });
@@ -142,19 +165,36 @@
         console.log(typeof localStorage.getItem("icon"));
         if(name.length <= 20) {
             localStorage.setItem("name", name);
-            pass = true;
+            minAjax({
+                url: "https://warm-bayou-37022.herokuapp.com/update",
+                type: "POST",
+                data:{
+                    column: "name",
+                    id: localStorage.getItem("uuid"),
+                    value: name
+
+                },
+                success: function (ans) {
+                    //alert(ans == "success");
+                    if(ans == "success"){
+                        pass = true;
+                        if(document.getElementById("name").value !== "" && typeof localStorage.getItem("icon") !== "object" && pass === true){
+                            location.href = "chat.html"
+                        }
+                        if (document.getElementById("name").value === ""){
+                            document.getElementById('id01').style.display='block'
+                        }
+                        if (typeof localStorage.getItem("icon") === "object"){
+                            document.getElementById('id02').style.display='block'
+                        }
+                    }
+
+                }
+            });
+
         }
         else {
             document.getElementById('id03').style.display='block'
-        }
-        if(document.getElementById("name").value !== "" && typeof localStorage.getItem("icon") !== "object" && pass === true){
-            location.href = "chat.html"
-        }
-        if (document.getElementById("name").value === ""){
-            document.getElementById('id01').style.display='block'
-        }
-        if (typeof localStorage.getItem("icon") === "object"){
-            document.getElementById('id02').style.display='block'
         }
 
 
@@ -166,9 +206,39 @@
         var other2 = document.getElementById(id3);
         other1.className = "w3-button w3-center";
         other2.className = "w3-button w3-center";
-        localStorage.setItem("icon", num);
+        minAjax({
+                url: "https://warm-bayou-37022.herokuapp.com/update",
+                type: "POST",
+                data:{
+                    column: "icon",
+                    id: localStorage.getItem("uuid"),
+                    value: num
+
+                },
+                success: function (ans) {
+                    if(ans == "success"){
+                        localStorage.setItem("icon", num);
+                    }
+                    else {
+                        alert("произошла ошибка. попробуйте еще раз")
+                    }
+
+                }
+        });
     }
     window.onload = function () {
+        minAjax({
+            url: "https://warm-bayou-37022.herokuapp.com/check",
+            type: "GET",
+            data:{
+                cookie: localStorage.getItem("cookie"),
+                id: localStorage.getItem("uuid")
+            },
+            success: function (ans) {
+                console.log(ans)
+
+            }
+        });
         var name = localStorage.getItem("name");
         console.log(name);
         if(name != ""){
