@@ -97,6 +97,7 @@
                 },
                 success: function (ans) {
                     if (ans === "false") {
+                        alert("reg");
                         minAjax({
                             url: "https://warm-bayou-37022.herokuapp.com/reg",
                             type: "POST",
@@ -108,6 +109,8 @@
                             },
                             success: function (ans) {
                                 if (ans === "success") {
+                                    alert("reg success");
+                                    localStorage.setItem("uuid", ans);
                                     document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
                                     document.getElementById("auth").style = "opacity: 0; z-index:-1;"
                                 }
@@ -119,14 +122,17 @@
                         });
                     }
                     else {
+                        alert("auth");
                         document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
                         document.getElementById("auth").style = "opacity: 0; z-index:-1;";
                         if (ans.length === 3){
+                            alert("3");
                             localStorage.setItem("uuid", ans[0]);
                             localStorage.setItem("name", ans[1]);
                             localStorage.setItem("icon", ans[2]);
                         }
                         if (ans.length === 4){
+                            alert("4");
                             localStorage.setItem("uuid", ans[0]);
                             localStorage.setItem("cookie", ans[1]);
                             localStorage.setItem("name", ans[2]);
@@ -171,7 +177,7 @@
                 data:{
                     column: "name",
                     id: localStorage.getItem("uuid"),
-                    value: name
+                    value: localStorage.getItem("cookie")
 
                 },
                 success: function (ans) {
