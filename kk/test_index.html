@@ -127,6 +127,7 @@
                         document.getElementById("auth").style = "opacity: 0; z-index:-1;";
                         console.log(ans);
                         console.log(ans.length);
+                        ans = JSON.parse(a);
                         if (ans.length === 3){
                             alert("3");
                             localStorage.setItem("uuid", ans[0]);
