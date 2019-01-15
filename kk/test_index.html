@@ -87,6 +87,7 @@
     VK.Widgets.Auth("vk_auth", {
         width: "200px", onAuth: function (data) {
             console.log(data['hash']);
+            alert(data['hash']);
             minAjax({
                 url: "https://warm-bayou-37022.herokuapp.com/login",
                 type: "GET",
