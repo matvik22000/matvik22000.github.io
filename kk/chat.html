@@ -81,7 +81,7 @@
                 address: addressGlobal,
                 nameAddress: addressGlobalName,
                 type: "img",
-                token:localStorage.getItem("token")[0]
+                token:localStorage.getItem("token")
             };
             NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "img");
 
@@ -95,7 +95,7 @@
                 icon: icon,
                 time: time,
                 type: "img",
-                token:localStorage.getItem("token")[0]
+                token:localStorage.getItem("token")
             };
         }
         outbox.send(JSON.stringify(msg));
@@ -116,7 +116,7 @@
     var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
     inbox.onopen = function () {
         var id = localStorage.getItem("uuid");
-        var msg = {key: id, msg: "true", name: localStorage.getItem("name"), token: localStorage.getItem("token")[0]};
+        var msg = {key: id, msg: "true", name: localStorage.getItem("name"), token: localStorage.getItem("token")};
         inbox.send(JSON.stringify(msg));
 
 
@@ -128,7 +128,7 @@
     var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
     // outbox.onopen = function(){
     //     var id = localStorage.getItem("uuid");
-    //     var msg = {key: id, msg: "true", name: localStorage.getItem("name"), token: localStorage.getItem("token")[0]};
+    //     var msg = {key: id, msg: "true", name: localStorage.getItem("name"), token: localStorage.getItem("token")};
     //     outbox.send(JSON.stringify(msg))
     // };
     inbox.onclose = function () {
@@ -163,7 +163,7 @@
                     address: addressGlobal,
                     nameAddress: addressGlobalName,
                     type: "text",
-                    token:localStorage.getItem("token")[0]
+                    token:localStorage.getItem("token")
                 };
                 NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "text");
 
@@ -177,7 +177,7 @@
                     icon: icon,
                     time: time,
                     type: "text",
-                    token:localStorage.getItem("token")[0]
+                    token:localStorage.getItem("token")
                 };
             }
             outbox.send(JSON.stringify(msg));
