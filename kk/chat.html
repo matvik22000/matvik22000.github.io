@@ -114,7 +114,7 @@
     var inbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/receive");
     inbox.onopen = function () {
         var id = localStorage.getItem("uuid");
-        var msg = {key: id, msg: "true", name: localStorage.getItem("name")};
+        var msg = {key: id, msg: "true", name: localStorage.getItem("name"), token: localStorage.getItem("token")[0]};
         inbox.send(JSON.stringify(msg));
 
 
@@ -124,10 +124,13 @@
     };
 
     var outbox = new ReconnectingWebSocket("wss://" + "warm-bayou-37022.herokuapp.com" + "/submit");
+    outbox.onopen = function(){
+        var id = localStorage.getItem("uuid");
+        var msg = {key: id, msg: "true", name: localStorage.getItem("name"), token: localStorage.getItem("token")[0]};
+        outbox.send(JSON.stringify(msg))
+    };
     inbox.onclose = function () {
-
         location.reload()
-
     };
 
 

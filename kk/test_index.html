@@ -87,7 +87,7 @@
     VK.Widgets.Auth("vk_auth", {
         width: "200px", onAuth: function (data) {
             console.log(data['hash']);
-            alert(data['hash']);
+
             minAjax({
                 url: "https://warm-bayou-37022.herokuapp.com/login",
                 type: "GET",
@@ -151,6 +151,7 @@
                             localStorage.setItem("uuid", ans[0]);
                             localStorage.setItem("name", ans[1]);
                             localStorage.setItem("icon", ans[2]);
+                            localStorage.setItem("token", JSON.parse(ans[3]));
                             name = ans[1];
                             ic = ans[2]
                         }
@@ -160,6 +161,7 @@
                             localStorage.setItem("cookie", ans[1]);
                             localStorage.setItem("name", ans[2]);
                             localStorage.setItem("icon", ans[3]);
+                            localStorage.setItem("token", JSON.parse(ans[4]));
                             name = ans[2];
                             ic = ans[3]
                         }
@@ -290,6 +292,7 @@
                         localStorage.setItem("uuid", ans[0]);
                         localStorage.setItem("name", ans[1]);
                         localStorage.setItem("icon", ans[2]);
+                        localStorage.setItem("token", JSON.parse(ans[3]));
                         name= ans[1];
                         ic= ans[2]
                     }
@@ -299,6 +302,7 @@
                         localStorage.setItem("cookie", ans[1]);
                         localStorage.setItem("name", ans[2]);
                         localStorage.setItem("icon", ans[3]);
+                        localStorage.setItem("token", JSON.parse(ans[4]));
                         name= ans[2];
                         ic= ans[3]
                     }
