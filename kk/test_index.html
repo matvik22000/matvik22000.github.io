@@ -122,7 +122,7 @@
                         });
                     }
                     else {
-                        alert("auth");
+
                         document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
                         document.getElementById("auth").style = "opacity: 0; z-index:-1;";
                         console.log(ans);
@@ -145,17 +145,36 @@
                             obj.className = "w3-opacaity w3-center";
                         }
                         if (ans.length === 4){
-                            alert("3");
+
                             localStorage.setItem("uuid", ans[0]);
                             localStorage.setItem("name", ans[1]);
                             localStorage.setItem("icon", ans[2]);
+                            name = ans[1];
+                            icon = ans[2]
                         }
                         if (ans.length === 5){
-                            alert("4");
+
                             localStorage.setItem("uuid", ans[0]);
                             localStorage.setItem("cookie", ans[1]);
                             localStorage.setItem("name", ans[2]);
                             localStorage.setItem("icon", ans[3]);
+                            name = ans[1];
+                            icon = ans[2]
+                        }
+                        if(name != ""){
+                            document.getElementById("name").value = name;
+                        }
+                        if(icon == "1"){
+                            var obj = document.getElementById("1");
+                            obj.className = "w3-opacaity w3-center"
+                        }
+                        if(icon == "2"){
+                            var obj = document.getElementById("2");
+                            obj.className = "w3-opacaity w3-center"
+                        }
+                        if(icon == "3"){
+                            var obj = document.getElementById("3");
+                            obj.className = "w3-opacaity w3-center"
                         }
 
 
@@ -261,6 +280,7 @@
             },
             success: function (ans) {
                 if (ans !== 'false'){
+
                     document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
                     document.getElementById("auth").style = "opacity: 0; z-index:-1;";
                     console.log(ans);
@@ -271,29 +291,32 @@
                         localStorage.setItem("uuid", ans[0]);
                         localStorage.setItem("name", ans[1]);
                         localStorage.setItem("icon", ans[2]);
+                        name= ans[1];
+                        icon= ans[2]
                     }
-                    if (ans.length === 5){
+                    if (ans.length === 5) {
 
                         localStorage.setItem("uuid", ans[0]);
                         localStorage.setItem("cookie", ans[1]);
                         localStorage.setItem("name", ans[2]);
                         localStorage.setItem("icon", ans[3]);
-                        var name = localStorage.getItem("name");
-                        if(name != ""){
-                            document.getElementById("name").value = name;
-                        }
-                        if(parseInt(localStorage.getItem("icon")) == 1){
-                            var obj = document.getElementById("1");
-                            obj.className = "w3-opacaity w3-center"
-                        }
-                        if(parseInt(localStorage.getItem("icon")) == 2){
-                            var obj = document.getElementById("2");
-                            obj.className = "w3-opacaity w3-center"
-                        }
-                        if(parseInt(localStorage.getItem("icon")) == 3){
-                            var obj = document.getElementById("3");
-                            obj.className = "w3-opacaity w3-center"
-                        }
+                        name= ans[2];
+                        icon= ans[3]
+                    }
+                    if(name != ""){
+                        document.getElementById("name").value = name;
+                    }
+                    if(icon == "1"){
+                        var obj = document.getElementById("1");
+                        obj.className = "w3-opacaity w3-center"
+                    }
+                    if(icon == "2"){
+                        var obj = document.getElementById("2");
+                        obj.className = "w3-opacaity w3-center"
+                    }
+                    if(icon == "3"){
+                        var obj = document.getElementById("3");
+                        obj.className = "w3-opacaity w3-center"
                     }
                 }
 
