@@ -80,7 +80,8 @@
                 time: time,
                 address: addressGlobal,
                 nameAddress: addressGlobalName,
-                type: "img"
+                type: "img",
+                token:localStorage.getItem("token")[0]
             };
             NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "img");
 
@@ -93,7 +94,8 @@
                 name: localStorage.getItem("name"),
                 icon: icon,
                 time: time,
-                type: "img"
+                type: "img",
+                token:localStorage.getItem("token")[0]
             };
         }
         outbox.send(JSON.stringify(msg));
@@ -160,7 +162,8 @@
                     time: time,
                     address: addressGlobal,
                     nameAddress: addressGlobalName,
-                    type: "text"
+                    type: "text",
+                    token:localStorage.getItem("token")[0]
                 };
                 NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "text");
 
@@ -173,7 +176,8 @@
                     name: localStorage.getItem("name"),
                     icon: icon,
                     time: time,
-                    type: "text"
+                    type: "text",
+                    token:localStorage.getItem("token")[0]
                 };
             }
             outbox.send(JSON.stringify(msg));
