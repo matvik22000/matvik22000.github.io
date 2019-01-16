@@ -5,6 +5,7 @@
     <title>Вход</title>
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+    <script src="minajax.js"></script>
 </head>
 <body>
 <center>
@@ -12,37 +13,59 @@
 </center>
 
 <script>
-    VK.init({apiId: 5815731, onlyWidgets: true});
-    VK.Widgets.Auth("vk_auth", {
-        width: "200px", onAuth: function (data) {
 
-            minAjax({
-                url: "https://warm-bayou-37022.herokuapp.com/login",
-                type: "GET",
-                data: {
-                    type: "vk",
-                    id: data['uid']
-                },
-                success: function (ans) {
-                    if (ans === "false") {
-                      location.href = "index.html"
-                    }
-                    else{
-                        localStorage.setItem("uuid", ans)
-                    }
-                }
-            });
-        }
-    });
 </script>
 <center>
-    <button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin w3-large">регистрация при помощи логина
-        и пароля
-    </button>
+    <div class="w3-border" style="width: 50%">
+    <div class="w3-container w3-blue" >
+        <h2>Регистрация</h2>
+    </div>
 
+    <form class="w3-container" >
+        <p>
+            <label>Введите логин</label>
+            <input id="login" class="w3-input w3-animate-input" type="text" style="width: 75%"></p>
+        <p>
+            <label>введите пароль</label>
+            <input id="password" class="w3-input w3-animate-input" type="text" style="width: 75%"></p>
+            <label>введите email</label>
+            <input id="email" class="w3-input w3-animate-input" type="text" style="width: 75%"></p>
+            <label>введите имя , которое будет отображаться в чате</label>
+            <input id="name" class="w3-input w3-animate-input" type="text" style="width: 75%"></p>
+
+
+    </form>
+        <center><button class="w3-button w3-blue w3-hover-opacity w3-padding w3-margin w3-large" onclick="reg()">зарегистрироваться</button></center>
+        <center><button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin w3-large" onclick="home()">у меня уже есть аккаунт</button></center>
+    </div>
 </center>
-<center><button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin w3-large">у меня уже есть аккаунт с логингом и паролем
+<script>
+    function reg() {
+        minAjax({
+            url: "https://warm-bayou-37022.herokuapp.com/reg",
+            type: "POST",
+            data:{
+                type:"lp",
+                login: document.getElementById("login").value,
+                password: document.getElementById("password").value,
+                info: document.getElementById("email").value,
+                name: document.getElementById("name").value
+            },
+            success: function (ans) {
+                if (ans == "success"){
+                    stickers = localStorage.getItem("stickers");
+                    localStorage.clear();
+                    localStorage.setItem("stickers", stickers);
+                    location.href = "test_index.html";
+                }
 
-</button></center>
+            }
+        });
+    }
+    function home() {
+        location.href = "test_index.html"
+    }
+</script>
+
 </body>
 </html>

@@ -14,6 +14,10 @@
             padding: 30px;
             background-color: whitesmoke;
         }
+        #auth2{
+            z-index: -200;
+            opacity: 0;
+        }
         #parent_popup{
             background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 1000;top: 0;left: 0;
         }
@@ -37,6 +41,43 @@
                              margin: 10px;
                              padding: 10px;">
                     <label class="w3-xlarge">Запомнить</label>
+                    <br>
+                    <button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin" onclick="to_lp()">войти при помощи логина и пароля</button>
+                    <br>
+                    <button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin" onclick="reg()">зарегистрироваться при помощи логина и пароля</button>
+                </td>
+                <td>
+                    <div>
+
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="auth2" class="w3-container w3-card-4">
+            <p>Введите логин и пароль</p>
+        <table>
+            <tr>
+                <td>
+                    <input id="login" class="w3-input w3-padding w3-margin" placeholder="логин">
+                    <input type="password" id="password" class="w3-input w3-padding w3-margin" placeholder="пароль">
+                    <div>
+                        <button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin" onclick="login()">войти</button>
+                        <button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin" onclick="to_vk()">войти через ВКонтакте</button>
+                    </div>
+                </td>
+
+                <td>
+                    <input id="save2" class="w3-checkbox w3-large w3-padding" type="checkbox" checked="checked" style="
+                             -ms-transform: scale(2); /* IE */
+                             -moz-transform: scale(2); /* FF */
+                             -webkit-transform: scale(2); /* Safari and Chrome */
+                             -o-transform: scale(2); /* Opera */
+                             margin-left: 30px;
+                             margin-right:10px;
+                             padding: 10px;">
+                    <label class="w3-xlarge">Запомнить</label>
                 </td>
                 <td>
 
@@ -44,6 +85,8 @@
             </tr>
         </table>
     </div>
+
+
 </div>
 <center>
 
@@ -80,9 +123,117 @@
         <span onclick="document.getElementById('id03').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
     </div>
     <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked1()" style="font-size: 30px">стикеры</button>
+    <br>
+    <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="leave()" style="font-size: 30px">выйти из аккаунта</button>
 
 </center>
 <script>
+    function leave() {
+        stickers = localStorage.getItem("stickers");
+        localStorage.clear();
+        localStorage.setItem("stickers", stickers);
+        location.reload()
+    }
+    function login(){
+        minAjax({
+            url: "https://warm-bayou-37022.herokuapp.com/login",
+            type: "GET",
+            data: {
+                type: "lp",
+                login: document.getElementById("login").value,
+                password: document.getElementById("password").value,
+                save: document.getElementById("save").checked.toString()
+
+            },
+            success: function (ans) {
+                if (ans == "false"){
+                    alert("неверный логин!")
+                }
+                else if (ans == "incorrect password"){
+                    alert("неверный пароль!")
+                }
+                else {
+                    document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
+                    document.getElementById("auth").style = "opacity: 0; z-index:-1;";
+                    document.getElementById("auth2").style = "opacity: 0; z-index:-1;";
+                    console.log(ans);
+                    console.log(ans.length);
+                    ans = JSON.parse(ans);
+                    var name = localStorage.getItem("name");
+                    if(name != ""){
+                        document.getElementById("name").value = name;
+                    }
+                    if(parseInt(localStorage.getItem("icon")) == 1){
+                        var obj = document.getElementById("1");
+                        obj.className = "w3-opacaity w3-center"
+                    }
+                    if(parseInt(localStorage.getItem("icon")) == 2){
+                        var obj = document.getElementById("2");
+                        obj.className = "w3-opacaity w3-center"
+                    }
+                    if(parseInt(localStorage.getItem("icon")) == 3){
+                        var obj = document.getElementById("3");
+                        obj.className = "w3-opacaity w3-center";
+                    }
+                    if (ans.length === 4){
+
+                        localStorage.setItem("uuid", ans[0]);
+                        localStorage.setItem("name", ans[1]);
+                        localStorage.setItem("icon", ans[2]);
+                        console.log(ans[3]);
+                        localStorage.setItem("token", ans[3][0]);
+                        name = ans[1];
+                        ic = ans[2]
+                    }
+                    if (ans.length === 5){
+
+                        localStorage.setItem("uuid", ans[0]);
+                        localStorage.setItem("cookie", ans[1]);
+                        localStorage.setItem("name", ans[2]);
+                        localStorage.setItem("icon", ans[3]);
+                        console.log(ans[4]);
+                        localStorage.setItem("token", ans[4][0]);
+                        name = ans[2];
+                        ic = ans[3]
+                    }
+                    if(name != ""){
+                        document.getElementById("name").value = name;
+                    }
+                    if(ic == "1"){
+                        var obj = document.getElementById("1");
+                        obj.className = "w3-opacaity w3-center"
+                    }
+                    if(ic == "2"){
+                        var obj = document.getElementById("2");
+                        obj.className = "w3-opacaity w3-center"
+                    }
+                    if(ic == "3"){
+                        var obj = document.getElementById("3");
+                        obj.className = "w3-opacaity w3-center"
+                    }
+
+
+                }
+            }
+        });
+    }
+    function to_lp(){
+        document.getElementById("auth").style = "opacity: 0; z-index:-1;";
+        document.getElementById("auth2").style = "   position: fixed; left:35%; opacity: 1; z-index: 100;\n" +
+                                        "            padding: 30px;\n" +
+                                        "            background-color: whitesmoke;";
+    }
+    function to_vk(){
+        document.getElementById("auth2").style = "opacity: 0; z-index:-1;";
+        document.getElementById("auth").style = "   position: fixed; left:35%; opacity: 1; z-index: 100;\n" +
+            "            padding: 30px;\n" +
+            "            background-color: whitesmoke;";
+
+    }
+    function reg (){
+        location.href = "reg.html"
+
+    }
     VK.init({apiId: 5815731, onlyWidgets: true});
     VK.Widgets.Auth("vk_auth", {
         width: "200px", onAuth: function (data) {
@@ -225,13 +376,13 @@
                     //alert(ans == "success");
                     if(ans == "success"){
                         pass = true;
-                        if(document.getElementById("name").value !== "" && typeof localStorage.getItem("icon") !== "object" && pass === true){
+                        if(document.getElementById("name").value !== "" && typeof localStorage.getItem("icon") !== "object" && pass === true && localStorage.getItem("icon") !== "None"){
                             location.href = "chat.html"
                         }
                         if (document.getElementById("name").value === ""){
                             document.getElementById('id01').style.display='block'
                         }
-                        if (typeof localStorage.getItem("icon") === "object"){
+                        if (typeof localStorage.getItem("icon") === "object" || localStorage.getItem("icon") === "None"){
                             document.getElementById('id02').style.display='block'
                         }
                     }

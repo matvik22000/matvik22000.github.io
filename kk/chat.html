@@ -195,7 +195,17 @@
     function check(uuid) {
         return uuid == localStorage.getItem("uuid");
     }
+    outbox.onmessage = function(data){
+      if (msg == "no token found" || msg == "wrong token"){
+          alert("произошла ошибка, попробуйте снова.");
+          location.href = "test_index.html"
+      }
+        if (msg == "token fired"){
+            alert("время сессии истекло, перзайдите авторизуйтесь снова");
+            location.href = "test_index.html"
 
+        }
+    };
     inbox.onmessage = function (data) {
         var time = moment().format('MMMM Do YYYY, h:mm:ss a');
         var msg = JSON.parse(data.data);

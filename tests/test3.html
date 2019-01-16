@@ -23,13 +23,31 @@
             alert(l_n);
             alert(uid);
         }});
-
     minAjax({
         url: "https://warm-bayou-37022.herokuapp.com/check",
         type: "GET",
         data:{
-            cookie: "NX9D3SYEQ34JSKX",
-            id: "4"
+            id: "5",
+            cookie: "H3KMWL0TF4L5LYO"
+
+
+
+        },
+        success: function (ans) {
+            console.log(ans)
+
+        }
+    });
+
+    minAjax({
+        url: "https://warm-bayou-37022.herokuapp.com/login",
+        type: "GET",
+        data:{
+            type:"lp",
+            login: "matvik22000",
+            password: "test",
+            save: "true"
+
 
 
         },
