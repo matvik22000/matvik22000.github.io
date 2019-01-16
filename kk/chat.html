@@ -59,7 +59,7 @@
     }
     function ping() {
         // inbox.send('{"system": "true", "name": "ping", "key": "key", "event": "ping"}');
-        outbox.send('{"system": "true", "name": "ping", "key": "key", "event": "ping"}');
+        outbox.send('{"system": "true", "name": "ping", "key": "key", "event": "ping", "token": "' + localStorage.getItem("token") + '"}');
     }
     setInterval(ping, 10000);
 
