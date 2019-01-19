@@ -122,6 +122,16 @@
         <br>
         <span onclick="document.getElementById('id03').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
     </div>
+    <div id="id04" class="w3-panel w3-red" style="display: none; width: 50%">
+        <h2 style="font-size: 50px">Произошла непредвиденная ошибка, попробуйте снова</h2>
+        <br>
+        <span onclick="document.getElementById('id04').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
+    </div>
+    <div id="id05" class="w3-panel w3-red" style="display: none; width: 50%">
+        <h2 style="font-size: 50px">Вы забанены в чате! Попробуйте позже</h2>
+        <br>
+        <span onclick="document.getElementById('id05').style.display='none'" class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
+    </div>
     <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="clicked1()" style="font-size: 30px">стикеры</button>
     <br>
     <button class="w3-button w3-black w3-margin w3-padding-large w3-round-large w3-hover-opacity w3-xxxlarge" onclick="leave()" style="font-size: 30px">выйти из аккаунта</button>
@@ -250,7 +260,7 @@
                 },
                 success: function (ans) {
                     if (ans === "false") {
-                        alert("reg");
+
                         minAjax({
                             url: "https://warm-bayou-37022.herokuapp.com/reg",
                             type: "POST",
@@ -262,8 +272,6 @@
                             },
                             success: function (ans) {
                                 if (ans === "success") {
-                                    alert("reg success");
-                                    localStorage.setItem("uuid", ans);
                                     document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
                                     document.getElementById("auth").style = "opacity: 0; z-index:-1;"
                                 }
@@ -356,44 +364,62 @@
         location.href = "stickers.html"
     }
     function clicked() {
-        var pass = false;
-        var name = document.getElementById("name").value;
-        console.log(document.getElementById("name"));
-        console.log(localStorage.getItem("icon"));
-        console.log(typeof localStorage.getItem("icon"));
-        if(name.length <= 20) {
-            localStorage.setItem("name", name);
-            minAjax({
-                url: "https://warm-bayou-37022.herokuapp.com/update",
-                type: "POST",
-                data:{
-                    column: "name",
-                    id: localStorage.getItem("uuid"),
-                    value: localStorage.getItem("name")
+        minAjax({
+            url: "https://warm-bayou-37022.herokuapp.com/is_banned",
+            type: "GET",
+            data:{
+                id: localStorage.getItem("uuid")
+            },
+            success: function (ans) {
+                if (ans == "false" || ans == false){
+                    var pass = false;
+                    var name = document.getElementById("name").value;
+                    console.log(document.getElementById("name"));
+                    console.log(localStorage.getItem("icon"));
+                    console.log(typeof localStorage.getItem("icon"));
+                    if(name.length <= 20) {
+                        localStorage.setItem("name", name);
+                        minAjax({
+                            url: "https://warm-bayou-37022.herokuapp.com/update",
+                            type: "POST",
+                            data:{
+                                column: "name",
+                                id: localStorage.getItem("uuid"),
+                                value: localStorage.getItem("name")
 
-                },
-                success: function (ans) {
-                    //alert(ans == "success");
-                    if(ans == "success"){
-                        pass = true;
-                        if(document.getElementById("name").value !== "" && typeof localStorage.getItem("icon") !== "object" && pass === true && localStorage.getItem("icon") !== "None"){
-                            location.href = "chat.html"
-                        }
-                        if (document.getElementById("name").value === ""){
-                            document.getElementById('id01').style.display='block'
-                        }
-                        if (typeof localStorage.getItem("icon") === "object" || localStorage.getItem("icon") === "None"){
-                            document.getElementById('id02').style.display='block'
-                        }
+                            },
+                            success: function (ans) {
+                                //alert(ans == "success");
+                                if(ans == "success"){
+                                    pass = true;
+                                    if(document.getElementById("name").value !== "" && typeof localStorage.getItem("icon") !== "object" && pass === true && localStorage.getItem("icon") !== "None"){
+                                        location.href = "chat.html"
+                                    }
+                                    if (document.getElementById("name").value === ""){
+                                        document.getElementById('id01').style.display='block'
+                                    }
+                                    if (typeof localStorage.getItem("icon") === "object" || localStorage.getItem("icon") === "None"){
+                                        document.getElementById('id02').style.display='block'
+                                    }
+                                }
+
+                            }
+                        });
+
+                    }
+                    else {
+                        document.getElementById('id03').style.display='block'
                     }
 
                 }
-            });
+                else{
+                    document.getElementById('id05').style.display='block'
+                }
 
-        }
-        else {
-            document.getElementById('id03').style.display='block'
-        }
+            }
+        });
+
+
 
 
     }
@@ -425,6 +451,10 @@
         });
     }
     window.onload = function () {
+        if (localStorage.getItem("error") === "true"){
+            document.getElementById('id04').style.display='block'
+        }
+        localStorage.setItem("error", false);
         minAjax({
             url: "https://warm-bayou-37022.herokuapp.com/check",
             type: "GET",

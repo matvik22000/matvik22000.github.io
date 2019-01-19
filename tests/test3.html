@@ -24,15 +24,13 @@
             alert(uid);
         }});
     minAjax({
-        url: "https://warm-bayou-37022.herokuapp.com/reg",
+        url: "https://warm-bayou-37022.herokuapp.com/ban",
         type: "POST",
         data:{
-            type: "lp",
-            login: "1",
-            password: "2",
-            info: "asdasdasd",
-            name: "dsdsda"
-
+            id: "1",
+            target: "2",
+            time: "99999999999999",
+            password: "test_pw_test"
         },
         success: function (ans) {
             console.log(ans)
