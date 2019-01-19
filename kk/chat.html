@@ -213,15 +213,28 @@
         if (msg.system == "true") {
             if (msg.event == "reg") {
                 if (msg.key != localStorage.getItem("uuid")) {
-                    users[msg.key] = msg.name;
-                    systemMsg("Пользователь " + msg.name, time, "подключился")
+                    console.log(msg);
+                    if (msg.admin == "true") {
+                        users[msg.key] = msg.name;
+                        systemMsg("администратор " + msg.name, time, "подключился")
+                    }
+                    else{
+                        users[msg.key] = msg.name;
+                        systemMsg("пользователь " + msg.name, time, "подключился")
+                    }
 
                 }
             }
             if (msg.event == "close") {
                 if (msg.key != localStorage.getItem("uuid")) {
+                if (msg.admin == "true") {
                     delete (users[msg.key]);
-                    systemMsg("Пользователь " + msg.name, time, "отключился")
+                    systemMsg("администратор " + msg.name, time, "отключился")
+                }
+                else{
+                    delete (users[msg.key]);
+                    systemMsg("пользователь " + msg.name, time, "отключился")
+                }
                 }
 
             }
@@ -248,7 +261,11 @@
 
             }
             else {
-                NewMsg(msg.text, msg.name, false, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
+                var a = "";
+                if (msg.admin == "true") {
+                    a = "[админ]"
+                }
+                NewMsg(msg.text, msg.name + a, false, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
 
                 soundClick();
 
@@ -262,7 +279,11 @@
 
             }
             else {
-                NewMsg(msg.text, "для вас от " + msg.name, false, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
+                var a = "";
+                if (msg.admin == "true") {
+                    a = "[админ]"
+                }
+                NewMsg(msg.text, "для вас от " + msg.name + a, false, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
 
                 soundClick();
 
