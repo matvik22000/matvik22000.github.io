@@ -465,7 +465,7 @@ system: "true"
 
 ``` javascript
  minAjax({
-        url: "https://warm-bayou-37022.herokuapp.com/add_friend",
+        url: "https://warm-bayou-37022.herokuapp.com/friends",
         type: "GET",
         data:{
             id: "1" - id пользователя список друзей которого надо получить
