@@ -479,9 +479,10 @@ system: "true"
 
 ``` javascript
 [
-"2", 
-"7",
-"8",
+0: {name: "sd", id: "2"}
+1: {name: "123123gfga", id: "7"}
+2: {name: "q33test", id: "8"}
+
 ]
 ```
 - false - у данного пользователя нет друзей
