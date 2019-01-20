@@ -7,67 +7,124 @@
     <script src="reconnecting-websocket.min.js"></script>
     <script src="moment.js"></script>
     <link rel="shortcut icon" href="faviocn.png" type="image/png">
+    <script src="minajax.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>knock-knock</title>
 </head>
 <body>
+<style>
+    body {
+        margin-bottom: 100px;
+    }
+</style>
+<div class="w3-sidebar w3-bar-block w3-light-grey w3-animate-left" style="display:none; z-index: 100000" id="mySidebar">
+    <a class="w3-bar-item w3-button w3-large"
+            href = "test_index.html"><i class="w3-xxxlarge material-icons">home</i>
+    </a>
+    <button class="w3-bar-item w3-button w3-large"
+            onclick="w3_close()">Закрыть &times;
+    </button>
+    <h3>Чаты:</h3>
+    <a class="w3-bar-item w3-button "
+            onclick="all_()">Общий
+    </a>
+
+
+</div>
 <div style="position: fixed; width: 100%">
-    <input class=" w3-margin w3-input w3-xxxlarge w3-left" placeholder="введите сообщение" style="width: 80%"
-           onkeydown="KeyDown1(event)" id="InputMSG"/>
-    <button onclick="send2('text')" class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge"
-            style="width: 10%; background-color:transparent;"><img src="send-button.png"></button>
-    <br>
-    <br>
     <div class="w3-display-container">
+        <button class="w3-button w3-white w3-xxlarge w3-left w3-margin w3-hover-opacity" style="z-index: 100"
+                onclick="w3_open()">&#9776;
+        </button>
+
         <button onclick='address_change()' id="address_st"
                 class="w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-black w3-left"
                 style="width: 30%; float: left">Кому: всем
         </button>
         <div class="w3-dropdown-hover w3-xlarge" style="width: 50%">
             <button class="w3-button w3-black w3-button w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-black"
-                    style="width: 100%">Стикеры
+                    style="width: 80%">Стикеры
             </button>
             <div class="w3-dropdown-content w3-bar-block w3-border w3-right" id="textView"
                  style="width: 100%; overflow: auto; max-height: 500px">
 
             </div>
         </div>
-        <button class="w3-button w3-black w3-round-large w3-hover-opacity w3-margin w3-xlarge w3-display-topright"
-                style="height: 70%" onclick="return location.href = 'index.html'"><img src="home.png">
+        <br>
+
+        <button class="w3-btn w3-hover-opacity w3-black w3-margin w3-padding w3-right w3-xxxlarge" id="arrow"
+                style="opacity: 1" onclick="f1()">⟱
         </button>
+
     </div>
-    <button class="w3-btn w3-hover-opacity w3-black w3-margin w3-padding w3-left w3-xxxlarge" id="arrow"  style="opacity: 1" onclick="f1()">⟱</button>
+
 </div>
-
-
-<div id="id01" class="w3-panel w3-red" style="display: none; width: 15%;position: fixed">
-    <h2 style="font-size: 50px">Вы не ввели имя!</h2>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="w3-bottom w3-border w3-white" style="height: 80px">
+    <input class="w3-input w3-xxlarge w3-left" placeholder="введите сообщение" style="width: 80%"
+           onkeydown="KeyDown1(event)" id="InputMSG"/>
+    <button onclick="send2('text')" class="w3-button w3-round-large w3-hover-opacity w3-margin-left "
+            style="width: 10%; background-color:transparent; height: 90%"><img src="send-button.png"></button>
     <br>
-    <span onclick="document.getElementById('id01').style.display='none'"
-          class="w3-button w3-left w3-margin w3-xlarge w3-black">Хорошо</span>
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
 <script>
+    var current_id = "all";
+    function all_() {
+        w3_close();
+        current_id = "all";
+        addressGlobal = "";
+        document.getElementById("address_st").innerHTML = "Кому: всем";
+        while (document.getElementsByClassName('msg').length > 0) {
+            document.getElementsByClassName('msg')[0].parentNode.removeChild(document.getElementsByClassName('msg')[0])
+        }
+        setTimeout(
+            function () {
+                all = false;
+                inbox.send(JSON.stringify({
+                    "lim": 30,
+                    "msg": "false",
+                    "key": localStorage.getItem('uuid'),
+                    "start": 0,
+                    "token": localStorage.getItem("token")
+                }));
+                cur_count_msg = 30
+            }, 5
+        );
+    }
+
+    function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+    }
+
+    function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+    }
+
     var users_map = {};
+
     function f1() {
         document.documentElement.scrollTop = document.body.scrollHeight
     }
+
     function ping() {
         // inbox.send('{"system": "true", "name": "ping", "key": "key", "event": "ping"}');
         msg = {
-            token:localStorage.getItem("token"),
-            name:"name",
+            token: localStorage.getItem("token"),
+            name: "name",
             uuid: localStorage.getItem("uuid"),
             system: "true",
             event: "ping"
         };
         outbox.send(JSON.stringify(msg));
     }
+
     setInterval(ping, 10000);
 
     function sticker(src_var) {
@@ -78,6 +135,73 @@
         var icon = localStorage.getItem("icon");
         var time = moment().format('MMMM Do YYYY, h:mm:ss a');
         if (addressGlobal != "") {
+            minAjax({
+                url: "https://warm-bayou-37022.herokuapp.com/add_friend",
+                type: "POST",
+                data:{
+                    id1: localStorage.uuid,
+                    id2: addressGlobal
+                },
+                success: function (ans) {
+                    if (current_id == "all"){
+                        var bar;
+                        var child;
+                        bar = document.getElementById("mySidebar");
+                        child = document.createElement("a");
+                        child.className = "w3-bar-item w3-button";
+                        child.id = addressGlobal;
+                        child.onclick = function (ev) {
+                            var id = this.id;
+                            current_id = id;
+
+                            document.getElementById("address_st").innerHTML = "Кому: " + this.innerHTML;
+                            while (document.getElementsByClassName('msg').length > 0) {
+                                document.getElementsByClassName('msg')[0].parentNode.removeChild(document.getElementsByClassName('msg')[0])
+
+                            }
+                            setTimeout(
+                                function () {
+
+                                    inbox.send(JSON.stringify({
+                                        "lim": cur_count_msg_l,
+                                        "msg": "false",
+                                        "key": localStorage.getItem('uuid'),
+                                        "start": 0,
+                                        "token": localStorage.getItem("token"),
+                                        "user": current_id
+                                    }));
+
+                                }, 5
+                            );
+
+                        };
+                        console.log(child);
+                        child.innerHTML = addressGlobalName;
+                        bar.appendChild(child);
+                        var id = addressGlobal;
+                        current_id = id;
+                        while (document.getElementsByClassName('msg').length > 0) {
+                            document.getElementsByClassName('msg')[0].parentNode.removeChild(document.getElementsByClassName('msg')[0])
+
+                        }
+                        setTimeout(
+                            function () {
+
+                                inbox.send(JSON.stringify({
+                                    "lim": cur_count_msg_l,
+                                    "msg": "false",
+                                    "key": localStorage.getItem('uuid'),
+                                    "start": 0,
+                                    "token": localStorage.getItem("token"),
+                                    "user": current_id
+                                }));
+
+                            }, 5
+                        );
+                    }
+
+                }
+            });
             var msg = {
                 system: "false",
                 uuid: uuidNow,
@@ -88,9 +212,12 @@
                 address: addressGlobal,
                 nameAddress: addressGlobalName,
                 type: "img",
-                token:localStorage.getItem("token")
+                token: localStorage.getItem("token")
             };
-            NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "img");
+            if (current_id !== "all") {
+
+                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "img");
+            }
 
         }
         else {
@@ -102,7 +229,7 @@
                 icon: icon,
                 time: time,
                 type: "img",
-                token:localStorage.getItem("token")
+                token: localStorage.getItem("token")
             };
         }
         outbox.send(JSON.stringify(msg));
@@ -110,6 +237,9 @@
     }
 
     function address_change() {
+        if (current_id !== "all"){
+            all_()
+        }
         addressGlobal = "";
         document.getElementById("address_st").innerHTML = "Кому: всем"
 
@@ -161,6 +291,73 @@
             var icon = localStorage.getItem("icon");
             var time = moment().format('MMMM Do YYYY, h:mm:ss a');
             if (addressGlobal != "") {
+                minAjax({
+                    url: "https://warm-bayou-37022.herokuapp.com/add_friend",
+                    type: "POST",
+                    data:{
+                        id1: localStorage.uuid,
+                        id2: addressGlobal
+                    },
+                    success: function (ans) {
+                        if (current_id == "all"){
+                            var bar;
+                            var child;
+                            bar = document.getElementById("mySidebar");
+                            child = document.createElement("a");
+                            child.className = "w3-bar-item w3-button";
+                            child.id = addressGlobal;
+                            child.onclick = function (ev) {
+                                var id = this.id;
+                                current_id = id;
+
+                                document.getElementById("address_st").innerHTML = "Кому: " + this.innerHTML;
+                                while (document.getElementsByClassName('msg').length > 0) {
+                                    document.getElementsByClassName('msg')[0].parentNode.removeChild(document.getElementsByClassName('msg')[0])
+
+                                }
+                                setTimeout(
+                                    function () {
+
+                                        inbox.send(JSON.stringify({
+                                            "lim": cur_count_msg_l,
+                                            "msg": "false",
+                                            "key": localStorage.getItem('uuid'),
+                                            "start": 0,
+                                            "token": localStorage.getItem("token"),
+                                            "user": current_id
+                                        }));
+
+                                    }, 5
+                                );
+
+                            };
+                            console.log(child);
+                            child.innerHTML = addressGlobalName;
+                            bar.appendChild(child);
+                            var id = addressGlobal;
+                            current_id = id;
+                            while (document.getElementsByClassName('msg').length > 0) {
+                                document.getElementsByClassName('msg')[0].parentNode.removeChild(document.getElementsByClassName('msg')[0])
+
+                            }
+                            setTimeout(
+                                function () {
+
+                                    inbox.send(JSON.stringify({
+                                        "lim": cur_count_msg_l,
+                                        "msg": "false",
+                                        "key": localStorage.getItem('uuid'),
+                                        "start": 0,
+                                        "token": localStorage.getItem("token"),
+                                        "user": current_id
+                                    }));
+
+                                }, 5
+                            );
+                        }
+
+                    }
+                });
                 var msg = {
                     system: "false",
                     uuid: uuidNow,
@@ -171,7 +368,7 @@
                     address: addressGlobal,
                     nameAddress: addressGlobalName,
                     type: "text",
-                    token:localStorage.getItem("token")
+                    token: localStorage.getItem("token")
                 };
                 NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "text");
 
@@ -185,7 +382,7 @@
                     icon: icon,
                     time: time,
                     type: "text",
-                    token:localStorage.getItem("token")
+                    token: localStorage.getItem("token")
                 };
             }
             outbox.send(JSON.stringify(msg));
@@ -196,14 +393,36 @@
     function check(uuid) {
         return uuid == localStorage.getItem("uuid");
     }
-    outbox.onmessage = function(data){
-      if (msg == "no token found" || msg == "wrong token"){
-          alert("произошла ошибка, попробуйте снова.");
-          location.href = "test_index.html"
-      }
-        if (msg == "token fired"){
-            alert("время сессии истекло, перзайдите авторизуйтесь снова");
+
+    outbox.onmessage = function (data) {
+        console.log(data);
+        if (data.data == "no token found" || data.data == "wrong token") {
+            localStorage.error = "true";
             location.href = "test_index.html"
+        }
+        if (data.data == "token fired") {
+            minAjax({
+                url: "https://warm-bayou-37022.herokuapp.com/check",
+                type: "GET",
+                data: {
+                    cookie: localStorage.getItem("cookie"),
+                    id: localStorage.getItem("uuid")
+                },
+                success: function (ans) {
+                    if (ans != 'false') {
+                        if (ans.length === 4) {
+                            localStorage.setItem("token", ans[3][0]);
+                        }
+                        if (ans.length === 5) {
+                            localStorage.setItem("token", ans[4][0]);
+                        }
+                    }
+                    else {
+                        alert("время сессии истекло, авторизуйтесь снова");
+                    }
+
+                }
+            });
 
         }
     };
@@ -218,7 +437,7 @@
                         users[msg.key] = msg.name;
                         systemMsg("администратор " + msg.name, time, "подключился")
                     }
-                    else{
+                    else {
                         users[msg.key] = msg.name;
                         systemMsg("пользователь " + msg.name, time, "подключился")
                     }
@@ -227,21 +446,21 @@
             }
             if (msg.event == "close") {
                 if (msg.key != localStorage.getItem("uuid")) {
-                if (msg.admin == "true") {
-                    delete (users[msg.key]);
-                    systemMsg("администратор " + msg.name, time, "отключился")
-                }
-                else{
-                    delete (users[msg.key]);
-                    systemMsg("пользователь " + msg.name, time, "отключился")
-                }
+                    if (msg.admin == "true") {
+                        delete (users[msg.key]);
+                        systemMsg("администратор " + msg.name, time, "отключился")
+                    }
+                    else {
+                        delete (users[msg.key]);
+                        systemMsg("пользователь " + msg.name, time, "отключился")
+                    }
                 }
 
             }
-            if(msg.end === "true"){
+            if (msg.end === "true") {
                 all = true;
             }
-            if(msg.event === "map"){
+            if (msg.event === "map") {
                 users_map[msg.id] = msg.name
             }
         }
@@ -274,18 +493,75 @@
         }
         else {
             if (check(msg.uuid)) {
-                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
+                if(current_id === msg.address) {
+                    NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
+                }
 
 
             }
             else {
+                soundClick();
                 var a = "";
                 if (msg.admin == "true") {
                     a = "[админ]"
                 }
-                NewMsg(msg.text, "для вас от " + msg.name + a, false, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
+                if(current_id === msg.uuid) {
+                    NewMsg(msg.text, "для вас от " + msg.name + a, false, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
+                }
+                else {
+                    var b = false;
+                    var arr = document.getElementById("mySidebar").children;
 
-                soundClick();
+                    for (var i = 1; i < arr.length; i++) {
+                        if(msg.uuid === arr[i].id){
+                            b = true;
+                        }
+                    }
+
+                    if (b === false){
+                        var bar = document.getElementById("mySidebar");
+                        var child;
+                        child = document.createElement("a");
+                        child.className = "w3-bar-item w3-button child";
+                        child.id = msg.uuid;
+                        child.onclick = function (ev) {
+                            var id = this.id;
+                            current_id = id;
+                            addressGlobal = id;
+                            addressGlobalName = this.innerHTML;
+                            document.getElementById("address_st").innerHTML = "Кому: " + this.innerHTML;
+                            while (document.getElementsByClassName('msg').length > 0) {
+                                document.getElementsByClassName('msg')[0].parentNode.removeChild(document.getElementsByClassName('msg')[0])
+
+                            }
+
+                            setTimeout(
+                                function () {
+
+                                    inbox.send(JSON.stringify({
+                                        "lim": cur_count_msg_l,
+                                        "msg": "false",
+                                        "key": localStorage.getItem('uuid'),
+                                        "start": 0,
+                                        "token": localStorage.getItem("token"),
+                                        "user": current_id
+                                    }));
+
+                                }, 5
+                            );
+                            document.getElementById("mySidebar").style.display = "none";
+
+                        };
+                        console.log(child);
+                        child.innerHTML = msg.name;
+                        bar.appendChild(child);
+
+                    }
+
+                }
+
+
+
 
 
             }
@@ -297,11 +573,12 @@
         var now = new Date();
         return (now.getMilliseconds() + now.getHours() + now.getMinutes()) * Math.random(-1, 100);
     }
+
     var f;
-    window.onfocus = function() {
+    window.onfocus = function () {
         f = false;
     };
-    window.onblur = function() {
+    window.onblur = function () {
         f = true;
     };
 
@@ -317,6 +594,8 @@
     function systemMsg(name, time_obj, msg) {
 
         var newDiv = document.createElement("h3");
+        var parent = document.createElement("div");
+        parent.className = "w3-container";
         newDiv.className = "system w3-blue";
         var newContent = document.createTextNode(name + " " + msg);
         var time = document.createElement("SPAN");
@@ -343,57 +622,64 @@
         newDiv.appendChild(time);
         newDiv.appendChild(br6);
         newDiv.appendChild(newContent);
-        var currentDiv = document.getElementById("InputMsg");
-        document.body.insertBefore(newDiv, currentDiv);
-        document.body.insertBefore(br, newDiv);
-        document.body.insertBefore(br2, newDiv);
-        document.body.insertBefore(br3, newDiv);
-        document.body.insertBefore(br4, newDiv);
-        document.body.insertBefore(br5, newDiv);
-        document.body.insertBefore(br7, newDiv);
-        document.body.insertBefore(br8, newDiv);
-        document.body.insertBefore(br9, newDiv);
-        newDiv.scrollIntoView(true);
+        parent.appendChild(newDiv);
+        document.body.appendChild(parent);
+        parent.scrollIntoView(true);
         del(newDiv, br, br2, br3, br4, br5, br6, br7, br8, br9)
 
     }
+
+    // function error(msg) {
+    // // <div id="id01" class="w3-margin w3-panel w3-red w3-round w3-animate-top" style="display: block; width: 100%;">
+    // //         <h2 style="font-size: 20px">Вы не ввели имя!</h2>
+    // //     <span onclick="document.getElementById('id01').style.display='none'"
+    // // class="w3-button w3-left w3-margin w3-black">Хорошо</span>
+    // //         </div>
+    //     var parent = document.createElement("div");
+    //     parent.className = "w3-margin w3-panel w3-red w3-round w3-animate-top alert";
+    //     var message = document.createElement("p");
+    //     message.innerHTML = msg
+    //
+    //
+    // }
     var cur_count_msg = 30;
+    var cur_count_msg_l = 5000;
     var all = true;
 
-     window.onscroll = function() {
-         var scrolled = document.documentElement.scrollTop;
+    window.onscroll = function () {
+        var scrolled = document.documentElement.scrollTop;
+        if (current_id === "all") {
+            if (document.documentElement.scrollTop === document.documentElement.scrollHeight - document.documentElement.clientHeight) {
+                document.getElementById("arrow").style.opacity = '0'
+            }
 
-         if (document.documentElement.scrollTop===document.documentElement.scrollHeight-document.documentElement.clientHeight){
-             document.getElementById("arrow").style.opacity = '0'
-         }
+            if (document.documentElement.scrollTop !== document.documentElement.scrollHeight - document.documentElement.clientHeight) {
 
-         if (document.documentElement.scrollTop!==document.documentElement.scrollHeight-document.documentElement.clientHeight) {
+                document.getElementById("arrow").style.opacity = '1'
+            }
+            if (scrolled === 0) {
 
-             document.getElementById("arrow").style.opacity = '1'
-         }
-         if (scrolled === 0){
-
-             while (document.getElementsByClassName('msg').length > 0){
-                 document.getElementsByClassName('msg')[0].parentNode.removeChild(document.getElementsByClassName('msg')[0])
-             }
-
-
-             setTimeout(
-                 function () {
-                    all = false;
-                     inbox.send(JSON.stringify({
-                         "lim": cur_count_msg + 30,
-                         "msg": "false",
-                         "key": localStorage.getItem('uuid'),
-                         "start": 0,
-                         "token": localStorage.getItem("token")
-                     }));
-                     cur_count_msg += 30;
-                 }, 5
-             );
+                while (document.getElementsByClassName('msg').length > 0) {
+                    document.getElementsByClassName('msg')[0].parentNode.removeChild(document.getElementsByClassName('msg')[0])
+                }
+                setTimeout(
+                    function () {
+                        all = false;
+                        inbox.send(JSON.stringify({
+                            "lim": cur_count_msg + 30,
+                            "msg": "false",
+                            "key": localStorage.getItem('uuid'),
+                            "start": 0,
+                            "token": localStorage.getItem("token")
+                        }));
+                        cur_count_msg += 30;
+                    }, 5
+                );
+            }
 
 
         }
+
     };
 
     function del(obj, br, br2, br3, br4, br5, br6, br7, br8, br9) {
@@ -485,7 +771,7 @@
             newDiv.appendChild(document.createTextNode(name + ":"));
         }
         newDiv.appendChild(newContent);
-        var currentDiv = document.getElementById("InputMsg");
+
         parentDiv.appendChild(newDiv);
 
         document.body.appendChild(parentDiv);
@@ -500,7 +786,72 @@
     }
 
     window.onload = function () {
+        cur_count_msg = 30;
+        cur_count_msg_l = 5000;
+        all = false;
         var stickers = JSON.parse(localStorage.getItem("stickers"));
+        setTimeout(function () {
+            minAjax({
+                url: "https://warm-bayou-37022.herokuapp.com/friends",
+                type: "GET",
+                data: {
+                    id: localStorage.getItem("uuid")
+                },
+                success: function (ans) {
+                    var bar;
+                    var child;
+                    if ((ans != "error") && (ans != "false")) {
+
+                        bar = document.getElementById("mySidebar");
+                        console.log(bar);
+                        var arr = JSON.parse(ans);
+                        console.log(arr);
+                        for (var i = 0; i < arr.length; i++) {
+                            //<a href="#" class="w3-bar-item w3-button">Link 1</a>
+                            //<i class="material-icons">reply</i>
+                            child = document.createElement("a");
+                            child.className = "w3-bar-item w3-button child";
+                            child.id = arr[i].id;
+                            child.onclick = function (ev) {
+                                var id = this.id;
+                                current_id = id;
+                                addressGlobal = id;
+                                addressGlobalName = this.innerHTML;
+                                document.getElementById("address_st").innerHTML = "Кому: " + this.innerHTML;
+                                while (document.getElementsByClassName('msg').length > 0) {
+                                    document.getElementsByClassName('msg')[0].parentNode.removeChild(document.getElementsByClassName('msg')[0])
+
+                                }
+
+                                setTimeout(
+                                    function () {
+
+                                        inbox.send(JSON.stringify({
+                                            "lim": cur_count_msg_l,
+                                            "msg": "false",
+                                            "key": localStorage.getItem('uuid'),
+                                            "start": 0,
+                                            "token": localStorage.getItem("token"),
+                                            "user": current_id
+                                        }));
+
+                                    }, 5
+                                );
+                                document.getElementById("mySidebar").style.display = "none";
+
+                            };
+                            console.log(child);
+                            child.innerHTML = arr[i].name;
+                            bar.appendChild(child);
+
+
+                        }
+                    }
+
+
+                }
+            });
+        }, 100);
 
         for (var i = 0; i < stickers.length; i++) {
             var parent = document.getElementById("textView");
@@ -526,5 +877,6 @@
 
     }
 </script>
+
 </body>
 </html>

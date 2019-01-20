@@ -9,11 +9,12 @@
     float: left;
 }
 
+
 #inputmsg {
     position: fixed;
     height: 10%;
     float: left;
-}
+    }
 
 .messageLeft {
     border-radius: 40px;
@@ -27,7 +28,12 @@
 
 
 }
-
+.round{
+    border-radius: 30px;
+}
+.alert{
+    display: block; width: 100%;
+}
 .messageRight {
     border-radius: 40px;
     font-size: 200%;
@@ -45,7 +51,7 @@
     border-radius: 40px;
     font-size: 200%;
     border-color: black;
-    background-color: #cd8d96;
+    background-color:#91c5d5;
     padding: 1%;
     margin-left: 0.5%;
     /*width: 45%;*/
@@ -57,7 +63,7 @@
     border-radius: 40px;
     font-size: 200%;
     border-color: black;
-    background-color: #cd8d96;
+    background-color: #c7f66f;
     padding: 1%;
     margin-left: 0.5%;
     /*width: 45%;*/
