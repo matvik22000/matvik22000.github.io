@@ -484,7 +484,9 @@
                 if (msg.admin == "true") {
                     a = "[админ]"
                 }
-                NewMsg(msg.text, msg.name + a, false, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
+                if (current_id === "all") {
+                    NewMsg(msg.text, msg.name + a, false, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
+                }
 
                 soundClick();
 
