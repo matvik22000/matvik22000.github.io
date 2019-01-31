@@ -138,6 +138,7 @@
 
 </center>
 <script>
+    var ic = "1";
     function leave() {
         stickers = localStorage.getItem("stickers");
         localStorage.clear();
@@ -489,7 +490,7 @@
                         console.log(ans[4]);
                         localStorage.setItem("token", ans[4][0]);
                         name= ans[2];
-                        var ic = ans[3]
+                        ic = ans[3]
                     }
                     if(name != ""){
                         document.getElementById("name").value = name;
