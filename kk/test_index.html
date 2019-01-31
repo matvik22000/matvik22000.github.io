@@ -146,6 +146,7 @@
         location.reload()
     }
     function login(){
+        console.log(document.getElementById("save").checked.toString());
         minAjax({
             url: "https://warm-bayou-37022.herokuapp.com/login",
             type: "GET",
@@ -153,7 +154,7 @@
                 type: "lp",
                 login: document.getElementById("login").value,
                 password: document.getElementById("password").value,
-                save: document.getElementById("save").checked.toString()
+                save: document.getElementById("save2").checked.toString()
 
             },
             success: function (ans) {
