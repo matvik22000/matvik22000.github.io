@@ -461,8 +461,12 @@
                 }
 
             }
-            if (msg.event == "kick"){
-                systemMsg("администратор забанил пользователя: " + msg.name, time, "")
+            if (msg.event === "kick"){
+                systemMsg("пользователь " + msg.name, time, "был выгнан администратором " + msg.admin);
+                soundPlay("вам бан.mp3")
+            }
+            if (msg.event === "ban"){
+                systemMsg("пользователь " + msg.name, time, "был забанен администратором " + msg.admin);
                 soundPlay("вам бан.mp3")
             }
             if (msg.end === "true") {
