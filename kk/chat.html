@@ -270,7 +270,10 @@
     // };
     inbox.onclose = function () {
         localStorage.setItem("error", true);
-        location.href = "test_index.html";
+        if (localStorage.getItem("dev") != "true") {
+            location.href = "test_index.html";
+        }
+
     };
 
 
@@ -398,6 +401,7 @@
         console.log(data);
         if (data.data == "no token found" || data.data == "wrong token") {
             localStorage.error = "true";
+            alert(data.data);
             location.href = "test_index.html"
         }
         if (data.data == "token fired") {
@@ -456,6 +460,10 @@
                     }
                 }
 
+            }
+            if (msg.event == "kick"){
+                systemMsg("администратор забанил пользователя: " + msg.name, time, "")
+                soundPlay("вам бан.mp3")
             }
             if (msg.end === "true") {
                 all = true;
@@ -591,6 +599,12 @@
             audio.autoplay = true; // Автоматически запускаем
         }
     }
+    function soundPlay(name) {
+        var audio = new Audio(); // Создаём новый элемент Audio
+        audio.src = name; // Указываем путь к звуку "клика"
+        audio.autoplay = true; // Автоматически запускаем
+
+    }
 
 
     function systemMsg(name, time_obj, msg) {
@@ -720,6 +734,17 @@
             newContent.src = msg;
             newContent.style.maxWdth = "300px";
             newContent.style.maxHeight = "300px"
+        }
+        else if(type === "audio") {
+            newContent = document.createElement("div");
+            var but1 = document.createElement("button");
+            but1.className = "w3-button w3-black w3-round w3-hover-opacity";
+            but1.innerHTML = "аудиозапись";
+            but1.onclick = function () {
+                soundPlay(msg)
+            };
+            // newContent.appendChild(txt1);
+            newContent.appendChild(but1);
         }
         else {
             newContent = document.createTextNode(name + ": " + msg);

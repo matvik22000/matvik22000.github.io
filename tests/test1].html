@@ -7,10 +7,52 @@
 </head>
 <body>
 <p>
-    123
+    46bd2a
 
 </p>
 <script>
+    var f = document.getElementById("tiredButton").onclick;
+    var time = "06:25.53";
+    var array3 = document.getElementById("map").children[0].children;
+    var array2 = document.getElementsByClassName("boxie");
+    for (i = 0; i < array2.length - 1; i++){
+        array2[i].style = "background:#46bd2a"
+    }
+    document.getElementById("foundNum").innerHTML = "001";
+    document.getElementById("regionName").innerHTML = "Калининградская область?";
+    document.getElementById("map").children[0].children[86].mousedown = function (ev) { event.preventDefault();
+        event.stopPropagation();
+        return true; };
+    document.getElementById("map").children[0].children[86].mouseup = function (ev) { event.preventDefault();
+        event.stopPropagation();
+        return true; };
+    array3[86].onclick = function (event) {
+        f();
+        var array = document.getElementById("map").children[0].children;
+        for (var i = 2; i < array.length; i++){
+            array[i].style = "fill:#46bd2a"
+        }
+        document.getElementById("resultScore").innerHTML = "100% за " + time + "!";
+        document.getElementById("timerFixed").innerHTML = time;
+        document.getElementById("resultMessage").innerHTML = "Я горжусь своей страной.";
+        document.getElementById("resultCaption").innerHTML = "Вы отлично знаете Россию.\n";
+        document.getElementById("errorsNum").innerHTML = "000";
+        var array2 = document.getElementsByClassName("boxie");
+        for (i = 0; i < array2.length; i++){
+            array2[i].style = "background:#46bd2a"
+        }
+        document.getElementById("resultMessage").parentElement.style.display = "block";
+        event.preventDefault();
+        event.stopPropagation();
+        return true;
+    };
+    for (var i = 2; i < array3.length-1; i++){
+        array3[i].style = "fill:#46bd2a"
+
+    }
+
+
+
 
 </script>
 </body>

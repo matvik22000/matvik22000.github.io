@@ -11,48 +11,17 @@
 <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
 
 <script>
-
-    VK.init({apiId: 5815731, onlyWidgets: true});
-    VK.Widgets.Auth("vk_auth", {
-        width: "200px", onAuth: function (data) {
-
-            uid = data['uid'];
-            f_n = data['first_name'];
-            l_n = data['last_name'];
-            alert(f_n);
-            alert(l_n);
-            alert(uid);
-        }});
-    minAjax({
-        url: "https://warm-bayou-37022.herokuapp.com/ban",
-        type: "POST",
-        data:{
-            id: "1",
-            target: "7",
-            time: "0",
-            password: "test_pw_test"
-        },
-        success: function (ans) {
-            console.log(ans)
-
-        }
-    });
-
-    minAjax({
-        url: "https://warm-bayou-37022.herokuapp.com/add_friend",
-        type: "POST",
-        data:{
-            id:
-
-
-
-
-        },
-        success: function (ans) {
-            console.log(ans)
-
-        }
-    });
+    newContent = document.createElement("div");
+    var txt1 = document.createTextNode("Голосовое сообщение.");
+    var but1 = document.createElement("button");
+    but1.className = "w3-button w3-black w3-round w3-hover-opacity";
+    but1.innerHTML = "Проиграть";
+    but1.onclick = function () {
+        soundClick()
+    };
+    newContent.appendChild(txt1);
+    newContent.appendChild(but1);
+    document.appendChild(newContent)
 </script>
 </body>
 </html>

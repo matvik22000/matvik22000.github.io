@@ -12,9 +12,551 @@
 <i class="material-icons">reply</i>
 
 <script>
-    console.log(document.getElementById("test").value);
-    console.log(document.getElementById("test").children);
+    'use strict';
+    import {colours, div, modes, states, subclasses, difficulties, extraLanguagesNames, soundPacks} from './declare.js';
+    import {MapGame, Settings, Hymn, Sound, Timer, Zoom} from './classes.js';
+    import {effect, slidePanel} from './effects.js';
+    import {
+        choice,
+        getCookie,
+        setCookie,
+        setByCookie,
+        checkRadioByID,
+        padZeroes,
+        replaceHref,
+        getGrade,
+        getHoverText,
+        caseErrors,
+        getMapPromise,
+        getHitPromise,
+        getSettingsPromise
+    } from './helpers.js';
 
+    const hymn = new Hymn;
+    const sound = new Sound([div.checkboxSound, div.checkTopSound]);
+    const timer = new Timer(div.timerFixed);
+    const settings = new Settings;
+    const zoom = new Zoom;
+    const game = new MapGame(document.getElementById('mapName').getAttribute('content'), document.getElementById('language').getAttribute('content'));
+    const timeIntervals = {game: null, hover: null};
+    const pos = {x: 0, y: 0};
+    String.prototype.repeat = function (num) {
+        return new Array(num + 1).join(this)
+    };
+
+    function colourRegion(region, colour) {
+        if (!settings.colourCorrect) {
+            return
+        }
+        region.attr('fill', colour);
+        if (region.attr('class') === 'waters') {
+            game.empty[region.data('name')].attr('fill', colour)
+        }
+    }
+
+    function setLanguage() {
+        for (let elem in game.slang) {
+            if (elem[0] != '_') {
+                let element = document.getElementById(elem);
+                if (element !== null) {
+                    element.innerHTML = game.slang[elem]
+                }
+            }
+        }
+        div.vkShare.title = game.slang._vkShare;
+        div.facebookShare.title = game.slang._facebookShare;
+        div.twitterShare.title = game.slang._twitterShare;
+        document.getElementById('home').title = game.slang._home;
+        document.getElementById('newGameHeader').innerHTML = game.slang._newGameHeader + game.slang._acc + '?';
+        document.getElementById('task').innerHTML = game.slang._task + game.slang._taskMap;
+        document.getElementById('zoom').title = game.slang['_zoom-title'];
+        let languageButton = document.getElementById('languageButton');
+        if (languageButton !== null) {
+            languageButton.title = game.slang._language
+        }
+        div.tiredButton.innerHTML = game.slang._tired;
+        div.playSounds.title = game.slang._sound + game.slang.__checker[sound.on];
+        div.creditsList.innerHTML = game.slang._credits + game.slang['_credits+'] + game.slang._cc
+    }
+
+    function regionClick(region, e) {
+        if (e.which != 1) {
+            return
+        }
+        let fill = region.attr('fill');
+        let hoverText = getHoverText(settings.mode, settings.lang, region);
+        getHitPromise(game.id, game.current.element.data('id'), game.session, region.data('id'), game.current.index, settings.difficulty, settings.mode);
+        switch (game.state) {
+            case states.started:
+                if (fill === colours.base || fill === colours.hint) {
+                    if (game.current.name === region.data('name')) {
+                        clickCorrect(e)
+                    } else {
+                        clickWrong(e, hoverText)
+                    }
+                    return
+                }
+                raiseHover(div.hovers.correct, e, hoverText);
+                return;
+            case states.finished:
+                if (fill === colours.fill[0]) {
+                    raiseHover(div.hovers.correct, e, hoverText)
+                } else {
+                    raiseHover(div.hovers.error, e, hoverText)
+                }
+        }
+    }
+
+    function regionDown(e) {
+        pos.x = e.pageX;
+        pos.y = e.pageY
+    }
+
+    function regionUp(e) {
+        if (div.checkboxZoom.checked) {
+            if (Math.abs(pos.x - e.pageX) > 10 || Math.abs(pos.y - e.pageY) > 10) {
+                return
+            }
+        }
+        regionClick(this, e)
+    }
+
+    function clickCorrect(e) {
+        let colour = colours.fill[game.errors.current];
+        if (settings.colourCorrect) {
+            colourRegion(game.current.element, colour)
+        } else {
+            raiseHover(div.hovers.correct, e, choice(game.slang.__correct))
+        }
+        game.boxies[game.current.index].style.background = colour;
+        game.errors.current = 0;
+        game.current.index++;
+        sound.play(sound.pack + '_beep');
+        setNextRegion();
+        setFoundCounter()
+    }
+
+    function clickWrong(e, s) {
+        sound.play(sound.pack + '_boop');
+        if (game.current.index < game.amount) {
+            if (game.errors.current < 3) {
+                game.errors.current++;
+                game.errors.total++;
+                setErrorsCounter()
+            } else if (!settings.limitErrors) {
+                game.errors.extra++;
+                game.errors.total++;
+                setErrorsCounter()
+            }
+            if (settings.limitErrors && game.errors.current === 3) {
+                colourRegion(game.current.element, colours.hint)
+            }
+        }
+        if (settings.showRegionName) {
+            raiseHover(div.hovers.error, e, s)
+        } else {
+            raiseHover(div.hovers.error, e, choice(game.slang.__wrong))
+        }
+    }
+
+    function raiseHover(element, ev, text) {
+        effect.display.hide(div.hovers.error);
+        effect.display.hide(div.hovers.correct);
+        effect.display.show(element);
+        clearTimeout(timeIntervals.hover);
+        timeIntervals.hover = setTimeout(() = > {effect.display.hide(element)
+    },
+        1523
+    )
+        ;element.style.left = (ev.pageX + 10).toString() + 'px';
+        element.style.top = (ev.pageY + 10).toString() + 'px';
+        element.innerHTML = text
+    }
+
+    function setNextRegion() {
+        effect.display.hide(div.hovers.error);
+        if (game.current.index == game.amount) {
+            showGameOver();
+            return
+        }
+        game.refresh();
+        let params = game.current.element.data('params');
+        let whereString = game.slang.__where[settings.mode];
+        let whereAfter = game.slang.__where_after[settings.mode];
+        let regionString = '';
+        switch (settings.mode) {
+            case modes.regions:
+                if (params) {
+                    if (params.plural) {
+                        whereString = game.slang._where_pl
+                    }
+                }
+                regionString = game.current.element.data('object')[settings.lang] + '?';
+                break;
+            case modes.capitals:
+                regionString = game.current.element.data('capital')[settings.lang];
+                if (params) {
+                    if (params.defacto) {
+                        regionString += game.slang._defacto
+                    }
+                }
+                break;
+            case modes.flags:
+                let flagImage = '/flags/' + game.current.element.data('name') + '.png';
+                div.flagImage.src = flagImage;
+                break;
+        }
+        div.whereIs.innerHTML = whereString;
+        div.regionName.innerHTML = regionString;
+        div.whereAfter.innerHTML = whereAfter
+    }
+
+    function setFoundCounter() {
+        div.foundNum.innerHTML = padZeroes(game.amount - game.current.index, 3)
+    }
+
+    function setErrorsCounter() {
+        div.errorsNum.innerHTML = padZeroes(game.errors.total, 3);
+        div.errorsWords.innerHTML = game.slang[caseErrors()]
+    }
+
+    function formGrade(grade) {
+        grade += '*';
+        if (game.score === 100) {
+            hymn.stop();
+            hymn.play();
+            return game.slang[grade]
+        }
+        return game.slang[grade] + game.slang._acc + game.slang[grade + '_after'] + '.'
+    }
+
+    function showGameOver() {
+        let s;
+        if (settings.limitErrors) {
+            s = game.errors.total / ((game.amount - 1) * 3)
+        } else {
+            s = game.errors.total / (game.amount * 3 + game.errors.extra)
+        }
+        game.score = Math.max(0, Math.floor(100 - s * 100));
+        let desc = game.slang._description;
+        let mine = desc + game.slang._mine + game.score + '%25';
+        let tw = desc + game.slang._mine_tw + game.score + '%25';
+        let result = game.score + '%';
+        if (div.checkboxTimer.checked) {
+            result += game.slang._timer + timer.text;
+            mine += game.slang._timer + timer.text;
+            tw += game.slang._timer_tw + timer.text
+        }
+        let grade = getGrade(game.score);
+        div.resultMessage.innerHTML = game.slang[grade];
+        div.resultCaption.innerHTML = formGrade(grade);
+        replaceHref(div.vkShare, 'title', mine);
+        replaceHref(div.facebookShare, 'title]', mine);
+        replaceHref(div.twitterShare, 'text', tw);
+        div.resultScore.innerHTML = result + '!';
+        div.tiredButton.innerHTML = game.slang.restartButton;
+        game.state = states.finished;
+        effect.slide.down(div.panelGameOver);
+        effect.fade.out(div.question);
+        timer.stop()
+    }
+
+    function toggleSound() {
+        sound.toggle();
+        if (!sound.on) {
+            hymn.stop()
+        }
+        hymn.on = sound.on;
+        div.playSounds.title = game.slang._sound + game.slang.__checker[sound.on];
+        setCookie('motovskikh-tests-sound', sound.on, 93312000, '/')
+    }
+
+    function initialize() {
+        let promise = getMapPromise(game.name, game.lang);
+        promise.then(getMapResolve, () = > {}
+    )
+        ;div.buttonNewGame.onclick = start;
+        div.buttonRestart.onclick = start;
+        document.getElementById('buttonSettings').onclick = () =
+    >
+        {
+            effect.slide.toggle(div.panelSettings)
+        }
+        ;document.getElementById('doNotChangeSettings').onclick = () =
+    >
+        {
+            effect.slide.up(div.panelSettings)
+        }
+        ;document.getElementById('bros').onclick = () =
+    >
+        {
+            effect.slide.toggle(div.credits)
+        }
+        ;div.hovers.error.onclick = () =
+    >
+        {
+            effect.display.hide(div.hovers.error)
+        }
+        ;div.hovers.correct.onclick = () =
+    >
+        {
+            effect.display.hide(div.hovers.correct)
+        }
+        ;document.getElementById('minimize').onclick = () =
+    >
+        {
+            effect.slide.up(div.panelGameOver);
+            effect.fade.in(div.fadeMaximize)
+        }
+        ;document.getElementById('maximize').onclick = () =
+    >
+        {
+            effect.slide.down(div.panelGameOver);
+            effect.fade.out(div.fadeMaximize)
+        }
+        ;document.addEventListener('keyup', event = > {if(event.key === 'Enter'
+    )
+        {
+            event.preventDefault();
+            slidePanel(div.panelNewGame, div.buttonNewGame);
+            slidePanel(div.panelGameOver, div.buttonRestart);
+            slidePanel(div.panelSettings, div.buttonChangeSettings)
+        }
+    })
+        ;div.buttonChangeSettings.onclick = () =
+    >
+        {
+            div.regionName.classList.remove(settings.lang);
+            div.hovers.correct.classList.remove(settings.lang);
+            div.hovers.error.classList.remove(settings.lang);
+            settings.difficulty = document.querySelector(div.difficulty).value;
+            settings.lang = document.querySelector(div.language).value;
+            settings.mode = document.querySelector(div.mode).value;
+            effect.slide.up(div.panelSettings);
+            setCookie('motovskikh-tests-difficulty-' + game.name, settings.difficulty, 93312000, '/' + game.name);
+            setCookie('motovskikh-tests-language-' + game.name, settings.lang, 93312000, '/' + game.name);
+            setCookie('motovskikh-tests-mode-' + game.name, settings.mode, 93312000, '/' + game.name);
+            div.regionName.classList.add(settings.lang);
+            div.hovers.correct.classList.add(settings.lang);
+            div.hovers.error.classList.add(settings.lang);
+            getSettingsPromise(game.id, sound.pack, settings.lang);
+            start()
+        }
+        ;div.tiredButton.onclick = () =
+    >
+        {
+            switch (game.state) {
+                case states.started:
+                    sound.play(sound.pack + '_boop');
+                    if (settings.limitErrors) {
+                        game.errors.total += 3 * (game.amount - game.current.index - 1) - game.errors.current
+                    } else {
+                        game.errors.total += 3 * (game.amount - game.current.index)
+                    }
+                    for (let i = game.current.index; i < game.amount; i++) {
+                        game.boxies[i].style.background = colours.fill[3];
+                        colourRegion(game.board[i], colours.fill[3])
+                    }
+                    game.current.index = game.amount;
+                    setFoundCounter();
+                    setErrorsCounter();
+                    showGameOver();
+                    break;
+                case states.finished:
+                    start();
+            }
+        }
+        ;div.checkboxTimer.onchange = () =
+    >
+        {
+            let val = div.checkboxTimer.checked;
+            if (val) {
+                effect.fade.in(div.fadeTimer)
+            } else {
+                effect.fade.out(div.fadeTimer)
+            }
+            timer.on = val;
+            setCookie('motovskikh-tests-timer', val, 93312000, '/')
+        }
+        ;div.checkboxZoom.onchange = () =
+    >
+        {
+            zoom.toggle();
+            setCookie('motovskikh-tests-zoom', zoom.on, 93312000, '/')
+        }
+        ;div.checkboxSound.onchange = toggleSound;
+        div.checkTopSound.onchange = toggleSound
+    }
+
+    function getMapResolve(result) {
+        function drawSVG(width, height) {
+            let rsr = Raphael('map', width, height);
+            rsr.setViewBox(0, 0, width, height, true);
+            let svg = document.querySelector('svg');
+            svg.removeAttribute('width');
+            svg.removeAttribute('height');
+            return rsr
+        }
+
+        function drawPath(path) {
+            let r = rsr.path(path.src);
+            let subclass = subclasses.region;
+            if (path.subclass) {
+                subclass = path.subclass
+            }
+            r.attr('class', subclass);
+            switch (subclass) {
+                case subclasses.region:
+                case subclasses.waters:
+                    r.data({
+                        'id': path.id,
+                        'capital': path.capital,
+                        'capital_params': path.capital_params,
+                        'name': path.name,
+                        'object': path.object,
+                        'params': path.object_params
+                    });
+                    if (path.capital === path.object) {
+                        r.data('city-state', true)
+                    }
+                    r.attr('fill', colours.base);
+                    r.mouseup(regionUp);
+                    r.mousedown(regionDown);
+                    game.regions.push(r);
+                    let boxie = document.createElement('div');
+                    boxie.className = 'boxie';
+                    div.boxiesPapa.appendChild(boxie);
+                    break;
+                case subclasses.dashed:
+                    r.toFront();
+                    break;
+                case subclasses.empty:
+                    game.empty[path.name] = r;
+                    r.toBack();
+                    break;
+                case subclasses.zoom:
+                    r.toBack();
+                    break;
+            }
+        }
+
+        let map = result.result;
+        if (!map) {
+            return
+        }
+        let rsr = drawSVG(map.settings.width, map.settings.height);
+        div.boxiesPapa.style.width = map.settings.boxies + 'px';
+        for (let path of map.paths) {
+            drawPath(path)
+        }
+        let maxZoom = map.settings.zoom;
+        if (maxZoom === 0) {
+            maxZoom = 4
+        }
+        zoom.panzoom = rsr.panzoom({initialZoom: 0, initialPosition: {x: 0, y: 0}, maxZoom: maxZoom});
+        setByCookie('motovskikh-tests-zoom', div.checkboxZoom, zoom);
+        zoom.toggle();
+        for (let text in map.texts) {
+            game.slang[text] = map.texts[text]
+        }
+        setLanguage();
+        if (map.settings.hymn) {
+            let audio = document.createElement('audio');
+            audio.src = '/sounds/hymn_' + game.name + '.ogg';
+            hymn.audio = audio
+        }
+        if (map.settings.blocks) {
+            for (let block in map.settings.blocks) {
+                effect.display.show(document.getElementById(block + 'Block'));
+                for (let item of map.settings.blocks[block]) {
+                    effect.display.show(document.getElementById(item))
+                }
+            }
+        }
+        if (map.settings.languages) {
+            effect.display.show(div.extraLanguagesBlock);
+            div.extraLanguageDefaultText.innerHTML = game.slang._language;
+            for (let lang of map.settings.languages) {
+                let li = document.createElement('li');
+                let id = 'extraLanguage-' + lang;
+                let input = document.createElement('input');
+                input.setAttribute('id', id);
+                input.setAttribute('name', 'language');
+                input.setAttribute('type', 'radio');
+                input.setAttribute('value', lang);
+                li.appendChild(input);
+                let label = document.createElement('label');
+                label.setAttribute('class', 'radioLabel ' + lang);
+                label.setAttribute('for', id);
+                label.innerHTML = extraLanguagesNames[lang];
+                li.appendChild(label);
+                div.extraLanguagesList.appendChild(li)
+            }
+        }
+        for (let pack of soundPacks) {
+            let opt = document.createElement('option');
+            opt.innerHTML = game.slang.__soundPacks[pack];
+            opt.value = pack;
+            div.soundPackSelect.appendChild(opt)
+        }
+        div.soundPackSelect.onchange = () =
+    >
+        {
+            sound.pack = div.soundPackSelect.value;
+            sound.play(sound.pack + '_beep');
+            setCookie('motovskikh-tests-sound-pack', sound.pack, 93312000, '/')
+        }
+        ;game.boxies = document.querySelectorAll('.boxie');
+        game.board = game.regions;
+        game.amount = game.board.length;
+        game.id = map.id;
+        settings.difficulty = getCookie('motovskikh-tests-difficulty-' + game.name, difficulties.normal);
+        checkRadioByID('difficulty-' + settings.difficulty);
+        settings.lang = getCookie('motovskikh-tests-language-' + game.name, game.lang);
+        div.regionName.classList.add(settings.lang);
+        div.hovers.correct.classList.add(settings.lang);
+        div.hovers.error.classList.add(settings.lang);
+        checkRadioByID('extraLanguage-' + settings.lang);
+        settings.mode = getCookie('motovskikh-tests-mode-' + game.name, modes.regions);
+        checkRadioByID('mode-' + settings.mode);
+        setByCookie('motovskikh-tests-sound', div.checkboxSound, sound);
+        setByCookie('motovskikh-tests-sound', div.checkTopSound, sound);
+        sound.pack = getCookie('motovskikh-tests-sound-pack', soundPacks[0]);
+        div.soundPackSelect.value = sound.pack;
+        let val = setByCookie('motovskikh-tests-timer', div.checkboxTimer, timer);
+        if (val) {
+            effect.fade.in(div.fadeTimer)
+        } else {
+            effect.fade.out(div.fadeTimer)
+        }
+        effect.display.toggle(div.buttonNewGame);
+        game.state = states.loaded
+    }
+
+    function start() {
+        effect.slide.up(div.panelNewGame);
+        effect.slide.up(div.panelGameOver);
+        effect.fade.in(div.question);
+        effect.fade.out(div.fadeMaximize);
+        game.start();
+        settings.change();
+        switch (settings.mode) {
+            case modes.regions:
+            case modes.capitals:
+                effect.display.hide(div.flagImage);
+                break;
+            case modes.flags:
+                effect.display.show(div.flagImage);
+                break;
+        }
+        setFoundCounter();
+        setErrorsCounter();
+        setNextRegion();
+        div.tiredButton.innerHTML = game.slang._tired;
+        timer.start()
+    }
+
+    initialize();
 
 
 </script>
