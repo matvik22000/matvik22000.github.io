@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="reconnecting-websocket.min.js"></script>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="shortcut icon" href="faviocn.png" type="image/png">
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?139"></script>
+    <script src="minajax.js"></script>
+    <title>admin</title>
+    <style>
+        #auth {
+            position: fixed; left:35%; opacity: 1; z-index: 100;
+            padding: 30px;
+            background-color: whitesmoke;
+        }
+        #auth2{
+            z-index: -200;
+            opacity: 0;
+        }
+        #parent_popup{
+            background: #000;height: 100%;opacity: 0.9;position: fixed;width: 100%;z-index: 1000;top: 0;left: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div id="parent_popup">
+    <div id="auth" class="w3-container w3-card-4">
+        <p>Нажмите на кнопку "Войти через ВКонтакте" чтобы авторизоваться</p>
+        <table>
+            <tr>
+                <td>
+                    <div style="text-align: center" id="vk_auth"></div>
+                </td>
+                <td>
+                    <input id="save" class="w3-checkbox w3-large w3-padding" type="checkbox" checked="checked" style="
+                             -ms-transform: scale(2); /* IE */
+                             -moz-transform: scale(2); /* FF */
+                             -webkit-transform: scale(2); /* Safari and Chrome */
+                             -o-transform: scale(2); /* Opera */
+                             margin: 10px;
+                             padding: 10px;">
+                    <label class="w3-xlarge">Запомнить</label>
+                    <br>
+                    <button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin" onclick="to_lp()">войти при помощи логина и пароля</button>
+                    <br>
+                    <button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin" onclick="reg()">зарегистрироваться при помощи логина и пароля</button>
+                </td>
+                <td>
+                    <div>
+
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="auth2" class="w3-container w3-card-4">
+        <p>Введите логин и пароль</p>
+        <table>
+            <tr>
+                <td>
+                    <input id="login" class="w3-input w3-padding w3-margin" placeholder="логин">
+                    <input type="password" id="password" class="w3-input w3-padding w3-margin" placeholder="пароль">
+                    <div>
+                        <button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin" onclick="login()">войти</button>
+                        <button class="w3-button w3-black w3-hover-opacity w3-padding w3-margin" onclick="to_vk()">войти через ВКонтакте</button>
+                    </div>
+                </td>
+
+                <td>
+                    <input id="save2" class="w3-checkbox w3-large w3-padding" type="checkbox" checked="checked" style="
+                             -ms-transform: scale(2); /* IE */
+                             -moz-transform: scale(2); /* FF */
+                             -webkit-transform: scale(2); /* Safari and Chrome */
+                             -o-transform: scale(2); /* Opera */
+                             margin-left: 30px;
+                             margin-right:10px;
+                             padding: 10px;">
+                    <label class="w3-xlarge">Запомнить</label>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+</div>
+<script>
+    VK.init({apiId: 5815731, onlyWidgets: true});
+    VK.Widgets.Auth("vk_auth", {
+        width: "200px", onAuth: function (data) {
+            console.log(data['hash']);
+
+            minAjax({
+                url: "https://warm-bayou-37022.herokuapp.com/login",
+                type: "GET",
+                data: {
+                    type: "vk",
+                    id: data['uid'],
+                    save: document.getElementById("save").checked.toString()
+
+                },
+                success: function (ans) {
+                    if (ans === "false") {
+
+                        minAjax({
+                            url: "https://warm-bayou-37022.herokuapp.com/reg",
+                            type: "POST",
+                            data: {
+                                type: "vk",
+                                id: data['uid'],
+                                info: [data['first_name'], data['last_name']].toString(),
+                                name: ""
+                            },
+                            success: function (ans) {
+                                if (ans === "success") {
+                                    document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
+                                    document.getElementById("auth").style = "opacity: 0; z-index:-1;";
+                                    minAjax({
+                                        url: "https://warm-bayou-37022.herokuapp.com/is_admin",
+                                        type: "GET",
+                                        data: {
+                                            id: data['uid']
+                                        },
+                                        success: function (ans) {
+                                            if (ans !== "true") {
+                                                alert("вы не являетесь администратором!");
+                                                window.reload()
+                                            }
+                                        }
+                                    });
+                                }
+                                else {
+                                    alert("произошла ошибка попробуйте еще раз")
+                                }
+
+                            }
+                        });
+                    }
+                    else {
+
+                        document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
+                        document.getElementById("auth").style = "opacity: 0; z-index:-1;";
+                        minAjax({
+                            url: "https://warm-bayou-37022.herokuapp.com/is_admin",
+                            type: "GET",
+                            data: {
+                                id: data['uid']
+                            },
+                            success: function (ans) {
+                                if (ans !== "true") {
+                                    alert("вы не являетесь администратором!");
+                                    window.reload()
+                                }
+                            }
+                        });
+
+
+                    }
+                }
+            });
+        }
+    });
+
+
+    function login(){
+        console.log(document.getElementById("save").checked.toString());
+        minAjax({
+            url: "https://warm-bayou-37022.herokuapp.com/login",
+            type: "GET",
+            data: {
+                type: "lp",
+                login: document.getElementById("login").value,
+                password: document.getElementById("password").value,
+                save: document.getElementById("save2").checked.toString()
+
+            },
+            success: function (ans) {
+                if (ans == "false"){
+                    alert("неверный логин!")
+                }
+                else if (ans == "incorrect password"){
+                    alert("неверный пароль!")
+                }
+                else {
+                    document.getElementById("parent_popup").style = "opacity: 0; z-index:-1;";
+                    document.getElementById("auth").style = "opacity: 0; z-index:-1;";
+                    document.getElementById("auth2").style = "opacity: 0; z-index:-1;";
+                    minAjax({
+                        url: "https://warm-bayou-37022.herokuapp.com/is_admin",
+                        type: "GET",
+                        data: {
+                            id: JSON.parse(ans)[0]
+                        },
+                        success: function (ans) {
+                            if (ans !== "true") {
+                                alert("вы не являетесь администратором!");
+                                location.reload()
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    function to_lp(){
+        document.getElementById("auth").style = "opacity: 0; z-index:-1;";
+        document.getElementById("auth2").style = "   position: fixed; left:35%; opacity: 1; z-index: 100;\n" +
+            "            padding: 30px;\n" +
+            "            background-color: whitesmoke;";
+    }
+    function to_vk(){
+        document.getElementById("auth2").style = "opacity: 0; z-index:-1;";
+        document.getElementById("auth").style = "   position: fixed; left:35%; opacity: 1; z-index: 100;\n" +
+            "            padding: 30px;\n" +
+            "            background-color: whitesmoke;";
+
+    }
+</script>
+</body>
+
+</html>
