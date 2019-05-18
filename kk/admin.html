@@ -124,7 +124,7 @@
                                         url: "https://warm-bayou-37022.herokuapp.com/is_admin",
                                         type: "GET",
                                         data: {
-                                            id: data['uid']
+                                            id: JSON.parse(ans)[0]
                                         },
                                         success: function (ans) {
                                             if (ans !== "true") {
@@ -149,7 +149,7 @@
                             url: "https://warm-bayou-37022.herokuapp.com/is_admin",
                             type: "GET",
                             data: {
-                                id: data['uid']
+                                id: JSON.parse(ans)[0]
                             },
                             success: function (ans) {
                                 if (ans !== "true") {
