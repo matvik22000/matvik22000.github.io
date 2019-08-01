@@ -133,8 +133,8 @@
         }
         var uuidNow = localStorage.getItem("uuid");
         var icon = localStorage.getItem("icon");
-        var timeArr = moment().format('HH:mm:ss').split(':');
-        var time = (timeArr[0] * 3600000) + (timeArr[1] * 60000);
+        var time = new Date();
+        var time = time.getTime();
         if (addressGlobal != "") {
             minAjax({
                 url: "https://warm-bayou-37022.herokuapp.com/add_friend",
@@ -217,7 +217,7 @@
             };
             if (current_id !== "all") {
 
-                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "img");
+                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, t = moment(msg.time).format('MMMM Do YYYY, h:mm:ss a'), true, msg.uuid, msg.name, "img");
             }
 
         }
@@ -293,8 +293,8 @@
             }
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
-            var timeArr = moment().format('HH:mm:ss').split(':');
-            var time = (timeArr[0] * 3600000) + (timeArr[1] * 60000);
+            var time = new Date();
+            var time = time.getTime();
             if (addressGlobal != "") {
                 minAjax({
                     url: "https://warm-bayou-37022.herokuapp.com/add_friend",
@@ -375,7 +375,7 @@
                     type: "text",
                     token: localStorage.getItem("token")
                 };
-                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, "text");
+                NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, t = moment(msg.time).format('MMMM Do YYYY, h:mm:ss a'), true, msg.uuid, msg.name, "text");
 
             }
             else {
@@ -489,8 +489,9 @@
 
 
         if (typeof msg.address == "undefined") {
+            t = moment(msg.time).format('MMMM Do YYYY, h:mm:ss a');
             if (check(msg.uuid)) {
-                NewMsg(msg.text, "вы", true, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
+                NewMsg(msg.text, "вы", true, msg.icon, t, false, msg.uuid, msg.name, msg.type);
 
             }
             else {
@@ -499,7 +500,7 @@
                     a = "[админ]"
                 }
                 if (current_id === "all") {
-                    NewMsg(msg.text, msg.name + a, false, msg.icon, msg.time, false, msg.uuid, msg.name, msg.type);
+                    NewMsg(msg.text, msg.name + a, false, msg.icon, t, false, msg.uuid, msg.name, msg.type);
                 }
 
                 soundClick();
@@ -510,7 +511,7 @@
         else {
             if (check(msg.uuid)) {
                 if(current_id === msg.address) {
-                    NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
+                    NewMsg(msg.text, "для " + msg.nameAddress, true, msg.icon, t, true, msg.uuid, msg.name, msg.type);
                 }
 
 
@@ -522,7 +523,7 @@
                     a = "[админ]"
                 }
                 if(current_id === msg.uuid) {
-                    NewMsg(msg.text, "для вас от " + msg.name + a, false, msg.icon, msg.time, true, msg.uuid, msg.name, msg.type);
+                    NewMsg(msg.text, "для вас от " + msg.name + a, false, msg.icon, t, true, msg.uuid, msg.name, msg.type);
                 }
                 else {
                     var b = false;

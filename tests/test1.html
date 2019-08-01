@@ -7,9 +7,9 @@
 </head>
 <body>
 <script>
-    var timeArr = moment().format('HH:mm:ss').split(':');
-    var timeInMilliseconds = (timeArr[0] * 3600000) + (timeArr[1] * 60000);
-    alert(timeInMilliseconds)
+    var time = new Date();
+    var time = time.getTime();
+    alert(moment(time).format('MMMM Do YYYY, h:mm:ss a'))
 </script>
 </body>
 </html>
