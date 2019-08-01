@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="moment.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var timeArr = moment().format('HH:mm:ss').split(':');
+    var timeInMilliseconds = (timeArr[0] * 3600000) + (timeArr[1] * 60000);
+    alert(timeInMilliseconds)
+</script>
+</body>
+</html>

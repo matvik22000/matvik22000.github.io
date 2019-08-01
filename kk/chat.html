@@ -133,7 +133,8 @@
         }
         var uuidNow = localStorage.getItem("uuid");
         var icon = localStorage.getItem("icon");
-        var time = moment()
+        var timeArr = moment().format('HH:mm:ss').split(':');
+        var time = (timeArr[0] * 3600000) + (timeArr[1] * 60000);
         if (addressGlobal != "") {
             minAjax({
                 url: "https://warm-bayou-37022.herokuapp.com/add_friend",
@@ -292,7 +293,8 @@
             }
             var uuidNow = localStorage.getItem("uuid");
             var icon = localStorage.getItem("icon");
-            var time = moment();
+            var timeArr = moment().format('HH:mm:ss').split(':');
+            var time = (timeArr[0] * 3600000) + (timeArr[1] * 60000);
             if (addressGlobal != "") {
                 minAjax({
                     url: "https://warm-bayou-37022.herokuapp.com/add_friend",
