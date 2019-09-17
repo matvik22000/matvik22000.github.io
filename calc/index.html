@@ -11,6 +11,7 @@
         #table{
             width: 400px;
         }
+        #style{}
     </style>
 </head>
 <body>
@@ -20,9 +21,9 @@
         <table id="table" class="w3-table w3-border w3-margin w3-padding">
             <tr>
                 <th>номер</th>
-                <th>значение</th>
-                <th>абсолютная погрешность</th>
-                <th>относительная погрешность</th>
+                <th contenteditable="true">значение</th>
+                <th contenteditable="true">Δx, мм</th>
+                <th contenteditable="true">Ժx </th>
             </tr>
         </table>
     </div>
@@ -34,6 +35,8 @@
     var relative_errors  = [];
     var mid;
     var digits_after_dot = 0;
+    var mid_relative_error;
+    var mid_error;
     function get_singes(n) {
         n = (typeof n === 'string') ? n : n.toString();
         if (n.indexOf('e') !== -1) return parseInt(n.split('e')[1]) * -1;
@@ -55,8 +58,13 @@
         var td4 = document.createElement("th");
         td1.innerHTML = "номер";
         td2.innerHTML = "значение";
-        td3.innerHTML = "абсолютная погрешность";
-        td4.innerHTML = "относительная погрешность";
+        td3.innerHTML = "Δx, мм";
+        td4.innerHTML = "Ժx ";
+        td1.contentEditable = "true";
+        td2.contentEditable = "true";
+        td3.contentEditable = "true";
+        td4.contentEditable = "true";
+
 
         tr.appendChild(td1);
         tr.appendChild(td2);
@@ -99,6 +107,7 @@
             td2.innerHTML = nums[i];
             td3.innerHTML = errors[i].toFixed(digits_after_dot);
             td4.innerHTML = relative_errors[i];
+            td1.contentEditable = "true";
 
             tr.appendChild(td1);
             tr.appendChild(td2);
@@ -107,21 +116,59 @@
             table.appendChild(tr);
 
         }
-        tr = document.createElement("tr");
-        td1 = document.createElement("td");
-        td2 = document.createElement("td");
-        td3 = document.createElement("td");
-        td4 = document.createElement("td");
-        td1.innerHTML = "ср.";
-        td2.innerHTML = mid.toString();
-        td3.innerHTML = "-";
-        td4.innerHTML = "-";
 
-        tr.appendChild(td1);
-        tr.appendChild(td2);
-        tr.appendChild(td3);
-        tr.appendChild(td4);
-        table.appendChild(tr);
+        function addValue(name, val) {
+            tr = document.createElement("tr");
+            td1 = document.createElement("td");
+            td2 = document.createElement("td");
+            td3 = document.createElement("td");
+            td4 = document.createElement("td");
+            td1.innerHTML = name;
+            td2.innerHTML = val.toString();
+            td3.innerHTML = "-";
+            td4.innerHTML = "-";
+            td1.contentEditable = "true";
+            td2.contentEditable = "true";
+            td3.contentEditable = "true";
+            td4.contentEditable = "true";
+
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            table.appendChild(tr);
+        }
+        function addValue3(name, val) {
+            tr = document.createElement("tr");
+            td1 = document.createElement("td");
+            td2 = document.createElement("td");
+            td3 = document.createElement("td");
+            td4 = document.createElement("td");
+            td1.innerHTML = name;
+            td4.innerHTML = val.toString();
+            td3.innerHTML = "-";
+            td2.innerHTML = "-";
+            td1.contentEditable = "true";
+            td2.contentEditable = "true";
+            td3.contentEditable = "true";
+            td4.contentEditable = "true";
+
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            table.appendChild(tr);
+        }
+
+        addValue("x ср.", mid);
+        sum = 0;
+        for (i = 0; i < errors.length; i++){
+            sum += errors[i];
+        }
+        mid_error = sum / errors.length;
+        mid_relative_error = mid_error/ mid * 100;
+        addValue("Δx ср. ", mid_error.toFixed(digits_after_dot));
+        addValue3("Ժ cp. ", mid_relative_error.toFixed(digits_after_dot) + "%");
 
 
 
