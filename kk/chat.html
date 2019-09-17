@@ -401,8 +401,8 @@
         console.log(data);
         if (data.data == "no token found" || data.data == "wrong token") {
             localStorage.error = "true";
-            location.href = "test_index.html";
-            localStorage.setItem("log", data.data)
+            alert(data.data);
+            location.href = "test_index.html"
         }
         if (data.data == "token fired") {
             minAjax({

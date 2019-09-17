@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <title>Сalc</title>
+    <style>
+        #in{
+            margin-top: 10%;
+        }
+        #table{
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <input id = "in" class = "w3-input w3-padding" placeholder="введите значения через ;">
+        <button id="but" class = "w3-button w3-black w3-hover-opacity w3-padding w3-margin w3-xxlarge">OK</button>
+        <table id="table" class="w3-table w3-border w3-margin w3-padding">
+            <tr>
+                <th>номер</th>
+                <th>значение</th>
+                <th>абсолютная погрешность</th>
+                <th>относительная погрешность</th>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    var text;
+    var nums = [];
+    var errors  = [];
+    var relative_errors  = [];
+    var mid;
+    var digits_after_dot = 0;
+    function get_singes(n) {
+        n = (typeof n === 'string') ? n : n.toString();
+        if (n.indexOf('e') !== -1) return parseInt(n.split('e')[1]) * -1;
+        var separator = (1.1).toString().split('1')[1];
+        var parts = n.split(separator);
+        return parts.length > 1 ? parts[parts.length - 1].length : 0;
+    }
+
+    document.getElementById("but").onclick = function() {
+        digits_after_dot = 0;
+        var myNode = document.getElementById("table");
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+        var tr = document.createElement("tr");
+        var td1 = document.createElement("th");
+        var td2 = document.createElement("th");
+        var td3 = document.createElement("th");
+        var td4 = document.createElement("th");
+        td1.innerHTML = "номер";
+        td2.innerHTML = "значение";
+        td3.innerHTML = "абсолютная погрешность";
+        td4.innerHTML = "относительная погрешность";
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        myNode.appendChild(tr);
+
+        var sum = 0;
+        text = document.getElementById("in").value;
+        nums = text.split(";");
+        for (var i = 0; i < nums.length; i ++){
+            nums[i] = parseFloat(nums[i]);
+            sum += nums[i];
+            var digits = get_singes(nums[i]);
+            if (digits > digits_after_dot) digits_after_dot = digits;
+
+        }
+        for (i = 0; i < nums.length; i ++){
+            nums[i] = parseFloat(nums[i]).toFixed(digits_after_dot);
+        }
+
+        console.log(nums);
+        mid = sum / nums.length;
+        mid = parseFloat(mid.toFixed(digits_after_dot));
+        console.log(mid);
+        for (i = 0; i < nums.length; i ++){
+            errors[i] = parseFloat(Math.abs(nums[i] - mid).toFixed(digits_after_dot));
+            relative_errors[i] = (errors[i] / nums[i] * 100).toFixed(digits_after_dot) + "%"
+        }
+        console.log(errors);
+        console.log(relative_errors);
+        var table = document.getElementById("table");
+        for (i = 0; i < nums.length; i++){
+            tr = document.createElement("tr");
+            td1 = document.createElement("td");
+            td2 = document.createElement("td");
+            td3 = document.createElement("td");
+            td4 = document.createElement("td");
+            td1.innerHTML = (i + 1).toString() + ")";
+            td2.innerHTML = nums[i];
+            td3.innerHTML = errors[i].toFixed(digits_after_dot);
+            td4.innerHTML = relative_errors[i];
+
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            table.appendChild(tr);
+
+        }
+        tr = document.createElement("tr");
+        td1 = document.createElement("td");
+        td2 = document.createElement("td");
+        td3 = document.createElement("td");
+        td4 = document.createElement("td");
+        td1.innerHTML = "ср.";
+        td2.innerHTML = mid.toString();
+        td3.innerHTML = "-";
+        td4.innerHTML = "-";
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        table.appendChild(tr);
+
+
+
+
+    };
+
+
+
+
+</script>
+</html>
+
+<!--6.5;7.8.8;6.0;6.8;6.1;6.0-->

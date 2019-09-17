@@ -86,9 +86,13 @@
             </tr>
         </table>
     </div>
-
+    
 
 </div>
+
+<center>
+
+</center>
 <script>
     VK.init({apiId: 5815731, onlyWidgets: true});
     VK.Widgets.Auth("vk_auth", {
@@ -129,7 +133,7 @@
                                         success: function (ans) {
                                             if (ans !== "true") {
                                                 alert("вы не являетесь администратором!");
-                                                window.reload()
+                                                location.reload()
                                             }
                                         }
                                     });
@@ -154,7 +158,7 @@
                             success: function (ans) {
                                 if (ans !== "true") {
                                     alert("вы не являетесь администратором!");
-                                    window.reload()
+                                    location.reload()
                                 }
                             }
                         });
@@ -199,7 +203,7 @@
                         success: function (ans) {
                             if (ans !== "true") {
                                 alert("вы не являетесь администратором!");
-                                location.reload()
+                                // location.reload()
                             }
                         }
                     });
