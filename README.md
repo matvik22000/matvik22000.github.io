@@ -105,7 +105,7 @@
 ``` javascript
 {"system":false,"uuid":"170.51287793191963",
 "text":"https://vk.com/images/stickers/3/128.png",
-"name":"спамер","icon":"3","time":"October 26th 2018, 4:53:00 pm”, "address":"50.97423463710501","nameAddress":"name","type":"img", "admin":"false"}
+"name":"спамер","icon":"3","time":"October 26th 2018, 4:53:00 pm”, "address":"50.97423463710501u","nameAddress":"name","type":"img", "admin":"false"}
 ```
 
 1. address: "50.97423463710501"
@@ -462,17 +462,6 @@ minAjax({
 {"end": "true", "system": "true"}
 ```
 
-<h3>мапа uuid:name</h3>
-сразу после регистрации, до основных сообщений приходят несколько сообщений вида
-
-``` javascript
-{event: "map"
-id: "4" - id пользователя, имя которого отабражено ниже
-key: "10" - id адресата
-name: "Teststeeetrr" - имя пользователя, имеющего id, отображенный выше
-system: "true"
-}
-```
 <h3>ping</h3>
 не несущее какого-либо смысла сообщение, созданное, чтобы web socket не закрывался.
 
