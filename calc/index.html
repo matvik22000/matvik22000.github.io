@@ -9,7 +9,7 @@
             margin-top: 10%;
         }
         #table{
-            width: 400px;
+            width: 600px;
         }
         #style{}
     </style>
@@ -21,9 +21,11 @@
         <table id="table" class="w3-table w3-border w3-margin w3-padding">
             <tr>
                 <th contenteditable="true">номер</th>
-                <th contenteditable="true">значение, мм</th>
+                <th contenteditable="true">x, мм</th>
                 <th contenteditable="true">Δx, мм</th>
-                <th contenteditable="true">Ժx </th>
+                <th contenteditable="true">x ср,мм</th>
+                <th contenteditable="true">Δx ср,мм</th>
+                <th contenteditable="true">Ժx</th>
             </tr>
         </table>
     </div>
@@ -56,20 +58,28 @@
         var td2 = document.createElement("th");
         var td3 = document.createElement("th");
         var td4 = document.createElement("th");
+        var td5 = document.createElement("th");
+        var td6 = document.createElement("th");
         td1.innerHTML = "номер";
-        td2.innerHTML = "значение, мм";
+        td2.innerHTML = "x, мм";
         td3.innerHTML = "Δx, мм";
-        td4.innerHTML = "Ժx ";
+        td4.innerHTML = "x ср, мм";
+        td5.innerHTML = "Δx ср, мм";
+        td6.innerHTML = "Ժx ";
         td1.contentEditable = "true";
         td2.contentEditable = "true";
         td3.contentEditable = "true";
         td4.contentEditable = "true";
+        td5.contentEditable = "true";
+        td6.contentEditable = "true";
 
 
         tr.appendChild(td1);
         tr.appendChild(td2);
         tr.appendChild(td3);
         tr.appendChild(td4);
+        tr.appendChild(td5);
+        tr.appendChild(td6);
         myNode.appendChild(tr);
 
         var sum = 0;
@@ -103,72 +113,57 @@
             td2 = document.createElement("td");
             td3 = document.createElement("td");
             td4 = document.createElement("td");
+            td5 = document.createElement("td");
+            td6 = document.createElement("td");
             td1.innerHTML = (i + 1).toString() + ")";
             td2.innerHTML = nums[i];
             td3.innerHTML = errors[i].toFixed(digits_after_dot);
-            td4.innerHTML = relative_errors[i];
-            td1.contentEditable = "true";
-
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
-            table.appendChild(tr);
-
-        }
-
-        function addValue(name, val) {
-            tr = document.createElement("tr");
-            td1 = document.createElement("th");
-            td2 = document.createElement("th");
-            td3 = document.createElement("th");
-            td4 = document.createElement("th");
-            td1.innerHTML = name;
-            td2.innerHTML = val.toString();
-            td3.innerHTML = "-";
             td4.innerHTML = "-";
+            td5.innerHTML = "-";
+            td6.innerHTML = "-";
             td1.contentEditable = "true";
-            // td2.contentEditable = "true";
-            // td3.contentEditable = "true";
-            // td4.contentEditable = "true";
 
             tr.appendChild(td1);
             tr.appendChild(td2);
             tr.appendChild(td3);
             tr.appendChild(td4);
+            tr.appendChild(td5);
+            tr.appendChild(td6);
             table.appendChild(tr);
-        }
-        function addValue3(name, val) {
-            tr = document.createElement("tr");
-            td1 = document.createElement("th");
-            td2 = document.createElement("th");
-            td3 = document.createElement("th");
-            td4 = document.createElement("th");
-            td1.innerHTML = name;
-            td4.innerHTML = val.toString();
-            td3.innerHTML = "-";
-            td2.innerHTML = "-";
-            td1.contentEditable = "true";
-            // td2.contentEditable = "true";
-            // td3.contentEditable = "true";
-            // td4.contentEditable = "true";
 
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
-            table.appendChild(tr);
         }
-
-        addValue("x ср.", mid);
         sum = 0;
         for (i = 0; i < errors.length; i++){
             sum += errors[i];
         }
         mid_error = sum / errors.length;
         mid_relative_error = mid_error/ mid * 100;
-        addValue("Δx ср. ", mid_error.toFixed(digits_after_dot));
-        addValue3("Ժ cp. ", mid_relative_error.toFixed(digits_after_dot) + "%");
+        tr = document.createElement("tr");
+        td1 = document.createElement("th");
+        td2 = document.createElement("th");
+        td3 = document.createElement("th");
+        td4 = document.createElement("th");
+        td5 = document.createElement("th");
+        td6 = document.createElement("th");
+        td1.innerHTML = "ср. знач";
+        td2.innerHTML = "-";
+        td3.innerHTML = "-";
+        td4.innerHTML = mid.toFixed(digits_after_dot);
+        td5.innerHTML = mid_error.toFixed(digits_after_dot);
+        td6.innerHTML = mid_relative_error.toFixed(digits_after_dot) + "%";
+        td1.contentEditable = "true";
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tr.appendChild(td6);
+        table.appendChild(tr);
+
+        // addValue("x ср.", mid);
+        // addValue("Δx ср. ", mid_error.toFixed(digits_after_dot));
+        // addValue3("Ժ cp. ", mid_relative_error.toFixed(digits_after_dot) + "%");
 
 
     };
