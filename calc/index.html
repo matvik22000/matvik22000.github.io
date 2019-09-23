@@ -96,16 +96,12 @@
             nums[i] = parseFloat(nums[i]).toFixed(digits_after_dot);
         }
 
-        console.log(nums);
         mid = sum / nums.length;
         mid = parseFloat(mid.toFixed(digits_after_dot));
-        console.log(mid);
         for (i = 0; i < nums.length; i ++){
             errors[i] = parseFloat(Math.abs(nums[i] - mid).toFixed(digits_after_dot));
             relative_errors[i] = (errors[i] / nums[i] * 100).toFixed(digits_after_dot) + "%"
         }
-        console.log(errors);
-        console.log(relative_errors);
         var table = document.getElementById("table");
         for (i = 0; i < nums.length; i++){
             tr = document.createElement("tr");
@@ -136,8 +132,8 @@
         for (i = 0; i < errors.length; i++){
             sum += errors[i];
         }
-        mid_error = sum / errors.length;
-        mid_relative_error = mid_error/ mid * 100;
+        mid_error = parseFloat((sum / errors.length).toFixed(digits_after_dot));
+        mid_relative_error = mid_error / mid * 100;
         tr = document.createElement("tr");
         td1 = document.createElement("th");
         td2 = document.createElement("th");
@@ -152,6 +148,10 @@
         td5.innerHTML = mid_error.toFixed(digits_after_dot);
         td6.innerHTML = mid_relative_error.toFixed(digits_after_dot) + "%";
         td1.contentEditable = "true";
+        console.log(mid);
+        console.log(mid_error);
+        console.log(mid_relative_error);
+        console.log(mid_error / mid);
 
         tr.appendChild(td1);
         tr.appendChild(td2);
