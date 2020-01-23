@@ -8,47 +8,60 @@
 <body>
 <script>
     // minAjax({
-    //     url: "https://still-cove-90434.herokuapp.com/login",
+    //     url: "https://mdproj.herokuapp.com/start",
     //     type: "POST",
     //     data:{
-    //         firebase_id: "cjgkU6HqzXA:APA91bFgK1F2IC723lCUV0iQz6ITf1s1nLzsYcl3aYTH38T_7Bs2baIXlWTpEuw8oUfXnnCyodFD6qG3DFcnoCre6BOtr3jJMMGQfR9zzwV1t9hBs5rItY11k4gcBIVbEavcLPSX6-Bg",
-    //         login: "Matvey_gurov",
-    //         password: "d37645bd046b6b890cb4eb18b55d37027b0757c87b98ae4a5083e72b2b60aa70"
+    //         machine_id: 10,
+    //         start_value: 100,
+    //         worker_id: 2,
+    //         model: "Test2_model",
+    //         password: "test2"
     //     }
     // })
     minAjax({
-        url: "https://warm-bayou-37022.herokuapp.com/kick",
-        type: "GET",
+        url: "https://mdproj.herokuapp.com/end",
+        type: "POST",
         data:{
-            id: "1",
-            target: "8",
-            password: "test_pw_test",
-            time: "0",
-            admin_name: "одмен"
+            machine_id: 2,
+            end_value: 150,
+            worker_id: 1,
+            password:"test"
         }
-    })
-    // var d = new Date();
-    // var n = d.getTime();
+    });
     // minAjax({
-    //     url: "https://still-cove-90434.herokuapp.com/new_event",
+    //     url: "https://mdproj.herokuapp.com/hall_info",
+    //     type: "GET"
+    // })
+    // minAjax({
+    //     url: "https://mdproj.herokuapp.com/report",
+    //     type: "GET"
+    // });
+    // minAjax({
+    //     url: "https://mdproj.herokuapp.com/report_for_model",
+    //     type: "GET"
+    // })
+    // minAjax({
+    //     url: "https://mdproj.herokuapp.com/add_worker",
     //     type: "POST",
     //     data:{
-    //         firebase_id: "cjgkU6HqzXA:APA91bFgK1F2IC723lCUV0iQz6ITf1s1nLzsYcl3aYTH38T_7Bs2baIXlWTpEuw8oUfXnnCyodFD6qG3DFcnoCre6BOtr3jJMMGQfR9zzwV1t9hBs5rItY11k4gcBIVbEavcLPSX6-Bg",
-    //         event: "test",
-    //         msg: "hello",
-    //         time: n
+    //         worker_id: 1,
+    //         password: "test"
+    //     }
+    // });
+    // minAjax({
+    //     url: "https://mdproj.herokuapp.com/add_machine",
+    //     type: "POST"
+    // })
+    // minAjax({
+    //     url: "https://mdproj.herokuapp.com/login",
+    //     type: "GET",
+    //     data:{
+    //         id: 2,
+    //         password: "test2"
     //     }
     // })
 
-    // minAjax({
-    //     url: "https://still-cove-90434.herokuapp.com/logout",
-    //     type: "POST",
-    //     data:{
-    //         firebase_id: "cjgkU6HqzXA:APA91bFgK1F2IC723lCUV0iQz6ITf1s1nLzsYcl3aYTH38T_7Bs2baIXlWTpEuw8oUfXnnCyodFD6qG3DFcnoCre6BOtr3jJMMGQfR9zzwV1t9hBs5rItY11k4gcBIVbEavcLPSX6-Bg"
-    //         // login: "Matvey_gurov",
-    //         // password: "d37645bd046b6b890cb4eb18b55d37027b0757c87b98ae4a5083e72b2b60aa70"
-    //     }
-    // })
+
 
 </script>
 </body>
